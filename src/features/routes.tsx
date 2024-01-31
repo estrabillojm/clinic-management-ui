@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import App from "../App";
 import { ErrorPageDisplay } from "./index.features";
-import SamplePage from "./views/SamplePage";
+import AdministratorPage from "./views/AdministratorPage";
 
 const routes = createBrowserRouter([
   {
@@ -10,7 +10,7 @@ const routes = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPageDisplay />,
     children: [
-        { path: "sample", element: <SamplePage/> },
+        { path: "Administrator", element: <AdministratorPage/> },
         // ADD MULTIPLE IF NEEDED
     ]
   },
