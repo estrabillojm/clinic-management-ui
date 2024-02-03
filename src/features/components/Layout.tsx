@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({Navbar,Sidebar,Header,Content}) => {
             {Navbar}
         </section>
         <div className="flex flex-col">
-            <section className="ml-[11em] mt-20 flex flex-col">
+            <section className="ml-[14em] mt-20 flex flex-col">
                 {Header}
                 {Content}
             </section>

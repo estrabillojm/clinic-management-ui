@@ -11,19 +11,25 @@ const AdministratorPage = () => {
         setTab(props)
         
     }
-    console.log(tabSelected)
 
     const content = (
-        <div className="min-w-[10em] mx-6 min-h-[20em] bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-            <ul className="flex flex-wrap rounded-t-lg text-sm font-medium text-center bg-[#3AA0AC] text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+        <div className="flex flex-col gap-2">
+        <div className="min-w-[10em] mx-6 min-h-[20em] bg-gray-100 border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <ul className="flex flex-wrap text-sm font-medium text-center bg-[#246068] text-white dark:border-gray-700 dark:text-gray-400">
                 <li className="">
-                    <a href="#" aria-current="page" key={0} className={`inline-block p-4 rounded-t-lg  hover:text-gray-600 ${ tabSelected===0 ?"active:text-blue-600 bg-[#E29000]" : ""} hover:bg-[#E29000] dark:bg-gray-800 dark:text-blue-500`} onClick={()=> handleTabSwitch(0)}>Personal</a>
+                    <a href="#" aria-current="page" key={0} className={`inline-block p-4  hover:text-[#EBCD63] ${ tabSelected===0 ?"text-[#EBCD63] border-b-4 border-b-[#EBCD63]" : ""} hover:border-b-[#EBCD63] hover:border-b-4 hover:text-[#EBCD63] dark:bg-gray-800 dark:text-blue-500`} 
+                    onClick={()=> handleTabSwitch(0)}
+                    >Personal</a>
                 </li>
                 <li className="">
-                    <a href="#" key={1} className={`inline-block p-4 rounded-t-lg  hover:text-gray-600 ${ tabSelected===1 ?"active:text-blue-600 bg-[#E29000]" : ""} hover:bg-[#E29000] dark:hover:bg-gray-800 dark:hover:text-gray-300`} onClick={()=> handleTabSwitch(1)}>Contactssss</a>
+                    <a href="#" aria-current="page" key={1} className={`inline-block p-4  hover:text-[#EBCD63] ${ tabSelected===1 ?"text-[#EBCD63] border-b-4 border-b-[#EBCD63]" : ""} hover:border-b-[#EBCD63] hover:border-b-4  hover:text-[#EBCD63] dark:hover:bg-gray-800 dark:hover:text-gray-300`} 
+                    onClick={()=> handleTabSwitch(1)}
+                    >Contacts</a>
                 </li>
                 <li className="">
-                    <a href="#" key={2} className={`inline-block p-4 rounded-t-lg  hover:text-gray-600 ${ tabSelected===2 ?"active:text-blue-600 bg-[#E29000]" : ""} hover:bg-[#E29000] dark:hover:bg-gray-800 dark:hover:text-gray-300`} onClick={()=> handleTabSwitch(2)}>Access</a>
+                    <a href="#" aria-current="page" key={2} className={`inline-block p-4  hover:text-[#EBCD63] ${ tabSelected===2 ?"text-[#EBCD63] border-b-4 border-b-[#EBCD63]" : ""} hover:border-b-[#EBCD63] hover:border-b-4  hover:text-[#EBCD63] dark:hover:bg-gray-800 dark:hover:text-gray-300`} 
+                    onClick={()=> handleTabSwitch(2)}
+                    >Access</a>
                 </li>
             </ul>
             <form>
@@ -59,15 +65,44 @@ const AdministratorPage = () => {
                                 </div>
                             </div>
                         </div>
-                    ):
+                    ) :
                     tabSelected===1 ? (
-                        <div className="grid gap-6 mb-6 md:grid-cols-2"></div>
-                    ):
-                    tabSelected===2 (
-                        <div className="grid gap-6 mb-6 md:grid-cols-2"></div>
-                    )
+                        <div className="grid gap-6 mb-6 md:grid-row-1 p-3">
+                            <div>
+                                <h4><strong>Note:</strong><i> The username will be auto-generated after saving and the password will be the default password set in settings </i></h4>
+                            </div>
+                            <div className="grid grid-cols-3 gap-1">
+                                <div>
+                                    <label htmlFor="phone_number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                                    <input type="text" id="phone_number" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+                                </div>
+                            </div>
+                        </div>
+                    ) :
+                    tabSelected===2 ? (
+                        <div className="grid gap-6 mb-6 md:grid-cols-2 p-3">
+                            <div className="grid grid-cols-3 gap-1">
+                                <div>
+                                    <label htmlFor="system_role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">System Role</label>
+                                    <input type="text" id="system_role" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="user_role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Role</label>
+                                    <input type="text" id="user_role" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+                                </div>
+                            </div>
+                        </div>
+                    ) : null
                 }
             </form>
+        </div>
+        <div className="flex justify-end mr-6">
+            <button type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Save</button>
+        </div>
         </div>
     )
   return (
@@ -75,7 +110,7 @@ const AdministratorPage = () => {
         <Layout 
         Navbar={<Navbar/>}
         Header={<Header />}
-        Sidebar={<Sidebar/>}
+        Sidebar={<Sidebar pageTitle='Administrator'/>}
         Content={content}
         />
     </div>
