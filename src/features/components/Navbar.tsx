@@ -2,7 +2,6 @@ import { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 export const Navbar = () => {
   const [dropdown,setDropdown] = useState(false)
-  console.log(dropdown)
   return (
     <>
         <nav className="bg-[#3AA0AC] dark:bg-gray-900 fixed  border-red-200 w-full">

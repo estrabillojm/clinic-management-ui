@@ -6,9 +6,7 @@ import "./index.css";
 const App: React.FC = () => {
   return (
     <main>
-      <div className="">
         <Outlet />
-      </div>
     </main>
   );
 };
