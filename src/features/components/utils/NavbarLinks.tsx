@@ -31,7 +31,7 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
                 },
                 {
                 name: 'Manage Administrator',
-                link: '/ManageAdministrator',
+                link: '/AdminMasterList',
                 icon: <FaUsersGear />
                 },
                 {
