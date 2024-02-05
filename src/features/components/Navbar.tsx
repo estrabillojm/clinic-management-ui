@@ -15,10 +15,10 @@ export const Navbar = () => {
                 <span className="sr-only">Open user menu</span>
                 testuser@gmail.com
                 {
-                  !dropdown ? <FaAngleUp /> : <FaAngleDown />
+                  dropdown ? <FaAngleUp /> : <FaAngleDown />
                 }
                 </button>
-                <div id="dropdownAvatarName" className={`absolute z-10 ${!dropdown ? "" : "hidden"} bg-[#246068] divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
+                <div id="dropdownAvatarName" className={`absolute z-10 ${!dropdown ? "hidden" : ""} bg-[#246068] divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
                   <ul className="py-2 text-sm text-white dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
                     <li>
                       <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
