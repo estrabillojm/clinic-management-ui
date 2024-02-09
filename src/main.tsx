@@ -3,7 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import routes from "./features/routes";
 import { setupStore } from "./redux/store";
-
+import "../node_modules/flowbite/dist/flowbite.js";
 const el = document.getElementById("root");
 
 if (el) {

@@ -5,13 +5,13 @@ export const Navbar = () => {
   return (
     <>
         <nav className="bg-[#3AA0AC] dark:bg-gray-900 fixed  border-red-200 w-full">
-            <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <div className="w-full flex flex-wrap items-center justify-between p-4">
             <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Clinic Management System</span>
             </a>
             <div className="relative">
-                <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" className="flex items-center text-sm pe-1 font-medium text-white rounded-full hover:text-[#EBCD63] dark:hover:text-blue-500 md:me-0 dark:focus:ring-gray-700 dark:text-white" type="button" onClick={()=>setDropdown(!dropdown)}>
+                <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" className="flex items-center text-sm font-medium text-white rounded-full hover:text-[#EBCD63] dark:hover:text-blue-500 md:me-0 dark:focus:ring-gray-700 dark:text-white" type="button" onClick={()=>setDropdown(!dropdown)}>
                 <span className="sr-only">Open user menu</span>
                 testuser@gmail.com
                 {
