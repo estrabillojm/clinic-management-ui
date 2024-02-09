@@ -1,6 +1,6 @@
 const apiUrl = () => {
     if (import.meta.env.DEV) {
-      return "https://jsonplaceholder.typicode.com";
+      return "http://localhost:5000/api/v1";
     }
     if (import.meta.env.VITE_APP_ENV === "dev") {
       return "https://DEVELOPMENT URL HERE**";
