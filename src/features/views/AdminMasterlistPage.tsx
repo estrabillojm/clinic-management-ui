@@ -1,5 +1,4 @@
-import Layout from "../components/Layout"
-import {Navbar,Header,Sidebar} from '../components/IndexComponents'
+import {Navbar,Header} from '../components/IndexComponents'
 import { FaGears, FaFont, FaXmark } from "react-icons/fa6";
 
 
@@ -8,7 +7,7 @@ const AdminMasterlistPage = () => {
 
     const content = (
         <>
-        <div className="grid grid-cols-5 gap-3 ml-6 w-[96%]">
+        <div className="grid grid-cols-5 gap-3 w-[96%]">
                 <div className="overflow-x-auto col-span-4 w-[62em]">
                     <div className="flex justify-end pb-4">
                         <label htmlFor="table-search" className="sr-only">Search</label>
@@ -165,12 +164,7 @@ const AdminMasterlistPage = () => {
     )
   return (
     <>
-        <Layout 
-        Navbar={<Navbar />}
-        Header={<Header title="Admin Masterlist" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis." />}
-        Sidebar={<Sidebar pageTitle="Administrator" activeLink={3}/>}
-        Content={content}
-        />
+        <Navbar pageTitle={'Administrator'} activeLink={3} Header={<Header title="Admin Masterlist" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."/>} Content={content}/>
     </>
   )
 }

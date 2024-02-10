@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
-import Layout from "../components/Layout"
-import { Navbar,Header,Sidebar } from '../components/IndexComponents'
+import { Navbar,Header } from '../components/IndexComponents'
 import { Button, btnColor } from "../components/Button"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useGetSystenrolesQuery } from "../../redux/api/systemroleApi";
@@ -41,7 +40,7 @@ const AdministratorPage = () => {
 
     const content = (
         <div className="flex flex-col gap-2">
-            <div className="min-w-[10em] mx-6 min-h-[20em] bg-gray-100 border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <div className="min-w-[10em] min-h-[20em] bg-gray-100 border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                 <ul className="flex flex-wrap text-sm font-medium text-center bg-[#246068] text-white dark:border-gray-700 dark:text-gray-400">
                     <li className="">
                         <a href="#" aria-current="page" key={0} className={`inline-block p-4  hover:text-[#EBCD63] ${ tabSelected===0 ?"text-[#EBCD63] border-b-4 border-b-[#EBCD63]" : ""} hover:border-b-[#EBCD63] hover:border-b-4 hover:text-[#EBCD63] dark:bg-gray-800 dark:text-blue-500`} 
@@ -149,14 +148,15 @@ const AdministratorPage = () => {
 
   return (
     <div className="">
-        <Layout 
+        {/* <Layout 
         Navbar={<Navbar/>}
         Header={<Header title="Administrator" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis." />}
         Sidebar={<Sidebar pageTitle='Administrator' activeLink={4}/>}
         Content={content}
-        />
+        /> */}
+        <Navbar pageTitle={'Administrator'} activeLink={4} Header={<Header title="Administrator" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."/>} Content={content}/>
     </div>
   )
 }
 
-export default AdministratorPage
+export default AdministratorPage;
