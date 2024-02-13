@@ -1,5 +1,4 @@
-import Layout from "../components/Layout"
-import {Navbar,Header,Sidebar} from '../components/IndexComponents'
+import {Navbar,Header} from '../components/IndexComponents'
 import { FaGears, FaFont, FaXmark } from "react-icons/fa6";
 
 
@@ -8,7 +7,7 @@ const AdminMasterlistPage = () => {
 
     const content = (
         <>
-        <div className="grid grid-cols-5 gap-3 ml-6 w-[96%]">
+        <div className="grid grid-cols-5 gap-3 w-[96%]">
                 <div className="overflow-x-auto col-span-4 w-[62em]">
                     <div className="flex justify-end pb-4">
                         <label htmlFor="table-search" className="sr-only">Search</label>
@@ -22,7 +21,7 @@ const AdminMasterlistPage = () => {
                         </div>
                     </div>
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg min-h-[20em]">
-                        <thead className="text-xs text-white uppercase bg-[#246068] dark:bg-gray-700 dark:text-gray-400">
+                        <thead className="text-xs text-white uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="p-4">
                                     <div className="flex items-center">
@@ -90,30 +89,30 @@ const AdminMasterlistPage = () => {
                                         </div>
                                         <hr className="h-px mx-2 bg-gray-700 border-0 dark:bg-gray-700"></hr>
                                         <div className="p-4 md:p-5">
-                                            <h4 className="text-[#246068]">Visible Columns:</h4>
+                                            <h4 className="text-primary">Visible Columns:</h4>
                                             <div className="flex flex-cols gap-4 py-2 px-4">
                                                 <div>
                                                     <div className="flex items-center mb-1">
                                                         <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-300">Patient Number</label>
+                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-primary dark:text-gray-300">Patient Number</label>
                                                     </div>
                                                     <div className="flex items-center mb-1">
                                                         <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-300">Full Name</label>
+                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-primary dark:text-gray-300">Full Name</label>
                                                     </div>
                                                     <div className="flex items-center mb-1">
                                                         <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-300">Consultation Date</label>
+                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-primary dark:text-gray-300">Consultation Date</label>
                                                     </div>
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center mb-1">
                                                         <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-300">Age</label>
+                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-primary dark:text-gray-300">Age</label>
                                                     </div>
                                                     <div className="flex items-center mb-1">
-                                                        <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-[#246068] bg-gray-100 border-gray-300 rounded focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-300">Contact Number</label>
+                                                        <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                        <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-primary dark:text-gray-300">Contact Number</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,30 +128,30 @@ const AdminMasterlistPage = () => {
 
                         <div data-popover id="popover-click" role="tooltip" className="absolute z-10 invisible inline-block w-64 text-sm border-1 border-gray-100 text-gray-500 transition-opacity duration-300 bg-gray-200  rounded-lg shadow-md opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                             <div className="px-3 py-2 bg-gray-200 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                                <h3 className="font-semibold text-[#246068] dark:text-white">Sort by:</h3>
+                                <h3 className="font-semibold text-primary dark:text-white">Sort by:</h3>
                             </div>
                             <div className="px-3 py-2">
                                 <div className="flex items-center mb-4">
                                     <input id="disabled-radio-1" type="radio" value="" name="radio1" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label htmlFor="disabled-radio-1" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-500">Last Name</label>
+                                    <label htmlFor="disabled-radio-1" className="ms-2 text-sm font-medium text-primary dark:text-gray-500">Last Name</label>
                                 </div>
                                 <div className="flex items-center">
                                     <input id="disabled-radio-2" type="radio" value="" name="radio1" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label htmlFor="disabled-radio-2" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-500">Consultation Date</label>
+                                    <label htmlFor="disabled-radio-2" className="ms-2 text-sm font-medium text-primary dark:text-gray-500">Consultation Date</label>
                                 </div>
                             </div>
-                            <hr className="h-px mx-4 bg-[#246068] border-0 dark:bg-gray-700"></hr>
+                            <hr className="h-px mx-4 bg-primary border-0 dark:bg-gray-700"></hr>
                             <div className="px-3 py-2 bg-gray-200 dark:bg-gray-700">
-                                <h3 className="font-semibold text-[#246068] dark:text-white">Sort Order:</h3>
+                                <h3 className="font-semibold text-primary dark:text-white">Sort Order:</h3>
                             </div>
                             <div className="px-3 py-2">
                                 <div className="flex items-center mb-4">
                                     <input id="disabled-radio-3" type="radio" value="" name="radio2" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label htmlFor="disabled-radio-3" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-500">Ascending</label>
+                                    <label htmlFor="disabled-radio-3" className="ms-2 text-sm font-medium text-primary dark:text-gray-500">Ascending</label>
                                 </div>
                                 <div className="flex items-center">
                                     <input id="disabled-radio-4" type="radio" value="" name="radio2" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label htmlFor="disabled-radio-4" className="ms-2 text-sm font-medium text-[#246068] dark:text-gray-500">Descending</label>
+                                    <label htmlFor="disabled-radio-4" className="ms-2 text-sm font-medium text-primary dark:text-gray-500">Descending</label>
                                 </div>
                             </div>
                             <div data-popper-arrow></div>
@@ -165,12 +164,7 @@ const AdminMasterlistPage = () => {
     )
   return (
     <>
-        <Layout 
-        Navbar={<Navbar />}
-        Header={<Header title="Admin Masterlist" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis." />}
-        Sidebar={<Sidebar pageTitle="Administrator" activeLink={3}/>}
-        Content={content}
-        />
+        <Navbar pageTitle={'Administrator'} activeLink={3} Header={<Header title="Admin Masterlist" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."/>} Content={content}/>
     </>
   )
 }
