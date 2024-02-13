@@ -1,17 +1,5 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import Menu from '@mui/material/Menu';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-
+import { CssBaseline, Box, Drawer, AppBar, Toolbar, List, Typography, ListItem, ListItemButton, Menu, Button ,MenuItem} from '@mui/material';
 import { NavLink } from "react-router-dom";
 import { NavbarLinks, NavbarLink } from "./utils/NavbarLinks";
 
@@ -35,7 +23,6 @@ export const Navbar: React.FC<LayoutProps> = ({Header,Content, pageTitle, active
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(pageTitle)
 
   return (
     <Box sx={{ display: 'flex' }}>

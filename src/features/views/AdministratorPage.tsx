@@ -32,8 +32,7 @@ const AdministratorPage = () => {
 
     useEffect(()=>{
         if(!isLoading){
-            console.log(post)
-            // setSystemRoles(post)
+
         }
     },[post,isLoading])
 
@@ -41,19 +40,19 @@ const AdministratorPage = () => {
     const content = (
         <div className="flex flex-col gap-2">
             <div className="min-w-[10em] min-h-[20em] bg-gray-100 border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <ul className="flex flex-wrap text-sm font-medium text-center bg-[#246068] text-white dark:border-gray-700 dark:text-gray-400">
+                <ul className="flex flex-wrap text-sm font-medium text-center bg-primary text-white dark:border-gray-700 dark:text-gray-400">
                     <li className="">
-                        <a href="#" aria-current="page" key={0} className={`inline-block p-4  hover:text-[#EBCD63] ${ tabSelected===0 ?"text-[#EBCD63] border-b-4 border-b-[#EBCD63]" : ""} hover:border-b-[#EBCD63] hover:border-b-4 hover:text-[#EBCD63] dark:bg-gray-800 dark:text-blue-500`} 
+                        <a href="#" aria-current="page" key={0} className={`inline-block p-4  hover:text-activeLink ${ tabSelected===0 ?"text-activeLink border-b-4 border-b-activeLink" : ""} hover:border-b-activeLink hover:border-b-4 hover:text-activeLink dark:bg-gray-800 dark:text-blue-500`} 
                         onClick={()=> handleTabSwitch(0)}
                         >Personal</a>
                     </li>
                     <li className="">
-                        <a href="#" aria-current="page" key={1} className={`inline-block p-4  hover:text-[#EBCD63] ${ tabSelected===1 ?"text-[#EBCD63] border-b-4 border-b-[#EBCD63]" : ""} hover:border-b-[#EBCD63] hover:border-b-4  hover:text-[#EBCD63] dark:hover:bg-gray-800 dark:hover:text-gray-300`} 
+                        <a href="#" aria-current="page" key={1} className={`inline-block p-4  hover:text-activeLink ${ tabSelected===1 ?"text-activeLink border-b-4 border-b-activeLink" : ""} hover:border-b-activeLink hover:border-b-4  hover:text-activeLink dark:hover:bg-gray-800 dark:hover:text-gray-300`} 
                         onClick={()=> handleTabSwitch(1)}
                         >Contacts</a>
                     </li>
                     <li className="">
-                        <a href="#" aria-current="page" key={2} className={`inline-block p-4  hover:text-[#EBCD63] ${ tabSelected===2 ?"text-[#EBCD63] border-b-4 border-b-[#EBCD63]" : ""} hover:border-b-[#EBCD63] hover:border-b-4  hover:text-[#EBCD63] dark:hover:bg-gray-800 dark:hover:text-gray-300`} 
+                        <a href="#" aria-current="page" key={2} className={`inline-block p-4  hover:text-activeLink ${ tabSelected===2 ?"text-activeLink border-b-4 border-b-activeLink" : ""} hover:border-b-activeLink hover:border-b-4  hover:text-activeLink dark:hover:bg-gray-800 dark:hover:text-gray-300`} 
                         onClick={()=> handleTabSwitch(2)}
                         >Access</a>
                     </li>
@@ -148,12 +147,6 @@ const AdministratorPage = () => {
 
   return (
     <div className="">
-        {/* <Layout 
-        Navbar={<Navbar/>}
-        Header={<Header title="Administrator" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis." />}
-        Sidebar={<Sidebar pageTitle='Administrator' activeLink={4}/>}
-        Content={content}
-        /> */}
         <Navbar pageTitle={'Administrator'} activeLink={4} Header={<Header title="Administrator" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."/>} Content={content}/>
     </div>
   )

@@ -1,17 +1,14 @@
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
+import { Grid, Card, CardHeader, CardContent } from '@mui/material/';
 import { Button,btnColor } from '../components/Button';
 
 const LoginPage = () => {
   return (
-    <div className="bg-[#EEE9E9]" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <Grid container spacing={2} style={{ height: '80vh', maxWidth: '80vw' }}>
+    <div className="bg-defailtBg flex justify-center items-center min-h-[100vh]">
+        <Grid container spacing={2} className='h-[80vh] max-w-[80vw]'>
             <Grid item xs={8}>
                 Logo here
             </Grid>
-            <Grid item xs={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item xs={4} className='flex justify-center items-center'>
                 <Card sx={{ minWidth: 450, minHeight: 400, padding: '14px', borderRadius: '10px' }}>
                     <CardHeader title="TrustCare Clinic Management System"/>
                     <CardContent sx={{ display: 'flex', flexFlow: 'column' }}>
