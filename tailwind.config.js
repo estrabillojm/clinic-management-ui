@@ -11,7 +11,7 @@ export default {
         primary: '#246068',
         secondaryBg: '#3AA0AC',
         activeLink: '#EBCD63',
-        defailtBg: '#EEE9E9'
+        defaultBg: '#EEE9E9'
       }
     },
   },

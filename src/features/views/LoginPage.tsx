@@ -3,7 +3,7 @@ import { Button,btnColor } from '../components/Button';
 
 const LoginPage = () => {
   return (
-    <div className="bg-defailtBg flex justify-center items-center min-h-[100vh]">
+    <div className="bg-defaultBg flex justify-center items-center min-h-[100vh]">
         <Grid container spacing={2} className='h-[80vh] max-w-[80vw]'>
             <Grid item xs={8}>
                 Logo here
