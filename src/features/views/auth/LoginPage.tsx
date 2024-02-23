@@ -87,7 +87,7 @@ const LoginPage = () => {
                       {...register("username")}
                     />
                   </div>
-                  <div className="flex flex-col gap-1 mt-3 border-8 ">
+                  <div className="flex flex-col gap-1 mt-3">
                     <label htmlFor="password">Password</label>
                     <input
                       id="password"
