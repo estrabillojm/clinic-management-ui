@@ -1,4 +1,4 @@
-import {Navbar,Header} from '../components/IndexComponents'
+import {Navbar,Header} from '../../components/IndexComponents'
 import { FaGears, FaFont, FaXmark } from "react-icons/fa6";
 
 
