@@ -4,12 +4,14 @@ import {
   } from "@reduxjs/toolkit";
   import sampleSlice from "./features/sampleSlice";
   import { apiService } from "./apiService";
+  import userSlice from "./features/userSlice";
 //   import { loginApi } from "./api/loginApi";
   
   const reducer = combineReducers({
     [apiService.reducerPath]: apiService.reducer,
     // [loginApi.reducerPath]: loginApi.reducer,
     sample: sampleSlice, // REMOVE THIS IF NECESSARY
+    user: userSlice,
   });
   export const setupStore = () =>
     configureStore({

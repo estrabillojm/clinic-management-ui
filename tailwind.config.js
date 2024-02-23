@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 export default {
   content: [
     "./index.html",
@@ -6,6 +8,12 @@ export default {
     './node_modules/flowbite-react/**/*.js'
   ],
   theme: {
+    screens: {
+      xs: "0px",
+      sm: "720px",
+
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
         primary: '#246068',

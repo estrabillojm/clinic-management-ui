@@ -98,10 +98,10 @@ export const Navbar: React.FC<LayoutProps> = ({Header,Content, pageTitle, active
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        <Typography paragraph>
+        <Typography component={'span'} paragraph>
             {Header}
         </Typography>
-        <Typography paragraph>
+        <Typography component={'span'} paragraph>
             {Content}
         </Typography>
       </Box>
