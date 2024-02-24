@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navbar, Header } from "../../components/IndexComponents";
+import { Layout, Header } from "../../components/IndexComponents";
 import { Button, btnColor } from "../../components/Button";
 import { useForm } from "react-hook-form";
 import { useGetSystenrolesQuery } from "../../../redux/api/systemroleApi";
@@ -82,7 +82,7 @@ const AdministratorPage = () => {
   );
   return (
     <div className="">
-      <Navbar
+      <Layout
         pageTitle={"Administrator"}
         activeLink={4}
         Header={

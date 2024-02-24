@@ -9,11 +9,11 @@ interface LayoutProps {
     Header: React.ReactElement,
     Content: React.ReactElement,
     pageTitle: string
-    activeLink: number
+    activeLink?: number | undefined
 }
 
 
-export const Navbar: React.FC<LayoutProps> = ({Header,Content, pageTitle, activeLink}) => {
+export const Layout: React.FC<LayoutProps> = ({Header,Content, pageTitle, activeLink}) => {
   const menus: NavbarLink[] = NavbarLinks({page:pageTitle});
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -67,34 +67,36 @@ export const Navbar: React.FC<LayoutProps> = ({Header,Content, pageTitle, active
         }}
       >
         <Toolbar />
-        <Box sx={{ overflow: 'auto' }}>
-            <List>
-                {menus.map((text, index) => (
-                <ListItem key={index} sx={{ padding: '8px', borderRadius: '0.5em' }}>
-                    <ListItemButton sx={{
-                        "&:hover": {
-                            bgcolor: '#EBCD63',
-                            borderRadius: '0.5em',
-                            margin: '0 4px',
-                            color: 'gray'
-                        },
-                        bgcolor: activeLink === index ? '#EBCD63' : 'transparent',
-                        color: activeLink === index ? 'gray' : 'white',
-                        borderRadius: activeLink === index ? '0.5em' : '0.5em',
-                        margin: activeLink === index ? '0 4px' : '0px',
-                    }}>
-                    <NavLink 
-                        to={text.link} 
-                        className={`flex items-center`}
-                        >
-                        {text.icon}
-                        <span className="ms-3">{text.name}</span>
-                    </NavLink>
-                    </ListItemButton>
-              </ListItem>
-              ))}
-            </List>
-        </Box>
+        {
+          activeLink !== undefined && <Box sx={{ overflow: 'auto' }}>
+              <List>
+                  {menus.map((text, index) => (
+                  <ListItem key={index} sx={{ padding: '8px', borderRadius: '0.5em' }}>
+                      <ListItemButton sx={{
+                          "&:hover": {
+                              bgcolor: '#EBCD63',
+                              borderRadius: '0.5em',
+                              margin: '0 4px',
+                              color: 'gray'
+                          },
+                          bgcolor: activeLink === index ? '#EBCD63' : 'transparent',
+                          color: activeLink === index ? 'gray' : 'white',
+                          borderRadius: activeLink === index ? '0.5em' : '0.5em',
+                          margin: activeLink === index ? '0 4px' : '0px',
+                      }}>
+                      <NavLink 
+                          to={text.link} 
+                          className={`flex items-center`}
+                          >
+                          {text.icon}
+                          <span className="ms-3">{text.name}</span>
+                      </NavLink>
+                      </ListItemButton>
+                </ListItem>
+                ))}
+              </List>
+          </Box>
+        }
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
