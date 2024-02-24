@@ -4,8 +4,8 @@ import { ErrorPageDisplay } from "./index.features";
 import AdministratorPage from "./views/administrator/AdministratorPage";
 import AdminMasterlistPage from "./views/administrator/AdminMasterlistPage";
 import LoginPage from "./views/auth/LoginPage";
-import Bounce from "./views/auth/utils/bounce";
 import { useEffect } from "react";
+import BranchList from "./views/branch/BranchList";
 
 type PrivateRouteProps = {
   element: React.ReactNode | null;
@@ -34,6 +34,7 @@ const routes = createBrowserRouter([
     children: [
         { path: "administrator", element: <PrivateRoute element={<AdministratorPage/>} /> },
         { path: "admin-masterlist", element: <PrivateRoute element={<AdminMasterlistPage />} /> },
+        { path: "branches", element: <PrivateRoute element={<BranchList />} /> },
         // ADD MULTIPLE IF NEEDED
     ],
   },

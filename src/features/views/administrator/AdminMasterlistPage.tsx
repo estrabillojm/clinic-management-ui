@@ -1,4 +1,4 @@
-import {Navbar,Header} from '../../components/IndexComponents'
+import {Layout,Header} from '../../components/IndexComponents'
 import { FaGears, FaFont, FaXmark } from "react-icons/fa6";
 
 
@@ -164,7 +164,7 @@ const AdminMasterlistPage = () => {
     )
   return (
     <>
-        <Navbar pageTitle={'Administrator'} activeLink={3} Header={<Header title="Admin Masterlist" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."/>} Content={content}/>
+        <Layout pageTitle={'Administrator'} activeLink={3} Header={<Header title="Admin Masterlist" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."/>} Content={content}/>
     </>
   )
 }

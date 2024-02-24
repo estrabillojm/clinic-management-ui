@@ -1,5 +1,5 @@
-import {Navbar}  from "./Navbar";
+import {Layout}  from "./Layout";
 import { Header } from "./Header";
 
 
-export {Navbar,Header}
+export {Layout,Header}
