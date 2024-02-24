@@ -65,6 +65,7 @@ export const Layout: React.FC<LayoutProps> = ({Header,Content, pageTitle, active
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundColor: '#246068' },
         }}
+        className="z-0"
       >
         <Toolbar />
         {
