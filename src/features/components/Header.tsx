@@ -17,7 +17,7 @@ export const Header = ({...props}:headerProps) => {
         </div>
         <span className="text-md text-gray-500 italic">{props.description}</span>
         <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-        <Breadcrumb />
+        <Breadcrumb title={props.title}/>
     </div>
   )
 }
