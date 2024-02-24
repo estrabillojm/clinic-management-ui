@@ -29,7 +29,8 @@ const LoginPage = () => {
   useEffect(() => {
     if(isVerified){
       	if(verifiedResult.result){
-          navigate("/administrator");
+          // TODO : CREATE A CONDITION HERE IF ADMIN OR USER
+          navigate("/branches");
         }
     }
   }, [verifiedResult, isVerified, navigate])
