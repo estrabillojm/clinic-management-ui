@@ -1,3 +1,4 @@
+import { FaClinicMedical } from "react-icons/fa";
 import { FaUserShield, FaUserTag, FaTags, FaUsersGear, FaUserSecret } from "react-icons/fa6";
 
 interface NavbarLinkProps {
@@ -16,7 +17,7 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
             return [
                 {
                 name: 'User Administrator',
-                link: '/Administrator',
+                link: '/administrator',
                 icon: <FaUserShield />
                 },
                 {
@@ -36,7 +37,7 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
                 },
                 {
                 name: 'System Administrator',
-                link: '/Administrator',
+                link: '/administrator',
                 icon: <FaUserSecret />
                 },
                 {
@@ -44,11 +45,16 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
                 link: '/AdministratorRoles',
                 icon: <FaUserTag />
                 },
+                {
+                    name: 'Branches',
+                    link: '/branches',
+                    icon: <FaClinicMedical />
+                },
         ];
         default:
             return [{
                 name: 'User Administrator',
-                link: '/Administrator',
+                link: '/administrator',
                 icon: <FaUserShield />
             }]
     }

@@ -2,6 +2,7 @@ import {Layout,Header} from '../../components/IndexComponents'
 import Table from '../../components/shared/table/Table';
 import SortingOptions from '../../components/shared/table/SortingOptions';
 import Filter from '../../components/shared/table/Filter';
+import TableParentLayout from '../../components/shared/table/TableParentLayout';
 
 
 const AdminMasterlistPage = () => {
@@ -16,19 +17,16 @@ const AdminMasterlistPage = () => {
 
     const content = (
         <>
-        <div className="">
-                <div className=" border-8 w-full flex gap-4">
-                    <div className="flex flex-col w-full">
-                        <Filter/>
-                        <Table/>
-                    </div>
-                    
+            <TableParentLayout
+                filter={<Filter/>}
+                table={<Table/>}
+                options={
                     <SortingOptions 
-                    title="Walk In Table Settings"
-                    columns={columns}
+                        title="Walk In Table Settings"
+                        columns={columns}
                     />
-                </div>
-        </div>
+                }
+            />
         </>
     )
   return (
