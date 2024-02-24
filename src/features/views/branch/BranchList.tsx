@@ -5,7 +5,7 @@ import BranchCard from "./components/BranchCard";
 const Content = () => {
     return ( 
         <>
-        <div className="w-full grid md:grid-cols-4 sm:grid-cols-2 xs:grid-col-1 gap-5">
+        <div className="w-full grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 gap-5">
             {/* CREATE A MAP FUNCTION HERE ONCE HTTP REQUEST IS READY */}
             <BranchCard 
                 province="Pampanga" 
