@@ -5,7 +5,6 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
-    './node_modules/flowbite-react/**/*.js'
   ],
   theme: {
     screens: {
@@ -22,8 +21,5 @@ export default {
         defaultBg: '#EEE9E9'
       }
     },
-  },
-  plugins: [
-    require('flowbite/plugin')
-  ],
+  }
 };

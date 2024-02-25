@@ -11,7 +11,7 @@ type Props = {
 const SortingOptions = ({ title, columns } : Props) => {
   return (
     <>
-      <div className="justify-self-end w-[4em] col-span-1 min-h-[20em] bg-white border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ">
+      <div className="justify-self-end w-[4em] col-span-1 min-h-[20em] bg-white border border-gray-200 rounded-lg shadow">
         <div className="grid grid-cols-1 gap-3 ml-[14px] mt-4">
           <button
             data-modal-target="authentication-modal"
@@ -93,7 +93,7 @@ const SortingOptions = ({ title, columns } : Props) => {
             data-popover
             id="popover-click"
             role="tooltip"
-            className="absolute z-10 invisible inline-block w-64 text-sm border-1 border-gray-100 text-gray-500 transition-opacity duration-300 bg-gray-200  rounded-lg shadow-md opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+            className="absolute z-10 invisible inline-block w-64 text-sm border-1 border-gray-100 text-gray-500 transition-opacity duration-300 bg-gray-200  rounded-lg shadow-md opacity-0 dark:text-gray-400"
           >
             <div className="px-3 py-2 bg-gray-200 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
               <h3 className="font-semibold text-primary dark:text-white">

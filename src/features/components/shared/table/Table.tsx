@@ -1,4 +1,9 @@
-const Table = () => {
+
+type Prop = {
+  actions: React.ReactNode
+}
+
+const Table = ({ actions } : Prop) => {
   return (
     <>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg min-h-[20em] z-0">
@@ -34,7 +39,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <tr className="bg-white border-b hover:bg-gray-50 ">
             <td className="w-4 p-4">
               <div className="flex items-center">
                 <input
@@ -56,6 +61,7 @@ const Table = () => {
             <td className="px-6 py-4">Silver</td>
             <td className="px-6 py-4">Laptop</td>
             <td className="px-6 py-4">$2999</td>
+            <td className="px-6 py-4">{actions}</td>
           </tr>
         </tbody>
       </table>
