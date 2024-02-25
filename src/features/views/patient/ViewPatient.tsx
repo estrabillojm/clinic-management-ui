@@ -1,21 +1,15 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
-import ContactsTab from "./components/patientTabs/ContactsTab";
-import PersonalTab from "./components/patientTabs/PersonalTab";
 import { UserTypes } from "../../../types/users";
 import { FormProvider, useForm } from "react-hook-form";
 import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
 import { useSelector } from "react-redux";
-import PersonToNotifyTab from "./components/patientTabs/PersonToNotifyTab";
-import VitalSignsTab from "./components/patientTabs/VitalSignTab";
-import HistoryTab from "./components/patientTabs/HistoryTab";
-import SoapTab from "./components/patientTabs/SoapTab";
-import PhysicianTab from "./components/patientTabs/PhysicianTab";
 import Card from "./components/Card";
 import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
 import { Link } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
+import PatientTabUtils from "./components/utils/patientTabUtils";
 
 const Content = () => {
   const headers = useSelector(
@@ -24,7 +18,6 @@ const Content = () => {
   const tabSelected = useSelector(
     (state: tabSelectedProps) => state.patientInfoTabs.tabSelected
   );
-  const { register } = useForm();
 
   const methods = useForm();
   const onSubmit = (data: UserTypes): void => {
@@ -48,21 +41,7 @@ const Content = () => {
                 onSubmit={methods.handleSubmit(onSubmit as () => void)}
                 className="p-4"
               >
-                {tabSelected === 0 ? (
-                  <PersonalTab/>
-                ) : tabSelected === 1 ? (
-                  <ContactsTab/>
-                ) : tabSelected === 2 ? (
-                  <PersonToNotifyTab />
-                ) : tabSelected === 3 ? (
-                  <VitalSignsTab />
-                ) : tabSelected === 4 ? (
-                  <HistoryTab />
-                ) : tabSelected === 5 ? (
-                  <SoapTab />
-                ) : tabSelected === 6 ? (
-                  <PhysicianTab/>
-                ) : null}
+                <PatientTabUtils tabSelected={tabSelected}/>
               </form>
             </FormProvider>
           </div>

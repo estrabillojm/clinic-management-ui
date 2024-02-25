@@ -57,7 +57,7 @@ const VitalSignTab = () => {
 
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-6">
-          <TextArea type="number" label="Pulse Rate*" fieldName="pulseRate" />
+          <TextArea type="number" label="Remarks" fieldName="remarks" />
         </div>
       </div>
     </>
