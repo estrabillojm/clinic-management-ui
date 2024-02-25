@@ -1,6 +1,6 @@
 import { FormGroup } from "@mui/material";
 import CheckBox from "../../../../components/shared/form/CheckBox";
-import TextArea from "../../../../components/shared/form/Textarea";
+import TextArea from "../../../../components/shared/form/TextArea";
 
 const VitalSignTab = () => {
   return (

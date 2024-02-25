@@ -1,6 +1,6 @@
 import AutoComplete from "../../../../components/shared/form/AutoComplete";
 import Input from "../../../../components/shared/form/Input";
-import TextArea from "../../../../components/shared/form/Textarea";
+import TextArea from "../../../../components/shared/form/TextArea";
 
 const VitalSignTab = () => {
   return (

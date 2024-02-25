@@ -1,34 +1,21 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
-import ContactsTab from "./components/viewPatient/ContactsTab";
-import PersonalTab from "./components/viewPatient/PersonalTab";
+import ContactsTab from "./components/patientTabs/ContactsTab";
+import PersonalTab from "./components/patientTabs/PersonalTab";
 import { UserTypes } from "../../../types/users";
 import { FormProvider, useForm } from "react-hook-form";
 import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
 import { useSelector } from "react-redux";
-import PersonToNotifyTab from "./components/viewPatient/PersonToNotifyTab";
-import VitalSignsTab from "./components/viewPatient/VitalSignTab";
-import HistoryTab from "./components/viewPatient/HistoryTab";
-import SoapTab from "./components/viewPatient/SoapTab";
-import PhysicianTab from "./components/viewPatient/PhysicianTab";
+import PersonToNotifyTab from "./components/patientTabs/PersonToNotifyTab";
+import VitalSignsTab from "./components/patientTabs/VitalSignTab";
+import HistoryTab from "./components/patientTabs/HistoryTab";
+import SoapTab from "./components/patientTabs/SoapTab";
+import PhysicianTab from "./components/patientTabs/PhysicianTab";
 import Card from "./components/Card";
 import dayjs from "dayjs";
-
-type Tab = {
-  label: string;
-};
-
-type headerProps = {
-  patientInfoTabs: {
-    tabs: Tab[];
-  };
-};
-
-type tabSelectedProps = {
-  patientInfoTabs: {
-    tabSelected: number;
-  };
-};
+import CustomButton from "../../components/shared/global/Button";
+import { Link } from "react-router-dom";
+import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
 
 const Content = () => {
   const headers = useSelector(
@@ -96,6 +83,21 @@ const Content = () => {
   );
 };
 
+const ActionButton = () => {
+  return (
+    <>
+      <div className="flex flex-col">
+        <Link to="/patient/id-here/add">
+          <CustomButton text="Add Transaction" type="button" color="#246068"/>
+        </Link>
+        <Link to="/patients/list" className="w-full">
+          <CustomButton text="Back to Menu" type="button" color="#383d39"/>
+        </Link>
+      </div>
+    </>
+  )
+}
+
 const ViewPatient = () => {
   return (
     <Layout
@@ -104,6 +106,7 @@ const ViewPatient = () => {
         <Header
           title="View Patient Information"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+          actions={<ActionButton/>}
         />
       }
       Content={<Content />}

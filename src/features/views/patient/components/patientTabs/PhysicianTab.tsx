@@ -1,5 +1,5 @@
 import AutoComplete from "../../../../components/shared/form/AutoComplete";
-import TextArea from "../../../../components/shared/form/Textarea";
+import TextArea from "../../../../components/shared/form/TextArea";
 
 const PhysicianTab = () => {
   return (
