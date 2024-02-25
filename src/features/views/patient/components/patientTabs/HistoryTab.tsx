@@ -2,7 +2,7 @@ import { FormGroup } from "@mui/material";
 import CheckBox from "../../../../components/shared/form/CheckBox";
 import TextArea from "../../../../components/shared/form/TextArea";
 
-const VitalSignTab = () => {
+const HistoryTab = () => {
   return (
     <>
       <div className="grid grid-cols-12 gap-8 mb-8">
@@ -52,4 +52,4 @@ const VitalSignTab = () => {
     </>
   );
 };
-export default VitalSignTab;
+export default HistoryTab;

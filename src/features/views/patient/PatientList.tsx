@@ -6,6 +6,7 @@ import SortingOptions from "../../components/shared/table/SortingOptions";
 import Table from "../../components/shared/table/Table";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+import CustomButton from "../../components/shared/global/Button";
 
 const Content = () => {
   const columns = [
@@ -37,6 +38,21 @@ const Content = () => {
   );
 };
 
+const ActionButton = () => {
+  return (
+    <>
+      <div className="flex flex-col">
+        <Link to="/patient/add/new">
+          <CustomButton text="Add Patient" type="button" color="#246068"/>
+        </Link>
+        <Link to="/patients/list" className="w-full">
+          <CustomButton text="Back to Menu" type="button" color="#383d39"/>
+        </Link>
+      </div>
+    </>
+  )
+}
+
 const PatientList = () => {
   return (
     <Layout
@@ -45,6 +61,7 @@ const PatientList = () => {
         <Header
           title="Patients List"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+          actions={<ActionButton/>}
         />
       }
       Content={<Content />}

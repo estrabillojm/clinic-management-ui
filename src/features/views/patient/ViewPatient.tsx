@@ -49,7 +49,7 @@ const Content = () => {
                 className="p-4"
               >
                 {tabSelected === 0 ? (
-                  <PersonalTab register={register} />
+                  <PersonalTab/>
                 ) : tabSelected === 1 ? (
                   <ContactsTab/>
                 ) : tabSelected === 2 ? (
@@ -87,7 +87,7 @@ const ActionButton = () => {
   return (
     <>
       <div className="flex flex-col">
-        <Link to="/patient/id-here/add">
+        <Link to="/patient/id-here/add/transaction">
           <CustomButton text="Add Transaction" type="button" color="#246068"/>
         </Link>
         <Link to="/patients/list" className="w-full">

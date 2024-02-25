@@ -1,14 +1,9 @@
 import { useSelector } from "react-redux";
-import { RegisterHookForm } from "../../../../../types/generalTypes";
 import AutoComplete from "../../../../components/shared/form/AutoComplete";
 import DatePicker from "../../../../components/shared/form/DatePicker";
 import Input from "../../../../components/shared/form/Input";
 
-type Props = {
-  register: RegisterHookForm;
-};
-
-const PersonalTab = ({ register }: Props) => {
+const PersonalTab = () => {
   const gender = useSelector((state: any) => state.enum.gender);
   const civilStatus = useSelector((state: any) => state.enum.status);
 
@@ -30,7 +25,6 @@ const PersonalTab = ({ register }: Props) => {
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-3">
           <DatePicker
-            register={register}
             label="Date of Birth*"
             fieldName="dateOfBirth"
           />

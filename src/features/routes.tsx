@@ -7,7 +7,8 @@ import LoginPage from "./views/auth/LoginPage";
 import { useEffect } from "react";
 import BranchList from "./views/branch/BranchList";
 import PatientList from "./views/patient/PatientList";
-import PatientInfo from "./views/patient/ViewPatient";
+import ViewPatient from "./views/patient/ViewPatient";
+import AddPatient from "./views/patient/AddPatient";
 
 type PrivateRouteProps = {
   element: React.ReactNode | null;
@@ -38,7 +39,9 @@ const routes = createBrowserRouter([
         { path: "admin-masterlist", element: <PrivateRoute element={<AdminMasterlistPage />} /> },
         { path: "branches", element: <PrivateRoute element={<BranchList />} /> },
         { path: "patients/list", element: <PrivateRoute element={<PatientList />} /> },
-        { path: "patient/:id/info", element: <PrivateRoute element={<PatientInfo />} /> },
+        { path: "patient/:patientId/info", element: <PrivateRoute element={<ViewPatient />} /> },
+        { path: "patient/add/new", element: <PrivateRoute element={<AddPatient />} /> },
+        { path: "patient/:patientId/add/transaction", element: <PrivateRoute element={<AddPatient />} /> },
         // ADD MULTIPLE IF NEEDED
     ],
   },

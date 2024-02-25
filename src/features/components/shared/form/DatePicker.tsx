@@ -6,7 +6,6 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Dayjs } from "dayjs";
 
 interface Props {
-  register: any;
   errors?: any;
   dateError?: { message: string; type: string };
   label: string;
