@@ -16,6 +16,7 @@ interface Props {
   maxDate?: Dayjs | null;
   minDate?: Dayjs | null;
   disabled?: boolean;
+  disablePast?: boolean;
 }
 
 const DatePicker = ({
@@ -24,6 +25,7 @@ const DatePicker = ({
   maxDate = null,
   minDate = null,
   disabled = false,
+  disablePast = false,
   //errors, // Add errors prop here
 }: Props) => {
   const { control } = useFormContext();
@@ -38,7 +40,7 @@ const DatePicker = ({
           <DesktopDatePicker
             {...field}
             label={label}
-            disablePast
+            disablePast={disablePast}
             disabled={disabled}
             minDate={minDate}
             maxDate={maxDate}
