@@ -1,5 +1,5 @@
 import { Grid, Card, CardHeader, CardContent, Alert } from "@mui/material/";
-import { Button, btnColor } from "../../components/Button";
+import CustomButton from "../../components/shared/global/Button";
 import { AuthForm } from "../../../types/auths";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLoginMutation, useVerifyTokenMutation } from "../../../redux/api/authApi";
@@ -42,7 +42,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if(isSuccess){
-      navigate("/administrator");
+      navigate("/branches");
       dispatch(loginSlice(loginResult));
     }
   }, [loginResult, isSuccess, isLoading]);
@@ -98,10 +98,10 @@ const LoginPage = () => {
                     />
                   </div>
                   <div className="flex justify-end items-end mt-3">
-                    <Button 
+                    <CustomButton 
                     type="submit"
                     text="Login" 
-                    color={btnColor.danger}
+                    color="primary"
                     />
                   </div>
                 </CardContent>

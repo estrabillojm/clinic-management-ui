@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Layout, Header } from "../../components/IndexComponents";
-import { Button, btnColor } from "../../components/Button";
+import { Layout, Header } from "../../components/shared/global/IndexComponents";
+import CustomButton from "../../components/shared/global/Button";
 import { useForm } from "react-hook-form";
 import { useGetSystenrolesQuery } from "../../../redux/api/systemroleApi";
 import PersonalTab from "./components/addUser/PersonalTab";
@@ -29,14 +29,14 @@ const AdministratorPage = () => {
 
   const content = (
     <div className="flex flex-col gap-2">
-      <div className="min-w-[10em] min-h-[20em] bg-gray-100 border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <ul className="flex flex-wrap text-sm font-medium text-center bg-primary text-white dark:border-gray-700 dark:text-gray-400">
+      <div className="min-w-[10em] min-h-[20em] bg-gray-100 border border-gray-200 shadow">
+        <ul className="flex flex-wrap text-sm font-medium text-center bg-primary text-white">
           <li className="">
             <a
               href="#"
               aria-current="page"
               key={0}
-              className={`inline-block p-4  hover:text-activeLink ${tabSelected === 0 ? "text-activeLink border-b-4 border-b-activeLink" : ""} hover:border-b-activeLink hover:border-b-4 hover:text-activeLink dark:bg-gray-800 dark:text-blue-500`}
+              className={`inline-block p-4  text-white hover:text-activeLink ${tabSelected === 0 ? "text-activeLink border-b-4 border-b-activeLink" : ""} hover:border-b-activeLink hover:border-b-4 hover:text-activeLink`}
               onClick={() => handleTabSwitch(0)}
             >
               Personal
@@ -74,7 +74,7 @@ const AdministratorPage = () => {
             <AccessTab systemRoles={post} register={register} />
           ) : null}
           <div className="flex justify-end mr-6">
-            <Button type="submit" text="Save" color={btnColor.success} />
+            <CustomButton type="submit" text="Save" color="success" />
           </div>
         </form>
       </div>

@@ -3,7 +3,7 @@ export type UserTypes = {
     lastname: string;
     middlename: string;
     firstname: string;
-    dateofbirth: string;
+    dateOfBirth: Date | { $d: any };
     age: string;
     phonenumber: number;
     email: string;

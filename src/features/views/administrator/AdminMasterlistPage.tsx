@@ -1,4 +1,4 @@
-import {Layout,Header} from '../../components/IndexComponents'
+import {Layout,Header} from '../../components/shared/global/IndexComponents'
 import Table from '../../components/shared/table/Table';
 import SortingOptions from '../../components/shared/table/SortingOptions';
 import Filter from '../../components/shared/table/Filter';

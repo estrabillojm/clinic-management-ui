@@ -1,5 +1,5 @@
-import { Header } from "../../components/Header";
-import { Layout } from "../../components/Layout";
+import { Header } from "../../components/shared/global/Header";
+import { Layout } from "../../components/shared/global/Layout";
 import BranchCard from "./components/BranchCard";
 
 const Content = () => {

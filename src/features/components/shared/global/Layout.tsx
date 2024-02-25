@@ -14,7 +14,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { NavbarLinks, NavbarLink } from "./utils/NavbarLinks";
+import { NavbarLinks, NavbarLink } from "../../utils/NavbarLinks";
 
 const drawerWidth = 250;
 
@@ -104,9 +104,12 @@ export const Layout: React.FC<LayoutProps> = ({
           <Box sx={{ overflow: "auto" }}>
             <List>
               {menus.map((text, index) => (
-                <NavLink to={text.link} className={`flex items-center`}>
+                <NavLink 
+                  to={text.link} 
+                  className={`flex items-center`}
+                  key={index}
+                >
                   <ListItem
-                    key={index}
                     sx={{ padding: "8px", borderRadius: "0.5em" }}
                   >
                     <ListItemButton
