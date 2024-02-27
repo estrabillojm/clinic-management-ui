@@ -45,8 +45,8 @@ const ActionButton = () => {
         <Link to="/patient/add/new">
           <CustomButton text="Add Patient" type="button" color="#246068"/>
         </Link>
-        <Link to="/patients/list" className="w-full">
-          <CustomButton text="Back to Menu" type="button" color="#383d39"/>
+        <Link to="/branches" className="w-full">
+          <CustomButton text="Back to Branch List" type="button" color="#383d39"/>
         </Link>
       </div>
     </>

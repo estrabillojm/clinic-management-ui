@@ -19,7 +19,7 @@ const AdminMasterlistPage = () => {
         <>
             <TableParentLayout
                 filter={<Filter/>}
-                table={<Table/>}
+                table={<Table actions={(<button>Test</button>)}/>}
                 options={
                     <SortingOptions 
                         title="Walk In Table Settings"
