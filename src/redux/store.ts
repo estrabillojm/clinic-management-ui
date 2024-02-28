@@ -7,6 +7,7 @@ import {
   import userSlice from "./features/userSlice";
   import patientInfoTabSlice from "./features/patientInfoTabSlice";
 import enumSlice from "./enums/enumSlice";
+import adminTabSlice from "./features/adminTabSlice";
 //   import { loginApi } from "./api/loginApi";
   
   const reducer = combineReducers({
@@ -15,6 +16,7 @@ import enumSlice from "./enums/enumSlice";
     sample: sampleSlice, // REMOVE THIS IF NECESSARY
     user: userSlice,
     patientInfoTabs: patientInfoTabSlice,
+    adminTabs: adminTabSlice,
     enum: enumSlice,
   });
   export const setupStore = () =>

@@ -70,7 +70,7 @@ const ActionButton = () => {
           <CustomButton text="Add Transaction" type="button" color="#246068"/>
         </Link>
         <Link to="/patients/list" className="w-full">
-          <CustomButton text="Back to Menu" type="button" color="#383d39"/>
+          <CustomButton text="Back" type="button" color="#383d39"/>
         </Link>
       </div>
     </>

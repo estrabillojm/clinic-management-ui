@@ -2,7 +2,7 @@ import Loader from "../../../components/dumb/loader/Loader";
 import { useVerifyTokenMutation } from "../../../../redux/api/authApi";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AdministratorPage from "../../administrator/AdministratorPage";
+import AdministratorPage from "../../administrator/SystemAdministratorPage";
 
 type Token = {
   token: string | null | undefined;
@@ -21,7 +21,7 @@ const Bounce = ({ token } : Token ) => {
   useEffect(() => {
     if(isSuccess){
       	if(verifiedResult.result){
-          navigate("/administrator");
+          navigate("/administrator/system");
         }else{
           navigate("/login");
         }
