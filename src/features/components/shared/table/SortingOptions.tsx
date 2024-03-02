@@ -2,7 +2,7 @@ import { FaFont, FaGears, FaXmark } from "react-icons/fa6";
 
 type Column = {
   label: string;
-  value: string;
+  column: string;
 }
 type Props = {
   title: string;
@@ -55,13 +55,13 @@ const SortingOptions = ({ title, columns } : Props) => {
                           columns.map((column, index) => (
                             <div className="flex items-center mb-1" key={index}>
                               <input
-                                id={column.value}
+                                id={column.column}
                                 type="checkbox"
-                                value={column.value}
+                                value={column.column}
                                 className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:text-green-500 dark:focus:text-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                               />
                               <label
-                                htmlFor={column.value}
+                                htmlFor={column.column}
                                 className="ms-2 text-sm font-medium text-primary dark:text-gray-300"
                               >
                                 { column.label }

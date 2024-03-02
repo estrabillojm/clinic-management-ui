@@ -8,15 +8,19 @@ import {
   
   import { APP_CONFIG } from "../configs/config"
   
-  const baseQuery = fetchBaseQuery({
+  const baseQueryWithHeaders = fetchBaseQuery({
     baseUrl: APP_CONFIG.API_URL,
-    // prepareHeaders: (headers) => {
-    //   headers.set(
-    //     "Authorization",
-    //     `Bearer ${localStorage.getItem("accessToken")}`,
-    //   );
-    //   return headers;
-    // },
+    prepareHeaders: (headers) => {
+      headers.set(
+        "accesstoken",
+        `${localStorage.getItem("accesstoken")}`,
+      );
+      return headers;
+    },
+  });
+
+  const baseQueryWithoutHeaders = fetchBaseQuery({
+    baseUrl: APP_CONFIG.API_URL,
   });
   
 //   const autoLogoutQuery = fetchBaseQuery({
@@ -35,9 +39,13 @@ import {
     unknown,
     FetchBaseQueryError
   > = async (args, api, extraOptions) => {
-    const result = await baseQuery(args, api, extraOptions);
-    // IF LOGIN AND AUTH IS READY PUT AUTOLOGOUT FUNCTION HERE
-    return result;
+      if(api.endpoint.toLowerCase() === "login"){
+        return await baseQueryWithoutHeaders(args, api, extraOptions);
+      }
+      const result = await baseQueryWithHeaders(args, api, extraOptions);
+
+      return result;
+    
   };
   
   const apiServiceTags = [

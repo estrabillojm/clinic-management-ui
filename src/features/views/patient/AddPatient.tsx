@@ -12,10 +12,10 @@ import PatientTabUtils from "./components/utils/patientTabUtils";
 
 const Content = () => {
   const headers = useSelector(
-    (state: headerProps) => state.patientInfoTabs.tabs
+    (state: headerProps) => state.patients.tabs
   );
   const tabSelected = useSelector(
-    (state: tabSelectedProps) => state.patientInfoTabs.tabSelected
+    (state: tabSelectedProps) => state.patients.tabSelected
   );
 
   const methods = useForm();

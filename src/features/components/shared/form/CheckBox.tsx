@@ -5,9 +5,11 @@ type Props = {
   label: string;
   type?: string;
   fieldName: string;
+  isChecked?: any;
+  onChange?: any;
 };
 
-const CheckBox = ({ label, fieldName }: Props) => {
+const CheckBox = ({ label, fieldName, isChecked, onChange }: Props) => {
   const { control } = useFormContext();
 
   return (
@@ -15,13 +17,14 @@ const CheckBox = ({ label, fieldName }: Props) => {
       <Controller
         name={fieldName}
         control={control}
-        defaultValue=""
-        // rules={{ required: 'This field is required' }}
+            // rules={{ required: 'This field is required' }}
         render={({ field }) => (
           <FormControlLabel
             {...field}
-            control={<Checkbox name="gilad" />}
+            control={<Checkbox value={label}/>}
             label={label}
+            checked={isChecked}
+            onChange={onChange}
           />
         )}
       />

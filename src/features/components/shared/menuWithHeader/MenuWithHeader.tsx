@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTabSelected } from "../../../../redux/features/patientInfoTabSlice";
 
@@ -13,7 +13,7 @@ const MenuWithHeader = ({ headers } : Props) => {
     useEffect(() => {
         dispatch(setTabSelected(0))
     }, [])
-    const tabSelected = useSelector((state : any) => state.patientInfoTabs.tabSelected);
+    const tabSelected = useSelector((state : any) => state.patients.tabSelected);
     const handleTabSwitch = (index: number) => {
         dispatch(setTabSelected(index))
     };

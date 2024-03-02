@@ -1,34 +1,36 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
-import { UserTypes } from "../../../types/users";
 import { FormProvider, useForm } from "react-hook-form";
 import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "./components/Card";
-import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
 import PatientTabUtils from "./components/utils/patientTabUtils";
+import { useEffect } from "react";
+import { useGetRecentPatientHistoryQuery } from "../../../redux/api/patientHistory";
+import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 
 const Content = () => {
   const headers = useSelector(
-    (state: headerProps) => state.patientInfoTabs.tabs
+    (state: headerProps) => state.patients.tabs
   );
   const tabSelected = useSelector(
-    (state: tabSelectedProps) => state.patientInfoTabs.tabSelected
+    (state: tabSelectedProps) => state.patients.tabSelected
   );
+  const { patientId } = useParams();
+  const { data: history, isLoading, isSuccess } = useGetRecentPatientHistoryQuery({patientId}); 
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if(history && !isLoading && isSuccess){
+      dispatch(setActivePatientHistory(history));
+    }
+  }, [history, isLoading, isSuccess])
+
 
   const methods = useForm();
-  const onSubmit = (data: UserTypes): void => {
-    let formattedDate = "";
-    if ("$d" in data.dateOfBirth) {
-      formattedDate = dayjs(data.dateOfBirth.$d).format("L")
-    } else {
-      formattedDate = dayjs(data.dateOfBirth).format("L")
-    }
-    console.log({...data, dateOfBirth: formattedDate})
-  };
 
   return (
     <>
@@ -38,7 +40,6 @@ const Content = () => {
             <MenuWithHeader headers={headers} />
             <FormProvider {...methods}>
               <form
-                onSubmit={methods.handleSubmit(onSubmit as () => void)}
                 className="p-4"
               >
                 <PatientTabUtils tabSelected={tabSelected}/>

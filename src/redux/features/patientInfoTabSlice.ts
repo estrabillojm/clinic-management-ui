@@ -7,6 +7,7 @@ type Tab = {
 type State = {
     tabs: Tab[];
     tabSelected: number;
+    dataTable: any | null | undefined;
 }
 // ADD interface if necessary
 
@@ -35,6 +36,7 @@ export const initialState : State = {
         },
     ],
     tabSelected: 0,
+    dataTable: null,
 }
 export const patientInfoTabSlice = createSlice({
     name: 'patientInfoTabSlice',
@@ -42,11 +44,14 @@ export const patientInfoTabSlice = createSlice({
     reducers: {
         setTabSelected: (state, action) => {
             state.tabSelected = action.payload
+        },
+        setDataTable: (state, action) => {
+            state.dataTable = action.payload
         }
     }
 })
 
-export const { setTabSelected } = patientInfoTabSlice.actions
+export const { setTabSelected, setDataTable } = patientInfoTabSlice.actions
 export default patientInfoTabSlice.reducer
 
 

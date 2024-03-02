@@ -3,13 +3,13 @@ export type Tab = {
 };
 
 export type headerProps = {
-  patientInfoTabs: {
+  patients: {
     tabs: Tab[];
   };
 };
 
 export type tabSelectedProps = {
-  patientInfoTabs: {
+  patients: {
     tabSelected: number;
   };
 };
