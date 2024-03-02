@@ -3,17 +3,21 @@ import { Layout } from "../../components/shared/global/Layout";
 import { UserTypes } from "../../../types/users";
 import { FormProvider, useForm } from "react-hook-form";
 import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
 import PatientTabUtils from "./components/utils/patientTabUtils";
+import { useEffect } from "react";
+import { setAdd, setEdit } from "../../../redux/features/actionTypeSlice";
+import { Button } from "@mui/material";
+import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 
 const Content = () => {
-  const headers = useSelector(
-    (state: headerProps) => state.patients.tabs
-  );
+  const dispatch = useDispatch();
+  const actionType = useSelector((state: any) => state.actionType.actionType);
+  const headers = useSelector((state: headerProps) => state.patients.tabs);
   const tabSelected = useSelector(
     (state: tabSelectedProps) => state.patients.tabSelected
   );
@@ -21,7 +25,8 @@ const Content = () => {
   const methods = useForm();
   const onSubmit = (data: UserTypes): void => {
     let formattedDate = "";
-    if ("$d" in data.dateOfBirth) {
+
+    if (data.dateOfBirth && "$d" in data.dateOfBirth) {
       formattedDate = dayjs(data.dateOfBirth.$d).format("L");
     } else {
       formattedDate = dayjs(data.dateOfBirth).format("L");
@@ -40,7 +45,36 @@ const Content = () => {
                 onSubmit={methods.handleSubmit(onSubmit as () => void)}
                 className="p-4"
               >
-                <PatientTabUtils tabSelected={tabSelected}/>
+                <PatientTabUtils tabSelected={tabSelected} />
+                <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      tabSelected > 0
+                        ? dispatch(setTabSelected(tabSelected - 1))
+                        : dispatch(setTabSelected(tabSelected))
+                    }
+                    disabled={tabSelected === 0}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    variant={tabSelected === 6 ? "contained" : "outlined"}
+                    color="success"
+                    type={tabSelected === 6 ? "submit" : "button"}
+                    onClick={() =>
+                      tabSelected < 6
+                        ? dispatch(setTabSelected(tabSelected + 1))
+                        : dispatch(setTabSelected(tabSelected))
+                    }
+                  >
+                    {tabSelected === 6 && actionType === "Add" // SET BUTTON LABEL TO SAVE IF THE ACTION WAS TO ADD NEW PATIENT
+                      ? "Save"
+                      : tabSelected === 6 && actionType === "Edit" // SET BUTTON LABEL TO UPDATE IF THE ACTION WAS TO EDIT
+                        ? "Update"
+                        : "Next"}
+                  </Button>
+                </div>
               </form>
             </FormProvider>
           </div>
@@ -52,6 +86,7 @@ const Content = () => {
 
 const ActionButton = () => {
   const params = useParams();
+  const navigate = useNavigate();
   return (
     <>
       <div className="flex flex-col">
@@ -64,17 +99,29 @@ const ActionButton = () => {
             />
           </Link>
         )}
-
-        <Link to="/patients/list" className="w-full">
-          <CustomButton text="Back to Menu" type="button" color="#383d39" />
-        </Link>
+        <CustomButton
+          text="Back to Menu"
+          type="button"
+          color="#383d39"
+          onClick={() => navigate(-1)}
+        />
       </div>
     </>
   );
 };
 
 const AddPatient = () => {
+  const dispatch = useDispatch();
   const params = useParams();
+
+  useEffect(() => {
+    if (params.patientId) {
+      dispatch(setEdit());
+    } else {
+      dispatch(setAdd());
+    }
+  }, []);
+
   return (
     <Layout
       pageTitle={"Administrator"}

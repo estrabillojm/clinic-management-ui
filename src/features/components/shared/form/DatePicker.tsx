@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { Controller, useFormContext } from "react-hook-form";
 import { Dayjs } from "dayjs";
+import { useSelector } from "react-redux";
 
 interface Props {
   errors?: any;
@@ -24,11 +25,11 @@ const DatePicker = ({
   fieldName,
   maxDate = null,
   minDate = null,
-  disabled = false,
   disablePast = false,
   //errors, // Add errors prop here
 }: Props) => {
   const { control } = useFormContext();
+  const actionType = useSelector((state: any) => state.actionType.actionType)
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Controller
@@ -41,7 +42,7 @@ const DatePicker = ({
             {...field}
             label={label}
             disablePast={disablePast}
-            disabled={disabled}
+            disabled={actionType === "View"}
             minDate={minDate}
             maxDate={maxDate}
             sx={{

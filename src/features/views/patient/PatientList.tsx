@@ -7,8 +7,9 @@ import Table from "../../components/shared/table/Table";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../../components/shared/global/Button";
 import { useGetPatientListQuery } from "../../../redux/api/patients";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { clearDataTable } from "../../../redux/features/patientInfoTabSlice";
 
 const Content = () => {
   const headers = [
@@ -18,11 +19,13 @@ const Content = () => {
     { label: "Age", column: "age" }
   ];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const dataTable = useSelector((state: any) => state.patients.dataTable);
   const { data: patients, isLoading, isSuccess } = useGetPatientListQuery(null);
 
   useEffect(() => {
     if(dataTable){
+      dispatch(clearDataTable())
       navigate(`/patient/${dataTable.id}/info`)
     }
   }, [dataTable])

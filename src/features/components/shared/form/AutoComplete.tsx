@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 type Option = {
   label: string;
@@ -23,16 +24,18 @@ const AutoComplete: React.FC<Props> = ({
   defaultValue = "",
 }) => {
   const { control } = useFormContext();
-
+  const actionType = useSelector((state: any) => state.actionType.actionType)
   return (
     <Controller
       name={fieldName}
       control={control}
       rules={{ required: isRequired }}
       defaultValue={defaultValue}
+      
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <Autocomplete
           disablePortal
+          disabled={actionType === "View"}
           id={`${fieldName}-autocomplete`}
           options={options}
           getOptionLabel={(option: Option) => option.label}

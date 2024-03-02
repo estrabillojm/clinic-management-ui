@@ -1,26 +1,7 @@
-import { useEffect } from "react";
-import { useGetListQuery, useLazyGetListQuery } from "../../redux/api/sampleApi";
-
 const SamplePage = () => {
-    // UNCOMMENT isLoading function, etc IF THEY ARE NEEDED IN CONDITIONAL RENDERING
-    const { data : post, isLoading/*, isSuccess, isError*/ } = useGetListQuery(null); // TRIGGER WHEN THE DOCUMENT MOUNTED
-    const [getList, { data : lazyPost, isSuccess: isLazySuccess }] = useLazyGetListQuery(); // TRIGGER WHEN THE DOCUMENT MOUNTED
-
-    useEffect(()=> {
-        if(!isLoading){
-            console.log("TRIGGERED BY useGetListQuery : (ON MOUNT) ", post);
-        }
-    }, [post, isLoading])
-
+    // UNCOMMENT isLoading function, etc IF THEY ARE NEEDED IN CONDITIONAL RENDERING/ TRIGGER WHEN THE DOCUMENT MOUNTED
     const handleTrigger = () => {
-        getList(null);
     }
-
-    useEffect(() => {
-        if(lazyPost && isLazySuccess){
-            console.log("TRIGGERED MANUALLY : ", lazyPost);
-        }
-    }, [lazyPost, isLazySuccess])
 
     return ( 
         <>
