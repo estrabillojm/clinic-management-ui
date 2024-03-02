@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 type Props = {
     label: string;
@@ -11,6 +12,7 @@ type Props = {
 const Input = ({ label, fieldName, type="text", defaultValue="" } : Props) => {
 
     const { control } = useFormContext();
+    const actionType = useSelector((state: any) => state.actionType.actionType)
 
     return ( 
         <>
@@ -18,8 +20,8 @@ const Input = ({ label, fieldName, type="text", defaultValue="" } : Props) => {
                 name={fieldName}
                 control={control}
                 defaultValue={defaultValue ?? ""}
-                // rules={{ required: 'This field is required' }}
-                disabled={defaultValue ? true : false }
+                rules={{ required: 'This field is required' }}
+                disabled={ actionType === "View" }
                 render={({ field, fieldState: { error } }) => (
                     <TextField
                     {...field}

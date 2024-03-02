@@ -1,7 +1,7 @@
 import { Grid, Card, CardHeader, CardContent, Alert } from "@mui/material/";
 import CustomButton from "../../components/shared/global/Button";
 import { AuthForm } from "../../../types/auths";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useLoginMutation, useVerifyTokenMutation } from "../../../redux/api/authApi";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,10 +10,10 @@ import { useDispatch } from "react-redux";
 import { login as loginSlice } from "../../../redux/features/userSlice"; 
 import Leaf from "../../components/svgs/leaf";
 import Logo from "../../components/svgs/logo";
+import Input from "../../components/shared/form/Input";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm<AuthForm>()
   const [login, { data: loginResult, isSuccess, isLoading, isError }] = useLoginMutation();
   const navigate = useNavigate();
 
@@ -47,6 +47,8 @@ const LoginPage = () => {
     }
   }, [loginResult, isSuccess, isLoading]);
 
+  const methods = useForm();
+
   return (
     <>
       {isVerifying && isLoading ?
@@ -59,11 +61,6 @@ const LoginPage = () => {
           fill="#87d67c"
           className="absolute left-[-340px] top-[-200px] h-[800px] rotate-180 md:block sm:hidden xs:hidden"
         />  
-        <form 
-          className={`bg-defaultBg justify-center items-center min-h-[100vh] max-h-[100vh] flex `}
-          onSubmit={handleSubmit(handleLogin)}
-        >
-          
           <Grid container className="h-[80vh] max-w-[80vw]">
             <Grid item xs={12} md={8} className="border-r border-gray-300  justify-center items-center md:flex sm:hidden xs:hidden">
               <Logo/>
@@ -79,23 +76,17 @@ const LoginPage = () => {
                 <CardHeader title="Clinic Name" />
                 <CardContent sx={{ display: "flex", flexFlow: "column" }}>
                   { isError && <Alert variant="outlined" severity="warning">Invalid Credentials</Alert>}
-                  <div className="flex flex-col gap-1 mt-3">
-                    <label htmlFor="username">Username</label>
-                    <input
-                      id="username"
-                      type="text"
-                      placeholder="Enter Username"
-                      {...register("username")}
-                    />
+
+                  <FormProvider {...methods}>
+                    <form
+                      onSubmit={methods.handleSubmit(handleLogin as () => void)}
+                      className="p-4"
+                    >
+                      <div className="flex flex-col gap-1 mt-3">
+                    <Input label="Username" fieldName="username" />
                   </div>
                   <div className="flex flex-col gap-1 mt-3">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      id="password"
-                      type="text"
-                      placeholder="Enter Password"
-                      {...register("password")}
-                    />
+                    <Input label="Password" fieldName="password" type="password"/>
                   </div>
                   <div className="flex justify-end items-end mt-3">
                     <CustomButton 
@@ -104,11 +95,14 @@ const LoginPage = () => {
                     color="primary"
                     />
                   </div>
+                      
+                    </form>
+                  </FormProvider>
+                  
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
-        </form>
       </div>
       }
     </>

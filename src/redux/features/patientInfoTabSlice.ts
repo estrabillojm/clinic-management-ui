@@ -47,11 +47,14 @@ export const patientInfoTabSlice = createSlice({
         },
         setDataTable: (state, action) => {
             state.dataTable = action.payload
+        },
+        clearDataTable: (state) => {
+            state.dataTable = null
         }
     }
 })
 
-export const { setTabSelected, setDataTable } = patientInfoTabSlice.actions
+export const { setTabSelected, setDataTable, clearDataTable } = patientInfoTabSlice.actions
 export default patientInfoTabSlice.reducer
 
 
