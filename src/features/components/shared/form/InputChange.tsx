@@ -6,9 +6,10 @@ type Props = {
     type?: string;
     fieldName: string;
     defaultValue?: string | number;
+    onChange?: any;
 }
 
-const Input = ({ label, fieldName, type="text", defaultValue="" } : Props) => {
+const InputChange = ({ label, fieldName, type="text", defaultValue="", onChange } : Props) => {
 
     const { control } = useFormContext();
 
@@ -17,7 +18,6 @@ const Input = ({ label, fieldName, type="text", defaultValue="" } : Props) => {
             <Controller
                 name={fieldName}
                 control={control}
-                defaultValue={defaultValue ?? ""}
                 // rules={{ required: 'This field is required' }}
                 disabled={defaultValue ? true : false }
                 render={({ field, fieldState: { error } }) => (
@@ -29,6 +29,7 @@ const Input = ({ label, fieldName, type="text", defaultValue="" } : Props) => {
                     error={!!error}
                     helperText={error ? error.message : null}
                     fullWidth
+                    onChange={onChange}
                     />
   )}
 />
@@ -36,4 +37,4 @@ const Input = ({ label, fieldName, type="text", defaultValue="" } : Props) => {
      );
 }
  
-export default Input;
+export default InputChange;

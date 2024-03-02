@@ -1,7 +1,7 @@
 type Props = {
     filter: React.ReactNode;
     table: React.ReactNode;
-    options: React.ReactNode;
+    options?: React.ReactNode;
 }
 
 const TableParentLayout = ({ filter, table, options } : Props) => {

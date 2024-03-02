@@ -1,12 +1,16 @@
+import { useEffect } from "react";
 import AutoComplete from "../../../../components/shared/form/AutoComplete";
 import Input from "../../../../components/shared/form/Input";
 
-const PersonToNotifyTab = () => {
+const PersonToNotifyTab = ({ data } : any) => {
+  useEffect(() => {
+    console.log(data);
+  }, [])
   return (
     <>
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-3">
-          <Input type="text" label="Emergency Contact Number" fieldName="contact" />
+          <Input type="text" label="Emergency Contact Number" fieldName="contact" defaultValue={data.notifyPhone}/>
         </div>
         <div className="col-span-3">
           <AutoComplete
@@ -14,6 +18,7 @@ const PersonToNotifyTab = () => {
             fieldName="relationship"
             isRequired={false}
             options={[]}
+            defaultValue={data.notifyRelation}
           />
         </div>
         

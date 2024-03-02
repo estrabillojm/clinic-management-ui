@@ -12,6 +12,7 @@ type Props = {
   fieldName: string;
   isRequired?: boolean;
   options: Option[];
+  defaultValue?: string;
 };
 
 const AutoComplete: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const AutoComplete: React.FC<Props> = ({
   fieldName,
   isRequired = false,
   options,
+  defaultValue = "",
 }) => {
   const { control } = useFormContext();
 
@@ -27,6 +29,7 @@ const AutoComplete: React.FC<Props> = ({
       name={fieldName}
       control={control}
       rules={{ required: isRequired }}
+      defaultValue={defaultValue}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <Autocomplete
           disablePortal

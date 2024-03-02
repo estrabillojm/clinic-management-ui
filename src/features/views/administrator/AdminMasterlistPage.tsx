@@ -7,26 +7,24 @@ import TableParentLayout from '../../components/shared/table/TableParentLayout';
 
 const AdminMasterlistPage = () => {
 
-    const columns = [
-        { label: "Patient Number", value: "patientNumber" },
-        { label: "Full Name", value: "fullName" },
-        { label: "Consultation Date", value: "consultationDate" },
-        { label: "Age", value: "age" },
-        { label: "Contact Number", value: "contactNumber" },
+    const headers = [
+        { label: "Last Name", column: "lastName" },
     ]
 
     const content = (
         <>
-            <TableParentLayout
-                filter={<Filter/>}
-                table={<Table actions={(<button>Test</button>)}/>}
-                options={
-                    <SortingOptions 
-                        title="Walk In Table Settings"
-                        columns={columns}
-                    />
-                }
-            />
+      <TableParentLayout
+        filter={<Filter />}
+        table={ <Table 
+          rows={[]}
+          headers={headers} 
+          btnText="View Patient Info"
+          />
+        }
+        options={
+          <SortingOptions title="Walk In Table Settings" columns={headers} />
+        }
+      />
         </>
     )
   return (

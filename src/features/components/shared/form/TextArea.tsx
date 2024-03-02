@@ -5,9 +5,10 @@ type Props = {
     label: string;
     type?: string;
     fieldName: string;
+    defaultValue?: string;
 }
 
-const TextArea = ({ label, fieldName, type="text" } : Props) => {
+const TextArea = ({ label, fieldName, type="text", defaultValue = "" } : Props) => {
 
     const { control } = useFormContext();
 
@@ -16,10 +17,13 @@ const TextArea = ({ label, fieldName, type="text" } : Props) => {
             <Controller
                 name={fieldName}
                 control={control}
-                defaultValue=""
+                defaultValue={defaultValue}
+                disabled={defaultValue ? true : false}
                 // rules={{ required: 'This field is required' }}
                 render={({ field, fieldState: { error } }) => (
                     <TextField
+                    id={fieldName}
+                
                     {...field}
                     type={type}
                     label={label}

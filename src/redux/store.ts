@@ -8,6 +8,7 @@ import {
   import patientInfoTabSlice from "./features/patientInfoTabSlice";
 import enumSlice from "./enums/enumSlice";
 import adminTabSlice from "./features/adminTabSlice";
+import patientHistorySlice from "./features/patientHistorySlice";
 //   import { loginApi } from "./api/loginApi";
   
   const reducer = combineReducers({
@@ -15,8 +16,9 @@ import adminTabSlice from "./features/adminTabSlice";
     // [loginApi.reducerPath]: loginApi.reducer,
     sample: sampleSlice, // REMOVE THIS IF NECESSARY
     user: userSlice,
-    patientInfoTabs: patientInfoTabSlice,
+    patients: patientInfoTabSlice,
     adminTabs: adminTabSlice,
+    patientHistories: patientHistorySlice,
     enum: enumSlice,
   });
   export const setupStore = () =>
