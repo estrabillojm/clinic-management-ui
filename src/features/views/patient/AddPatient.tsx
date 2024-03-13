@@ -10,7 +10,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
 import PatientTabUtils from "./components/utils/patientTabUtils";
 import { useEffect } from "react";
-import { setAdd, setEdit } from "../../../redux/features/actionTypeSlice";
+import { setAdd } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 
@@ -23,9 +23,9 @@ const Content = () => {
   );
 
   const methods = useForm();
-  const onSubmit = (data: UserTypes): void => {
+  const onSubmit = (data: UserTypes, error: any): void => {
+    console.log(error);
     let formattedDate = "";
-
     if (data.dateOfBirth && "$d" in data.dateOfBirth) {
       formattedDate = dayjs(data.dateOfBirth.$d).format("L");
     } else {
@@ -61,7 +61,7 @@ const Content = () => {
                   <Button
                     variant={tabSelected === 6 ? "contained" : "outlined"}
                     color="success"
-                    type={tabSelected === 6 ? "submit" : "button"}
+                    type="submit"
                     onClick={() =>
                       tabSelected < 6
                         ? dispatch(setTabSelected(tabSelected + 1))
@@ -115,11 +115,7 @@ const AddPatient = () => {
   const params = useParams();
 
   useEffect(() => {
-    if (params.patientId) {
-      dispatch(setEdit());
-    } else {
-      dispatch(setAdd());
-    }
+    dispatch(setAdd());
   }, []);
 
   return (

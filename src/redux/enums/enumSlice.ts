@@ -39,7 +39,7 @@ export const initialState : State = {
             label: "Divorced",
             value: "Divorced",
         }
-    ]
+    ],
 }
 
 export const enumSlice = createSlice({

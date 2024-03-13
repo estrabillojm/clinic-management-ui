@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import AutoComplete from "../../../../components/shared/form/AutoComplete";
-import Input from "../../../../components/shared/form/Input";
-import TextArea from "../../../../components/shared/form/TextArea";
-import InputChange from "../../../../components/shared/form/InputChange";
-import calculateBMI from "../../../../../utils/bmiCalculator";
+import AutoComplete from "../../../../../components/shared/form/AutoComplete";
+import Input from "../../../../../components/shared/form/Input";
+import TextArea from "../../../../../components/shared/form/TextArea";
+import InputChange from "../../../../../components/shared/form/InputChange";
+import calculateBMI from "../../../../../../utils/bmiCalculator";
 import { TextField } from "@mui/material";
 
 const VitalSignTab = ({ data } : any) => {

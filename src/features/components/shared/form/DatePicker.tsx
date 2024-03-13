@@ -18,6 +18,7 @@ interface Props {
   minDate?: Dayjs | null;
   disabled?: boolean;
   disablePast?: boolean;
+  defaultValue?: Dayjs | null;
 }
 
 const DatePicker = ({
@@ -26,6 +27,7 @@ const DatePicker = ({
   maxDate = null,
   minDate = null,
   disablePast = false,
+  defaultValue = null
   //errors, // Add errors prop here
 }: Props) => {
   const { control } = useFormContext();
@@ -35,7 +37,7 @@ const DatePicker = ({
       <Controller
         name={fieldName}
         control={control}
-        defaultValue={null}
+        defaultValue={defaultValue}
         // rules={{ required: 'This field is required' }}
         render={({ field }) => (
           <DesktopDatePicker

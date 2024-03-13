@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 type Option = {
   label: string;
+  value: string;
 };
 
 type Props = {
@@ -24,15 +25,29 @@ const AutoComplete: React.FC<Props> = ({
   defaultValue = "",
 }) => {
   const { control } = useFormContext();
-  const actionType = useSelector((state: any) => state.actionType.actionType)
+  const actionType = useSelector((state: any) => state.actionType.actionType);
+  const [value, setValue] = useState<Option | null>(null);
+
+  useEffect(() => {
+    if (defaultValue) {
+      const defaultOption = options.find(option => option.value === defaultValue);
+      setValue(defaultOption || null);
+    } else {
+      setValue(null);
+    }
+  }, [defaultValue, options]);
+
+  const handleValueChange = (newValue: Option | null) => {
+    setValue(newValue);
+  };
+
   return (
     <Controller
       name={fieldName}
       control={control}
       rules={{ required: isRequired }}
-      defaultValue={defaultValue}
-      
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      defaultValue={defaultValue ?? ""}
+      render={({ field: { onChange }, fieldState: { error } }) => (
         <Autocomplete
           disablePortal
           disabled={actionType === "View"}
@@ -40,10 +55,10 @@ const AutoComplete: React.FC<Props> = ({
           options={options}
           getOptionLabel={(option: Option) => option.label}
           onChange={(event: any, newValue: Option | null) => {
-            onChange(newValue ? newValue.label : '');
-            return event;
+            onChange(newValue ? newValue.value : '');
+            handleValueChange(newValue);
           }}
-          value={options.find(option => option.label === value) || null}
+          value={value}
           renderInput={(params) => (
             <TextField
               {...params}

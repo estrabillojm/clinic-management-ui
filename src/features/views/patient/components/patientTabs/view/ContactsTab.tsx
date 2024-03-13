@@ -1,15 +1,15 @@
-import AutoComplete from "../../../../components/shared/form/AutoComplete";
-import Input from "../../../../components/shared/form/Input";
+import AutoComplete from "../../../../../components/shared/form/AutoComplete";
+import Input from "../../../../../components/shared/form/Input";
 
-const ContactsTab = () => {
+const ContactsTab = ({ patientDetails }: any) => {
   return (
     <>
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-5">
-          <Input type="email" label="Email" fieldName="email" />
+          <Input type="email" label="Email" fieldName="email" defaultValue={patientDetails.email} />
         </div>
         <div className="col-span-4">
-          <Input type="text" label="Contact" fieldName="contact" />
+          <Input type="text" label="Contact" fieldName="contact"  defaultValue={patientDetails.contact}/>
         </div>
       </div>
       <div className="grid grid-cols-12 gap-4 pb-2">

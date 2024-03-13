@@ -7,6 +7,12 @@ export const patientApi = apiService.injectEndpoints({
                 url: `/patients/0b0e5cc1-44e0-4147-904e-e59075278ff7` // TODO : REPLACE UUID AS A VARIABLE
             }),
             providesTags: ["Patients"],
+        }),
+        getPatientDetails: builder.query({
+            query: (props) => ({
+                url: `/patients/details/${props.patientId}`
+            }),
+            providesTags: ["PatientDetails"],
         })
 
     })
@@ -14,4 +20,5 @@ export const patientApi = apiService.injectEndpoints({
 
 export const {
     useGetPatientListQuery,
+    useGetPatientDetailsQuery,
 } = patientApi;
