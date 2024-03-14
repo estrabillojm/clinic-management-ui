@@ -10,6 +10,7 @@ import enumSlice from "./enums/enumSlice";
 import adminTabSlice from "./features/adminTabSlice";
 import patientHistorySlice from "./features/patientHistorySlice";
 import actionTypeSlice from "./features/actionTypeSlice";
+import patientSlice from "./features/patientSlice";
 //   import { loginApi } from "./api/loginApi";
   
   const reducer = combineReducers({
@@ -22,6 +23,7 @@ import actionTypeSlice from "./features/actionTypeSlice";
     patientHistories: patientHistorySlice,
     enum: enumSlice,
     actionType: actionTypeSlice,
+    patientDetails: patientSlice,
   });
   export const setupStore = () =>
     configureStore({

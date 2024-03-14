@@ -10,6 +10,7 @@ import PatientList from "./views/patient/PatientList";
 import ViewPatient from "./views/patient/ViewPatient";
 import AddPatient from "./views/patient/AddPatient";
 import UserAdministratorPage from "./views/administrator/UserAdministratorPage";
+import EditPatient from "./views/patient/EditPatient";
 
 type PrivateRouteProps = {
   element: React.ReactNode | null;
@@ -43,7 +44,7 @@ const routes = createBrowserRouter([
         { path: "patients/list/:branchId", element: <PrivateRoute element={<PatientList />} /> },
         { path: "patient/:patientId/info", element: <PrivateRoute element={<ViewPatient />} /> },
         { path: "patient/add/new", element: <PrivateRoute element={<AddPatient />} /> },
-        { path: "patient/:patientId/add/transaction", element: <PrivateRoute element={<AddPatient />} /> },
+        { path: "patient/:patientId/add/transaction", element: <PrivateRoute element={<EditPatient />} /> },
         // ADD MULTIPLE IF NEEDED
     ],
   },

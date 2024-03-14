@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/dumb/loader/Loader";
 import { useDispatch } from "react-redux";
 import { login as loginSlice } from "../../../redux/features/userSlice"; 
-import Leaf from "../../components/svgs/leaf";
-import Logo from "../../components/svgs/logo";
 import Input from "../../components/shared/form/Input";
 
 const LoginPage = () => {
@@ -54,16 +52,16 @@ const LoginPage = () => {
       {isVerifying && isLoading ?
       <Loader/> :
       <div className={`bg-defaultBg min-h-[100vh] max-h-[100vh] min-w-[100vw] max-w-[100vw] box-border md:fixed`}>
-        <Leaf 
+        {/* <Leaf 
           className="absolute right-[-140px] bottom-0 h-[500px] rotate-12 md:block sm:hidden xs:hidden"
           />
         <Leaf 
           fill="#87d67c"
           className="absolute left-[-340px] top-[-200px] h-[800px] rotate-180 md:block sm:hidden xs:hidden"
-        />  
+        />   */}
           <Grid container className="h-[80vh] max-w-[80vw]">
             <Grid item xs={12} md={8} className="border-r border-gray-300  justify-center items-center md:flex sm:hidden xs:hidden">
-              <Logo/>
+              {/* <Logo/> */}
             </Grid>
             <Grid item xs={12} md={4} className="flex justify-center items-center">
               <Card

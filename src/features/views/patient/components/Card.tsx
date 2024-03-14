@@ -1,11 +1,14 @@
 type Props = {
-    isActive: boolean
+    isActive: boolean,
+    handleCardClick: () => void
 }
 
-const Card = ({ isActive } : Props) => {
+const Card = ({ isActive, handleCardClick } : Props) => {
+
+
     return ( 
         <>
-            <div className={`border rounded-md p-4 mt-4  ${isActive ? "bg-green-200 cursor-default" : "bg-yellow-100 cursor-pointer hover:bg-yellow-50 transition-all"}`}>
+            <div onClick={handleCardClick} className={`border rounded-md p-4 mt-4  ${isActive ? "bg-green-200 cursor-default" : "bg-yellow-100 cursor-pointer hover:bg-yellow-50 transition-all"}`}>
                 <section className="border-b border-green-400">
                     <h2 className="font-bold text-green-600">TR-04</h2>
                 </section>

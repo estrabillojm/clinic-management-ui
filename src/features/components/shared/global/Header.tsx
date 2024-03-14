@@ -10,11 +10,11 @@ export const Header = ({...props}:headerProps) => {
   return (
     <div className="mb-4 flex flex-col gap-2">
         <div className="flex justify-between items-center border-b border-gray-400">
-          <div className="flex flex-col">
+          <div className="flex flex-col flex-[.6] ">
             <span className="text-3xl">{props.title}</span>
             <span className="text-md text-gray-500 italic">{props.description}</span>
           </div>
-          <div>
+          <div className="flex-[.1]">
             {props.actions && props.actions}
             
           </div>

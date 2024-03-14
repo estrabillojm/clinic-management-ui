@@ -1,4 +1,4 @@
-import TextArea from "../../../../components/shared/form/TextArea";
+import TextArea from "../../../../../components/shared/form/TextArea";
 
 const SoapTab = ({ data } : any) => {
   return (

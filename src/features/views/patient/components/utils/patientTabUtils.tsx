@@ -1,23 +1,27 @@
 import { useSelector } from "react-redux";
-import ContactsTab from "../patientTabs/ContactsTab";
-import HistoryTab from "../patientTabs/HistoryTab";
-import PersonToNotifyTab from "../patientTabs/PersonToNotifyTab";
-import PersonalTab from "../patientTabs/PersonalTab";
-import PhysicianTab from "../patientTabs/PhysicianTab";
-import SoapTab from "../patientTabs/SoapTab";
-import VitalSignTab from "../patientTabs/VitalSignTab";
+import ContactsTab from "../patientTabs/view/ContactsTab";
+import HistoryTab from "../patientTabs/view/HistoryTab";
+import PersonToNotifyTab from "../patientTabs/view/PersonToNotifyTab";
+import PersonalTab from "../patientTabs/view/PersonalTab";
+import PhysicianTab from "../patientTabs/view/PhysicianTab";
+import SoapTab from "../patientTabs/view/SoapTab";
+import VitalSignTab from "../patientTabs/view/VitalSignTab";
+import { useEffect } from "react";
+
 
 const PatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
 
   const patientHistory = useSelector((state : any) => state.patientHistories.patientHistory)
-  
+  const patientDetails = useSelector((state : any) => state.patientDetails.patientDetails)
 
-
+  useEffect(() => {
+    console.log(patientHistory)
+  }, [patientHistory])
   switch (tabSelected) {
     case 0:
-      return <PersonalTab />;
+      return <PersonalTab data={patientHistory} patientDetails={patientDetails}/>; 
     case 1:
-      return <ContactsTab />;
+      return <ContactsTab data={patientHistory} patientDetails={patientDetails}/>;
     case 2:
       return <PersonToNotifyTab data={patientHistory}/>;
     case 3:
@@ -27,7 +31,7 @@ const PatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
     case 5:
       return <SoapTab data={patientHistory} />;
     case 6:
-      return <PhysicianTab />;
+      return <PhysicianTab data={patientHistory} />;
   }
 };
 

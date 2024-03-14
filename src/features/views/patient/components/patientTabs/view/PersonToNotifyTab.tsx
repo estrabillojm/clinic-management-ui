@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import AutoComplete from "../../../../components/shared/form/AutoComplete";
-import Input from "../../../../components/shared/form/Input";
+import AutoComplete from "../../../../../components/shared/form/AutoComplete";
+import Input from "../../../../../components/shared/form/Input";
 
 const PersonToNotifyTab = ({ data } : any) => {
   useEffect(() => {
