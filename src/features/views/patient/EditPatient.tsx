@@ -6,15 +6,17 @@ import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeade
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
-import PatientTabUtils from "./components/utils/patientTabUtils";
+import EditPatientTabUtils from "./components/utils/editPatientTabUtils";
 import { useEffect } from "react";
 import { setEdit } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
+import { useGetRecentPatientHistoryQuery, useLazyGetPatientHistoryQuery } from "../../../redux/api/patientHistory";
+import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -64,7 +66,7 @@ const Content = () => {
                 onSubmit={methods.handleSubmit(onSubmit as () => void)}
                 className="p-4"
               >
-                <PatientTabUtils tabSelected={tabSelected}/>
+                <EditPatientTabUtils tabSelected={tabSelected}/>
                 <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
                   <Button
                     variant="outlined"
@@ -101,12 +103,32 @@ const Content = () => {
 
 const ActionButton = () => {
   const navigate = useNavigate();
+  const { patientId } = useParams();
+  const dispatch = useDispatch();
+
+  const {
+    data: history,
+  } = useGetRecentPatientHistoryQuery({ patientId });
+
+  const [
+    getPatientHistory,
+    { isLoading: transactionLoading, isSuccess: transactionSuccess }
+  ] = useLazyGetPatientHistoryQuery();
+
+  const handleLoadTransaction = async () => {
+    await getPatientHistory(history.result.id)
+  }
+
+  useEffect(() => {
+    if (history && !transactionLoading && transactionSuccess) {
+      dispatch(setActivePatientHistory(history));
+    }
+  }, [history, transactionLoading, transactionSuccess]);
+
   return (
     <>
       <div className="flex flex-col">
-        <Link to="/patient/id-here/add">
-          <CustomButton text="Load Recent Transaction" type="button" color="#246068"/>
-        </Link>
+        <CustomButton text="Load Recent Transaction" type="button" color="#246068" onClick={handleLoadTransaction}/>
         <CustomButton text="Back" type="button" color="#383d39" onClick={() => navigate(-1)}/>
       </div>
     </>
@@ -124,7 +146,7 @@ const EditPatient = () => {
       Header={
         <Header
           title="Add Transaction - Existing Patient"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+          description="Welcome to the medical history addition form. This form allows you to provide detailed information about patient's medical history, which is essential for effective healthcare management."
           actions={<ActionButton/>}
         />
       }

@@ -14,7 +14,7 @@ export const Header = ({...props}:headerProps) => {
             <span className="text-3xl">{props.title}</span>
             <span className="text-md text-gray-500 italic">{props.description}</span>
           </div>
-          <div className="flex-[.1]">
+          <div className="flex-[.15]">
             {props.actions && props.actions}
             
           </div>

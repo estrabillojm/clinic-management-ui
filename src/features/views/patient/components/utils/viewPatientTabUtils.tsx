@@ -1,15 +1,14 @@
 import { useSelector } from "react-redux";
-import ContactsTab from "../patientTabs/view/ContactsTab";
-import HistoryTab from "../patientTabs/view/HistoryTab";
-import PersonToNotifyTab from "../patientTabs/view/PersonToNotifyTab";
-import PersonalTab from "../patientTabs/view/PersonalTab";
-import PhysicianTab from "../patientTabs/view/PhysicianTab";
-import SoapTab from "../patientTabs/view/SoapTab";
-import VitalSignTab from "../patientTabs/view/VitalSignTab";
+import ContactsTab from "../patientTabs/edit/ContactsTab";
+import HistoryTab from "../patientTabs/edit/HistoryTab";
+import PersonToNotifyTab from "../patientTabs/edit/PersonToNotifyTab";
+import PersonalTab from "../patientTabs/edit/PersonalTab";
+import PhysicianTab from "../patientTabs/edit/PhysicianTab";
+import SoapTab from "../patientTabs/edit/SoapTab";
+import VitalSignTab from "../patientTabs/edit/VitalSignTab";
 import { useEffect } from "react";
 
-
-const PatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
+const ViewPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
 
   const patientHistory = useSelector((state : any) => state.patientHistories.patientHistory)
   const patientDetails = useSelector((state : any) => state.patientDetails.patientDetails)
@@ -35,4 +34,4 @@ const PatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
   }
 };
 
-export default PatientTabUtils;
+export default ViewPatientTabUtils;

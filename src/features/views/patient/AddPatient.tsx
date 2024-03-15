@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
-import PatientTabUtils from "./components/utils/patientTabUtils";
+import ViewPatientTabUtils from "./components/utils/ViewPatientTabUtils";
 import { useEffect } from "react";
 import { setAdd } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
@@ -45,7 +45,7 @@ const Content = () => {
                 onSubmit={methods.handleSubmit(onSubmit as () => void)}
                 className="p-4"
               >
-                <PatientTabUtils tabSelected={tabSelected} />
+                <ViewPatientTabUtils tabSelected={tabSelected} />
                 <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
                   <Button
                     variant="outlined"
