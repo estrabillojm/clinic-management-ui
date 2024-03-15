@@ -9,7 +9,7 @@ const patientHistorySlice = createSlice({
   initialState,
   reducers: {
     setActivePatientHistory: (state, action) => {
-      state.patientHistory = action.payload.result
+      state.patientHistory = action.payload.result ?? {}
     }
   },
 });

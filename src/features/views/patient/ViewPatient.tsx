@@ -5,9 +5,8 @@ import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeade
 import { useDispatch, useSelector } from "react-redux";
 import Card from "./components/Card";
 import CustomButton from "../../components/shared/global/Button";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
-import PatientTabUtils from "./components/utils/patientTabUtils";
 import { useEffect, useState } from "react";
 import {
   useGetPatientHistoriesQuery,
@@ -20,6 +19,7 @@ import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
+import ViewPatientTabUtils from "./components/utils/viewPatientTabUtils";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -98,7 +98,7 @@ const Content = () => {
               <MenuWithHeader headers={headers} />
               <FormProvider {...methods}>
                 <form className="p-4">
-                  <PatientTabUtils tabSelected={tabSelected} />
+                  <ViewPatientTabUtils tabSelected={tabSelected} />
                   <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
                     <Button
                       variant="outlined"
@@ -155,12 +155,17 @@ const Content = () => {
 const ActionButton = () => {
   const navigate = useNavigate();
   const { patientId } = useParams();
+  const dispatch = useDispatch();
+
+  const handleAddTransaction = () => {
+    dispatch(setActivePatientHistory({ result: {}}));
+    navigate(`/patient/${patientId}/add/transaction`)
+  }
+
   return (
     <>
       <div className="flex flex-col">
-        <Link to={`/patient/${patientId}/add/transaction`}>
-          <CustomButton text="Add Transaction" type="button" color="#246068" />
-        </Link>
+        <CustomButton text="Add Transaction" type="button" color="#246068" onClick={handleAddTransaction}/>
         <CustomButton
           text="Back"
           type="button"
