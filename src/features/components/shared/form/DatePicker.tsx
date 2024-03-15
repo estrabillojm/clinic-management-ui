@@ -19,6 +19,7 @@ interface Props {
   disabled?: boolean;
   disablePast?: boolean;
   defaultValue?: Dayjs | null;
+  isRequired?: boolean;
 }
 
 const DatePicker = ({
@@ -27,18 +28,27 @@ const DatePicker = ({
   maxDate = null,
   minDate = null,
   disablePast = false,
-  defaultValue = null
+  defaultValue = null,
+  isRequired = false
   //errors, // Add errors prop here
 }: Props) => {
   const { control } = useFormContext();
   const actionType = useSelector((state: any) => state.actionType.actionType)
+
+  const requiredValidations = () => {
+    if(isRequired){
+      return { required: `${label} field is required` };
+    }
+    return { required: undefined };
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Controller
         name={fieldName}
         control={control}
         defaultValue={defaultValue}
-        // rules={{ required: 'This field is required' }}
+        rules={requiredValidations()}
         render={({ field }) => (
           <DesktopDatePicker
             {...field}

@@ -74,7 +74,7 @@ const PatientList = () => {
       Header={
         <Header
           title="Patients List"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+          description="Welcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently. "
           actions={<ActionButton/>}
         />
       }

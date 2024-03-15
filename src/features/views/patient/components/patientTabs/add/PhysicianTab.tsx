@@ -49,15 +49,13 @@ const PhysicianTab = ({ data }: any) => {
           <div className="col-span-4">
             <AutoComplete
               label="Physician"
-              fieldName="physicianId"
-              isRequired={false}
+              fieldName="physician"
+              isRequired={true}
               options={physicianList}
-              defaultValue={data.physicianId}
             />
           </div>
           <div className="col-span-6">
             <TextArea label="Remarks" fieldName="remarks" 
-            defaultValue={data.physicianRemarks}
             />
           </div>
         </div>
