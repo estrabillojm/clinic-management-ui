@@ -8,6 +8,7 @@ type Props = {
   fieldName: string;
   type?: string;
   defaultValue?: string;
+  isRequired?: boolean;
 };
 
 const TextArea: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const TextArea: React.FC<Props> = ({
   fieldName,
   type = "text",
   defaultValue = "",
+  isRequired = false
 }) => {
   const { control } = useFormContext();
   const actionType = useSelector((state: any) => state.actionType.actionType);
@@ -28,6 +30,13 @@ const TextArea: React.FC<Props> = ({
     setValue(newValue);
   };
 
+  const requiredValidations = () => {
+    if(isRequired){
+      return { required: `${label} field is required` };
+    }
+    return { required: undefined };
+  }
+
   return (
     <>
       <Controller
@@ -35,7 +44,7 @@ const TextArea: React.FC<Props> = ({
         control={control}
         defaultValue={defaultValue ?? ""}
         disabled={actionType === "View"}
-        rules={{ required: false }}
+        rules={requiredValidations()}
         render={({ field, fieldState: { error } }) => (
           <TextField
             {...field}

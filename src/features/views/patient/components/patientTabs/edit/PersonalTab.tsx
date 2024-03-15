@@ -14,11 +14,7 @@ const PersonalTab = ({ data, patientDetails }: any) => {
         <>
           <div className="grid grid-cols-12 gap-4 mb-8">
             <div className="col-span-3">
-              <Input
-                label="Last Name*"
-                fieldName="lastName"
-                defaultValue={patientDetails.lastName.toUpperCase()}
-              />
+              <Input label={"Last Name*"} fieldName={"lastName"} defaultValue={patientDetails.lastName.toUpperCase()} />
             </div>
             <div className="col-span-3">
               <Input label="First Name*" fieldName="firstName" defaultValue={patientDetails.firstName.toUpperCase()} />
@@ -52,7 +48,7 @@ const PersonalTab = ({ data, patientDetails }: any) => {
             <div className="col-span-2">
               <AutoComplete
                 label="Civil Status"
-                fieldName="status"
+                fieldName="civilStatus"
                 isRequired={false}
                 options={civilStatus}
                 defaultValue={patientDetails.civilStatus}
@@ -70,7 +66,7 @@ const PersonalTab = ({ data, patientDetails }: any) => {
             <div className="col-span-4">
               <AutoComplete
                 label="Province*"
-                fieldName="province"
+                fieldName="birthPlaceProvinceId"
                 isRequired={false}
                 options={[]}
               />
@@ -78,7 +74,7 @@ const PersonalTab = ({ data, patientDetails }: any) => {
             <div className="col-span-4">
               <AutoComplete
                 label="City / Municipality*"
-                fieldName="city"
+                fieldName="birthPlaceCityId"
                 isRequired={false}
                 options={[]}
               />

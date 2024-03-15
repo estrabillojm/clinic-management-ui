@@ -10,24 +10,14 @@ const PersonToNotifyTab = ({ data } : any) => {
     <>
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-3">
-          <Input type="text" label="Last Name" fieldName="notifyLastName" defaultValue={data.notifyPhone}/>
-        </div>
-
-        <div className="col-span-3">
-          <Input type="text" label="First Name" fieldName="notifyFirstName" defaultValue={data.notifyPhone}/>
-        </div>
-      </div>
-      <div className="grid grid-cols-12 gap-4 mb-8">
-        <div className="col-span-3">
-          <Input type="text" label="Emergency Contact Number" fieldName="notifyPhone" defaultValue={data.notifyPhone}/>
+          <Input type="text" label="Emergency Contact Number" fieldName="contact"/>
         </div>
         <div className="col-span-3">
           <AutoComplete
             label="Relation to Patient"
-            fieldName="notifyRelation"
+            fieldName="relationship"
             isRequired={false}
             options={[]}
-            defaultValue={data.notifyRelation}
           />
         </div>
         
@@ -40,7 +30,7 @@ const PersonToNotifyTab = ({ data } : any) => {
         <div className="col-span-4">
           <AutoComplete
             label="Province*"
-            fieldName="notifyProvinceId"
+            fieldName="province"
             isRequired={false}
             options={[]}
           />
@@ -48,20 +38,25 @@ const PersonToNotifyTab = ({ data } : any) => {
         <div className="col-span-4">
           <AutoComplete
             label="City / Municipality*"
-            fieldName="notifyCityId"
+            fieldName="city"
             isRequired={false}
             options={[]}
           />
         </div>
         <div className="col-span-4">
-          <Input label="Barangay" fieldName="notifyBarangay" />
+          <AutoComplete
+            label="Barangay"
+            fieldName="city"
+            isRequired={false}
+            options={[]}
+          />
         </div>
       </div>
 
 
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-8">
-          <Input label="Street" fieldName="notifyStreet" />
+          <Input label="House/Bldg floor/Street" fieldName="street" />
         </div>
       </div>
     </>

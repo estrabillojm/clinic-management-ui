@@ -8,15 +8,14 @@ import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
-import ViewPatientTabUtils from "./components/utils/ViewPatientTabUtils";
 import { useEffect } from "react";
 import { setAdd } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
+import AddPatientTabUtils from "./components/utils/addPatientTabUtils";
 
 const Content = () => {
   const dispatch = useDispatch();
-  const actionType = useSelector((state: any) => state.actionType.actionType);
   const headers = useSelector((state: headerProps) => state.patients.tabs);
   const tabSelected = useSelector(
     (state: tabSelectedProps) => state.patients.tabSelected
@@ -24,14 +23,18 @@ const Content = () => {
 
   const methods = useForm();
   const onSubmit = (data: UserTypes, error: any): void => {
-    console.log(error);
+    // ADD HISTORIES HERE AND DISPATCH THE ARRAY OF HISTORIES IN HISTORYTAB COMPONENT
+    console.log(data);
+    if(error){
+      return;
+    }
     let formattedDate = "";
     if (data.dateOfBirth && "$d" in data.dateOfBirth) {
       formattedDate = dayjs(data.dateOfBirth.$d).format("L");
     } else {
       formattedDate = dayjs(data.dateOfBirth).format("L");
     }
-    console.log({ ...data, dateOfBirth: formattedDate });
+    // console.log({ ...data, dateOfBirth: formattedDate });
   };
 
   return (
@@ -45,7 +48,7 @@ const Content = () => {
                 onSubmit={methods.handleSubmit(onSubmit as () => void)}
                 className="p-4"
               >
-                <ViewPatientTabUtils tabSelected={tabSelected} />
+                <AddPatientTabUtils tabSelected={tabSelected} />
                 <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
                   <Button
                     variant="outlined"
@@ -61,18 +64,14 @@ const Content = () => {
                   <Button
                     variant={tabSelected === 6 ? "contained" : "outlined"}
                     color="success"
-                    type="submit"
+                    type={tabSelected === 6 ? "submit" : "button"}
                     onClick={() =>
                       tabSelected < 6
                         ? dispatch(setTabSelected(tabSelected + 1))
                         : dispatch(setTabSelected(tabSelected))
                     }
                   >
-                    {tabSelected === 6 && actionType === "Add" // SET BUTTON LABEL TO SAVE IF THE ACTION WAS TO ADD NEW PATIENT
-                      ? "Save"
-                      : tabSelected === 6 && actionType === "Edit" // SET BUTTON LABEL TO UPDATE IF THE ACTION WAS TO EDIT
-                        ? "Update"
-                        : "Next"}
+                    {tabSelected === 6 ? "Save" : "Next"}
                   </Button>
                 </div>
               </form>

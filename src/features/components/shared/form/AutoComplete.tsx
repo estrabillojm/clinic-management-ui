@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -41,11 +41,18 @@ const AutoComplete: React.FC<Props> = ({
     setValue(newValue);
   };
 
+  const requiredValidations = () => {
+    if(isRequired){
+      return { required: `${label} field is required` };
+    }
+    return { required: undefined };
+  }
+
   return (
     <Controller
       name={fieldName}
       control={control}
-      rules={{ required: isRequired }}
+      rules={requiredValidations()}
       defaultValue={defaultValue ?? ""}
       render={({ field: { onChange }, fieldState: { error } }) => (
         <Autocomplete

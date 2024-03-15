@@ -45,14 +45,21 @@ const Content = () => {
   }, [patientDetails, detailsLoading, detailsSuccess]);
 
   const methods = useForm();
-  const onSubmit = (data: UserTypes): void => {
+  const onSubmit = (data: UserTypes, error: any): void => {
+    if(error){
+      return;
+    }
     let formattedDate = "";
     if ("$d" in data.dateOfBirth) {
       formattedDate = dayjs(data.dateOfBirth.$d).format("L")
     } else {
       formattedDate = dayjs(data.dateOfBirth).format("L")
     }
-    console.log({...data, dateOfBirth: formattedDate})
+    // ADD HISTORIES HERE AND DISPATCH THE ARRAY OF HISTORIES IN HISTORYTAB COMPONENT
+    console.log({...data, 
+      physicianRemarksHeightUnit: "cm",
+      physicianRemarksWeightUnit: "kg",
+      dateOfBirth: formattedDate})
   };
 
   return (
