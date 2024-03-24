@@ -15,6 +15,7 @@ type Props = {
   isRequired?: boolean;
   options: Option[];
   defaultValue?: string;
+  onAutoCompleteChange?: (payload : any) => void | null,
 };
 
 const AutoComplete: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const AutoComplete: React.FC<Props> = ({
   isRequired = false,
   options,
   defaultValue = "",
+  onAutoCompleteChange = null
 }) => {
   const { control } = useFormContext();
   const actionType = useSelector((state: any) => state.actionType.actionType);
@@ -54,7 +56,7 @@ const AutoComplete: React.FC<Props> = ({
       control={control}
       rules={requiredValidations()}
       defaultValue={defaultValue ?? ""}
-      render={({ field: { onChange }, fieldState: { error } }) => (
+      render={({ field: { onChange }, fieldState: { error } } : any) => (
         <Autocomplete
           disablePortal
           disabled={actionType === "View"}
@@ -62,11 +64,15 @@ const AutoComplete: React.FC<Props> = ({
           options={options}
           getOptionLabel={(option: Option) => option.label}
           onChange={(event: any, newValue: Option | null) => {
+            console.log(event);
             onChange(newValue ? newValue.value : '');
             handleValueChange(newValue);
+            if(onAutoCompleteChange){
+              onAutoCompleteChange(newValue)
+            }
           }}
           value={value}
-          renderInput={(params) => (
+          renderInput={(params: any) => (
             <TextField
               {...params}
               label={label}

@@ -33,24 +33,50 @@ const Content = () => {
   );
 
   const { patientId } = useParams();
-  const {
-    data: history,
-    isLoading,
-    isSuccess,
-  } = useGetRecentPatientHistoryQuery({ patientId });
-
+  // GET HISTORIES
   const {
     data: histories,
     isLoading: historiesLoading,
     isSuccess: historiesSuccess,
   } = useGetPatientHistoriesQuery({ patientId });
+  // END GET ALL HISTORIES
 
+  // PATIENT DETAILS
   const {
     data: patientDetails,
     isLoading: detailsLoading,
     isSuccess: detailsSuccess,
   } = useGetPatientDetailsQuery({ patientId });
 
+  useEffect(() => {
+    if (patientDetails && !detailsLoading && detailsSuccess) {
+      dispatch(setActivePatient(patientDetails));
+    }
+  }, [patientDetails, detailsLoading, detailsSuccess]);
+  // END PATIENT DETAILS
+
+
+  const [activeCard, setActiveCard] = useState(null);
+
+  // GET RECENT PATIENT HISTORY
+  const {
+    data: history,
+    isLoading,
+    isSuccess,
+  } = useGetRecentPatientHistoryQuery({ patientId });
+
+  useEffect(() => {
+    if (history && !isLoading && isSuccess) {
+      dispatch(setActivePatientHistory(history));
+      let recentHistory = history.result;
+      setActiveCard(recentHistory?.id);
+    }
+  }, [history, isLoading, isSuccess]);
+  // END GET PATIENT HISTORY
+
+  const methods = useForm();
+
+  // GET HISTORY BY HISTORY ID
   const [
     getPatientHistory,
     {
@@ -60,34 +86,18 @@ const Content = () => {
     },
   ] = useLazyGetPatientHistoryQuery();
 
-  const [activeCard, setActiveCard] = useState(null);
-
-  useEffect(() => {
-    if (history && !isLoading && isSuccess) {
-      dispatch(setActivePatientHistory(history));
-      let recentHistory = history.result;
-      setActiveCard(recentHistory?.id);
-    }
-  }, [history, isLoading, isSuccess]);
-
-  useEffect(() => {
-    if (patientDetails && !detailsLoading && detailsSuccess) {
-      dispatch(setActivePatient(patientDetails));
-    }
-  }, [patientDetails, detailsLoading, detailsSuccess]);
-
-  const methods = useForm();
-
-  const handleCardClick = async (history: any) => {
-    setActiveCard(history?.id);
-    await getPatientHistory(history.id);
-  };
-
   useEffect(() => {
     if(patientHistory && !patientHistoryLoading && patientHistorySuccess){
       dispatch(setActivePatientHistory(patientHistory));
     }
   }, [patientHistory])
+
+  // END GET HISTORY BY HISTORY ID
+
+  const handleCardClick = async (history: any) => {
+    setActiveCard(history?.id);
+    await getPatientHistory(history.id);
+  };
 
   return (
     <>

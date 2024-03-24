@@ -6,7 +6,6 @@ import PersonalTab from "../patientTabs/edit/PersonalTab";
 import PhysicianTab from "../patientTabs/edit/PhysicianTab";
 import SoapTab from "../patientTabs/edit/SoapTab";
 import VitalSignTab from "../patientTabs/edit/VitalSignTab";
-import { useEffect } from "react";
 
 
 const EditPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
@@ -14,25 +13,29 @@ const EditPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
   const patientHistory = useSelector((state : any) => state.patientHistories.patientHistory)
   const patientDetails = useSelector((state : any) => state.patientDetails.patientDetails)
 
-  useEffect(() => {
-    console.log(patientHistory)
-  }, [patientHistory])
-  switch (tabSelected) {
-    case 0:
-      return <PersonalTab data={patientHistory} patientDetails={patientDetails}/>; 
-    case 1:
-      return <ContactsTab data={patientHistory} patientDetails={patientDetails}/>;
-    case 2:
-      return <PersonToNotifyTab data={patientHistory}/>;
-    case 3:
-      return <VitalSignTab data={patientHistory} />;
-    case 4:
-      return <HistoryTab data={patientHistory} />;
-    case 5:
-      return <SoapTab data={patientHistory} />;
-    case 6:
-      return <PhysicianTab data={patientHistory} />;
-  }
+  return (
+    <>
+      {
+        patientHistory && patientDetails && <>
+          <PersonalTab data={patientHistory} patientDetails={patientDetails} selectedTab={tabSelected}/>
+          <ContactsTab data={patientHistory} patientDetails={patientDetails} selectedTab={tabSelected}/>
+          <PersonToNotifyTab data={patientHistory} selectedTab={tabSelected}/>
+          <VitalSignTab data={patientHistory} selectedTab={tabSelected}/>
+          <HistoryTab data={patientHistory} selectedTab={tabSelected}/>
+          <SoapTab data={patientHistory} selectedTab={tabSelected}/>
+          <PhysicianTab data={patientHistory} selectedTab={tabSelected}/>
+        </>
+      }
+
+      {/* 
+      
+      
+      
+       */}
+    </>
+  )
+
+  
 };
 
 export default EditPatientTabUtils;
