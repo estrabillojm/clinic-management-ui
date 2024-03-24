@@ -1,10 +1,11 @@
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
 
-const ContactsTab = ({ patientDetails }: any) => {
+const ContactsTab = ({ patientDetails, selectedTab }: any) => {
   return (
     <>
-      <div className="grid grid-cols-12 gap-4 mb-8">
+    <div className={`${selectedTab === 1 ? "" : "hidden"}`}>
+      <div className={`grid grid-cols-12 gap-4 mb-8`}>
         <div className="col-span-5">
           <Input type="email" label="Email" fieldName="email" defaultValue={patientDetails.email} />
         </div>
@@ -49,6 +50,7 @@ const ContactsTab = ({ patientDetails }: any) => {
         <div className="col-span-9">
           <Input label="House/Bldg floor/Street" fieldName="street" />
         </div>
+      </div>
       </div>
     </>
   );

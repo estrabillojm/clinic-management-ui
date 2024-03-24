@@ -4,7 +4,7 @@ import { UserTypes } from "../../../types/users";
 import { FormProvider, useForm } from "react-hook-form";
 import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
 import { useDispatch, useSelector } from "react-redux";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
@@ -28,12 +28,13 @@ const Content = () => {
     if(error){
       return;
     }
-    let formattedDate = "";
-    if (data.dateOfBirth && "$d" in data.dateOfBirth) {
-      formattedDate = dayjs(data.dateOfBirth.$d).format("L");
-    } else {
-      formattedDate = dayjs(data.dateOfBirth).format("L");
-    }
+    // let formattedDate;
+    // formattedDate = "";
+    // if (data.dateOfBirth && "$d" in data.dateOfBirth) {
+    //   formattedDate = dayjs(data.dateOfBirth.$d).format("L");
+    // } else {
+    //   formattedDate = dayjs(data.dateOfBirth).format("L");
+    // }
     // console.log({ ...data, dateOfBirth: formattedDate });
   };
 

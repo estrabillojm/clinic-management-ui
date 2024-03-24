@@ -15,7 +15,7 @@ type PhysicianList = {
   value: string;
 };
 
-const PhysicianTab = ({ data }: any) => {
+const PhysicianTab = ({ data, selectedTab }: any) => {
   const {
     data: physicians,
     isLoading,
@@ -45,7 +45,7 @@ const PhysicianTab = ({ data }: any) => {
       {isLoading ? (
         <h3>Loading Data</h3> // Create a loader for the content
       ) : (
-        <div className="grid grid-cols-12 gap-4 mb-8">
+        <div className={`grid grid-cols-12 gap-4 mb-8 ${selectedTab === 6 ? "block" : "hidden"}`}>
           <div className="col-span-4">
             <AutoComplete
               label="Physician"

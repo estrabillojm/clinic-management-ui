@@ -17,6 +17,8 @@ import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import { useGetRecentPatientHistoryQuery, useLazyGetPatientHistoryQuery } from "../../../redux/api/patientHistory";
 import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
+import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
+import { mapProvinces } from "../../../redux/features/addressSlice";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -45,10 +47,7 @@ const Content = () => {
   }, [patientDetails, detailsLoading, detailsSuccess]);
 
   const methods = useForm();
-  const onSubmit = (data: UserTypes, error: any): void => {
-    if(error){
-      return;
-    }
+  const onSubmit = (data: UserTypes): void => {
     let formattedDate = "";
     if ("$d" in data.dateOfBirth) {
       formattedDate = dayjs(data.dateOfBirth.$d).format("L")
@@ -131,6 +130,20 @@ const ActionButton = () => {
       dispatch(setActivePatientHistory(history));
     }
   }, [history, transactionLoading, transactionSuccess]);
+
+    // GET PROVINCE
+    const {
+      data: provinces,
+      isLoading: isProvincesLoading,
+      isSuccess: isProvincesSuccess,
+    } = useGetAllProvincesQuery(null);
+  
+    useEffect(() => {
+      if (provinces && !isProvincesLoading && isProvincesSuccess) {
+        dispatch(mapProvinces(provinces));
+      }
+    }, [provinces, isProvincesLoading, isProvincesSuccess]);
+    // END GET PROVINCE
 
   return (
     <>

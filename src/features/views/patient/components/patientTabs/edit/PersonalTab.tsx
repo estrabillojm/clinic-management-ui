@@ -1,18 +1,49 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import DatePicker from "../../../../../components/shared/form/DatePicker";
 import Input from "../../../../../components/shared/form/Input";
 import dayjs from "dayjs";
+import { setPersonalProvinceId } from "../../../../../../redux/features/addressSlice";
+import { useEffect, useState } from "react";
+import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
+import { City, Province } from "../../../../../../types/address";
 
-const PersonalTab = ({ data, patientDetails }: any) => {
+const PersonalTab = ({ data, patientDetails, selectedTab }: any) => {
   const gender = useSelector((state: any) => state.enum.gender);
   const civilStatus = useSelector((state: any) => state.enum.status);
+  const provinces = useSelector((state: any) => state.address.provinces);
+  const selectedProvince = useSelector((state: any) => state.address.personalProvinceId);
+
+  const dispatch = useDispatch();
+
+  const handleProvinceChange = (province: Province) => {
+    dispatch(setPersonalProvinceId({provinceId: province?.value}));
+  };
+
+  const [getCitiesByProvince, { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading}] = useLazyGetCitiesByProvinceQuery();
+  useEffect(() => {
+    if(selectedProvince){
+      getCitiesByProvince(selectedProvince);
+    }
+  }, [selectedProvince]);
+
+  const [transformedCities, setTransformedCities] = useState([]);
+  useEffect(() => {
+    if(cities && isCitiesSuccess && !isCitiesLoading){
+      setTransformedCities(() => cities.results.map((city : City) => {
+        return {
+          label: city.name,
+          value: city.code
+        }
+      }))
+    }
+  }, [cities, isCitiesSuccess, isCitiesLoading])
 
   return (
     <>
       {patientDetails && data && (
-        <>
-          <div className="grid grid-cols-12 gap-4 mb-8">
+        <div className={`${selectedTab === 0 ? "block" : "hidden"}`}>
+          <div className="grid grid-cols-12 gap-4 mb-8" >
             <div className="col-span-3">
               <Input label={"Last Name*"} fieldName={"lastName"} defaultValue={patientDetails.lastName.toUpperCase()} />
             </div>
@@ -68,7 +99,10 @@ const PersonalTab = ({ data, patientDetails }: any) => {
                 label="Province*"
                 fieldName="birthPlaceProvinceId"
                 isRequired={false}
-                options={[]}
+                options={provinces}
+                onAutoCompleteChange={(province: Province) =>
+                  handleProvinceChange(province)
+                }
               />
             </div>
             <div className="col-span-4">
@@ -76,11 +110,11 @@ const PersonalTab = ({ data, patientDetails }: any) => {
                 label="City / Municipality*"
                 fieldName="birthPlaceCityId"
                 isRequired={false}
-                options={[]}
+                options={transformedCities.length && isCitiesSuccess && !isCitiesLoading && selectedProvince ? transformedCities : []}
               />
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );

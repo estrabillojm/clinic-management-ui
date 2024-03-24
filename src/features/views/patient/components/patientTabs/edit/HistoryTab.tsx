@@ -3,7 +3,7 @@ import CheckBox from "../../../../../components/shared/form/CheckBox";
 import TextArea from "../../../../../components/shared/form/TextArea";
 import { useEffect, useState } from "react";
 
-const HistoryTab = ({ data }: any) => {
+const HistoryTab = ({ data, selectedTab }: any) => {
   const [socialHistories, setSocialHistories] = useState<string[]>([]);
   const [pastHistories, setPastHistories] = useState<string[]>([]);
   const [familyHistories, setFamilyHistories] = useState<string[]>([]);
@@ -56,7 +56,7 @@ const HistoryTab = ({ data }: any) => {
 
   return (
     <>
-      <div className="grid grid-cols-12 gap-8 mb-8">
+      <div className={`grid grid-cols-12 gap-8 mb-8 ${selectedTab === 4 ? "block" : "hidden"}`}>
         <div className="col-span-4 border-r border-gray-300 px-5">
           <FormGroup>
             <CheckBox
