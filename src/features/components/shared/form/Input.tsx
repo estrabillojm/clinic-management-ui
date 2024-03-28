@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -12,48 +12,37 @@ type Props = {
 }
 
 const Input = ({ label, fieldName, type="text", defaultValue="", isRequired=false } : Props) => {
-    const { control } = useFormContext();
+    const { control, setValue } = useFormContext();
     const actionType = useSelector((state: any) => state.actionType.actionType);
-    const [value, setValue] = useState(defaultValue || "");
 
     useEffect(() => {
-        setValue(defaultValue || "");
-    }, [defaultValue]);
+        setValue(fieldName, defaultValue); 
+    }, [defaultValue, setValue, fieldName]);
 
-    const handleValueChange = (newValue: string) => {
-        setValue(newValue);
-    };
-
-    const requiredValidations = () => {
-        if(isRequired){
-          return { required: `${label} field is required` };
-        }
-        return { required: undefined };
-      }
+    const requiredValidations = isRequired ? { required: `${label} field is required` } : {};
 
     return ( 
-        <>
-            <Controller
-                name={fieldName}
-                control={control}
-                defaultValue={defaultValue}
-                rules={requiredValidations()}
-                disabled={actionType === "View"}
-                render={({ field, fieldState: { error } }) => (
-                    <TextField
-                        {...field}
-                        type={type}
-                        label={label}
-                        variant="outlined"
-                        error={!!error}
-                        helperText={error ? error.message : null}
-                        fullWidth
-                        value={value}
-                        onChange={(e) => handleValueChange(e.target.value)}
-                    />
-                )}
-            />
-        </>
+        <Controller
+            name={fieldName}
+            control={control}
+            defaultValue={defaultValue}
+            rules={requiredValidations}
+            render={({ field, fieldState: { error } }) => (
+                <TextField
+                    {...field}
+                    type={type}
+                    label={label}
+                    variant="outlined"
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                    fullWidth
+                    disabled={actionType === "View"}
+                    onChange={(e) => {
+                        field.onChange(e);
+                    }}
+                />
+            )}
+        />
     );
 }
 

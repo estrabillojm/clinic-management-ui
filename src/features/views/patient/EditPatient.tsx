@@ -95,7 +95,7 @@ const Content = () => {
                         : dispatch(setTabSelected(tabSelected))
                     }
                   >
-                    { tabSelected === 6 ? "Update" : "Next"}
+                    { tabSelected === 6 ? "Save Transaction" : "Next"}
                   </Button>
                 </div>
               </form>
