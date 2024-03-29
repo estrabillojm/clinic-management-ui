@@ -6,18 +6,26 @@ import PersonalTab from "../patientTabs/edit/PersonalTab";
 import PhysicianTab from "../patientTabs/edit/PhysicianTab";
 import SoapTab from "../patientTabs/edit/SoapTab";
 import VitalSignTab from "../patientTabs/edit/VitalSignTab";
-
+import { useEffect, useState } from "react";
 
 const EditPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
 
   const patientHistory = useSelector((state : any) => state.patientHistories.patientHistory)
   const patientDetails = useSelector((state : any) => state.patientDetails.patientDetails)
 
+  const formValidator = useSelector(
+    (state: any) => state.patientValidator.invalidFields
+  );
+  const [requiredFields, setRequiredFields] = useState<String[]>([]);
+  useEffect(() => {
+    setRequiredFields(formValidator.map((field: any) => field.column));
+  }, [formValidator]);
+
   return (
     <>
       {
         patientHistory && patientDetails && <>
-          <PersonalTab data={patientHistory} patientDetails={patientDetails} selectedTab={tabSelected}/>
+          <PersonalTab data={patientHistory} patientDetails={patientDetails} selectedTab={tabSelected} requiredFields={requiredFields}/>
           <ContactsTab data={patientHistory} patientDetails={patientDetails} selectedTab={tabSelected}/>
           <PersonToNotifyTab data={patientHistory} selectedTab={tabSelected}/>
           <VitalSignTab data={patientHistory} selectedTab={tabSelected}/>
