@@ -37,8 +37,10 @@ const patientValidatorSlice = createSlice({
             { column: "gender", value: "Gender", tabIndex: 0 },
             { column: "civilStatus", value: "Civil Status", tabIndex: 0 },
             { column: "contact", value: "Contact Number", tabIndex: 1 },
-            { column: "birthPlaceProvinceId", value: "Birth Place - Province", tabIndex: 1 },
-            { column: "birthPlaceCityId", value: "Birth Place - City", tabIndex: 1 },
+            { column: "birthPlaceProvinceId", value: "Birth Place - Province", tabIndex: 0 },
+            { column: "birthPlaceCityId", value: "Birth Place - City", tabIndex: 0 },
+            { column: "province", value: "Address - Province", tabIndex: 1 },
+            { column: "city", value: "Address - City", tabIndex: 1 },
             { column: "physicianId", value: "Physician", tabIndex: 6 },
         ])
 
