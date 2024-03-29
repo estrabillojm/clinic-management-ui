@@ -2,23 +2,11 @@ import { useEffect, useState } from "react";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
 import TextArea from "../../../../../components/shared/form/TextArea";
-import InputChange from "../../../../../components/shared/form/InputChange";
 import calculateBMI from "../../../../../../utils/bmiCalculator";
 import { TextField } from "@mui/material";
 
 const VitalSignTab = ({ data, selectedTab }: any) => {
   const [bmi, setBmi] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
-
-  const handleWeightChange = (field: string, e: any) => {
-    if (field === "height") {
-      setHeight(e.target.value);
-    }
-    if (field === "weight") {
-      setWeight(e.target.value);
-    }
-  };
 
   useEffect(() => {
     if (data.physicianRemarksWeight && data.physicianRemarksHeight) {
@@ -28,49 +16,27 @@ const VitalSignTab = ({ data, selectedTab }: any) => {
     }
   }, [data.physicianRemarksWeight, data.physicianRemarksHeight]);
 
-  useEffect(() => {
-    if (height && weight) {
-      setBmi(calculateBMI(weight, height));
-    }
-  }, [height, weight]);
-
   return (
     <>
       <div className={`${selectedTab === 3 ? "block" : "hidden"}`}>
         <div className="grid grid-cols-12 gap-4 mb-8">
           <div className="col-span-2">
-            {data.physicianRemarksWeight ? (
               <Input
                 type="number"
                 label="Height (cm)*"
                 fieldName="physicianRemarksheight"
                 defaultValue={data.physicianRemarksHeight}
               />
-            ) : (
-              <InputChange
-                type="number"
-                label="Height (cm)*"
-                fieldName="physicianRemarksheight"
-                onChange={(e: any) => handleWeightChange("height", e)}
-              />
-            )}
+           
           </div>
           <div className="col-span-2">
-            {data.physicianRemarksWeight ? (
               <Input
                 type="number"
                 label="Weight (kg)*"
                 fieldName="physicianRemarksweight"
                 defaultValue={data.physicianRemarksWeight}
               />
-            ) : (
-              <InputChange
-                type="number"
-                label="Weight (kg)*"
-                fieldName="physicianRemarksweight"
-                onChange={(e: any) => handleWeightChange("weight", e)}
-              />
-            )}
+           
           </div>
 
           <div className="col-span-2">

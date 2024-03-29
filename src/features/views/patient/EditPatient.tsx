@@ -15,21 +15,28 @@ import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
-import { useGetRecentPatientHistoryQuery, useLazyGetPatientHistoryQuery } from "../../../redux/api/patientHistory";
+import {
+  useGetRecentPatientHistoryQuery,
+  useLazyGetPatientHistoryQuery,
+} from "../../../redux/api/patientHistory";
 import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
 import { mapProvinces } from "../../../redux/features/addressSlice";
+import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
+import EditPatientValidator from "./components/validator/editPatientValidator";
 
 const Content = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setEdit());
-  }, [])
-  const headers = useSelector(
-    (state: headerProps) => state.patients.tabs
-  );
+  }, []);
+  const headers = useSelector((state: headerProps) => state.patients.tabs);
   const tabSelected = useSelector(
     (state: tabSelectedProps) => state.patients.tabSelected
+  );
+
+  const formValidator = useSelector(
+    (state: any) => state.patientValidator.invalidFields
   );
 
   const { patientId } = useParams();
@@ -50,16 +57,28 @@ const Content = () => {
   const onSubmit = (data: UserTypes): void => {
     let formattedDate = "";
     if ("$d" in data.dateOfBirth) {
-      formattedDate = dayjs(data.dateOfBirth.$d).format("L")
+      formattedDate = dayjs(data.dateOfBirth.$d).format("L");
     } else {
-      formattedDate = dayjs(data.dateOfBirth).format("L")
+      formattedDate = dayjs(data.dateOfBirth).format("L");
     }
-    // ADD HISTORIES HERE AND DISPATCH THE ARRAY OF HISTORIES IN HISTORYTAB COMPONENT
-    console.log({...data, 
+    let formattedData = {
+      ...data,
       physicianRemarksHeightUnit: "cm",
       physicianRemarksWeightUnit: "kg",
-      dateOfBirth: formattedDate})
+      dateOfBirth: formattedDate,
+    };
+
+    dispatch(validatePatientForm({ patient: formattedData }));
+
+    // ADD HISTORIES HERE AND DISPATCH THE ARRAY OF HISTORIES IN HISTORYTAB COMPONENT
   };
+
+  useEffect(() => {
+    if (formValidator.length) {
+      console.log(formValidator);
+    } else {
+    }
+  }, [formValidator]);
 
   return (
     <>
@@ -72,7 +91,15 @@ const Content = () => {
                 onSubmit={methods.handleSubmit(onSubmit as () => void)}
                 className="p-4"
               >
-                <EditPatientTabUtils tabSelected={tabSelected}/>
+                {formValidator.length ? (
+                  <>
+                    <EditPatientValidator formValidator={formValidator}/>
+                  </>
+                ) : (
+                  <></>
+                )}
+
+                <EditPatientTabUtils tabSelected={tabSelected} />
                 <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
                   <Button
                     variant="outlined"
@@ -95,7 +122,7 @@ const Content = () => {
                         : dispatch(setTabSelected(tabSelected))
                     }
                   >
-                    { tabSelected === 6 ? "Save Transaction" : "Next"}
+                    {tabSelected === 6 ? "Save Transaction" : "Next"}
                   </Button>
                 </div>
               </form>
@@ -112,18 +139,16 @@ const ActionButton = () => {
   const { patientId } = useParams();
   const dispatch = useDispatch();
 
-  const {
-    data: history,
-  } = useGetRecentPatientHistoryQuery({ patientId });
+  const { data: history } = useGetRecentPatientHistoryQuery({ patientId });
 
   const [
     getPatientHistory,
-    { isLoading: transactionLoading, isSuccess: transactionSuccess }
+    { isLoading: transactionLoading, isSuccess: transactionSuccess },
   ] = useLazyGetPatientHistoryQuery();
 
   const handleLoadTransaction = async () => {
-    await getPatientHistory(history.result.id)
-  }
+    await getPatientHistory(history.result.id);
+  };
 
   useEffect(() => {
     if (history && !transactionLoading && transactionSuccess) {
@@ -131,29 +156,39 @@ const ActionButton = () => {
     }
   }, [history, transactionLoading, transactionSuccess]);
 
-    // GET PROVINCE
-    const {
-      data: provinces,
-      isLoading: isProvincesLoading,
-      isSuccess: isProvincesSuccess,
-    } = useGetAllProvincesQuery(null);
-  
-    useEffect(() => {
-      if (provinces && !isProvincesLoading && isProvincesSuccess) {
-        dispatch(mapProvinces(provinces));
-      }
-    }, [provinces, isProvincesLoading, isProvincesSuccess]);
-    // END GET PROVINCE
+  // GET PROVINCE
+  const {
+    data: provinces,
+    isLoading: isProvincesLoading,
+    isSuccess: isProvincesSuccess,
+  } = useGetAllProvincesQuery(null);
+
+  useEffect(() => {
+    if (provinces && !isProvincesLoading && isProvincesSuccess) {
+      dispatch(mapProvinces(provinces));
+    }
+  }, [provinces, isProvincesLoading, isProvincesSuccess]);
+  // END GET PROVINCE
 
   return (
     <>
       <div className="flex flex-col">
-        <CustomButton text="Load Recent Transaction" type="button" color="#246068" onClick={handleLoadTransaction}/>
-        <CustomButton text="Back" type="button" color="#383d39" onClick={() => navigate(-1)}/>
+        <CustomButton
+          text="Load Recent Transaction"
+          type="button"
+          color="#246068"
+          onClick={handleLoadTransaction}
+        />
+        <CustomButton
+          text="Back"
+          type="button"
+          color="#383d39"
+          onClick={() => navigate(-1)}
+        />
       </div>
     </>
-  )
-}
+  );
+};
 
 const EditPatient = () => {
   const dispatch = useDispatch();
@@ -167,7 +202,7 @@ const EditPatient = () => {
         <Header
           title="Add Transaction - Existing Patient"
           description="Welcome to the medical history addition form. This form allows you to provide detailed information about patient's medical history, which is essential for effective healthcare management."
-          actions={<ActionButton/>}
+          actions={<ActionButton />}
         />
       }
       Content={<Content />}
