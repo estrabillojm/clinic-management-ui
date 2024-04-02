@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import "./index.css";
-import { Sidebar } from "./features/components/Sidebar";
+import { useNavigate, useLocation } from "react-router-dom";
 
+import "./index.css";
 const App: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+  useEffect(() => {
+    if(pathname === "/"){
+     navigate("/login");
+    }
+  }, [pathname])
   return (
-    <main>
-      <Sidebar />
-      <div className="p-4 sm:ml-64">
-        <Outlet />
-      </div>
+    <main className="relative">
+      <Outlet />
     </main>
   );
 };
