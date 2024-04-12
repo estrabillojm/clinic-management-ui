@@ -3,7 +3,7 @@ import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import DatePicker from "../../../../../components/shared/form/DatePicker";
 import Input from "../../../../../components/shared/form/Input";
 import dayjs from "dayjs";
-import { setPersonalProvinceId } from "../../../../../../redux/features/addressSlice";
+import { setBirthPlaceProvinceId } from "../../../../../../redux/features/addressSlice";
 import { useEffect, useState } from "react";
 import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
 import { City, Province } from "../../../../../../types/address";
@@ -13,13 +13,13 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
   const civilStatus = useSelector((state: any) => state.enum.status);
   const provinces = useSelector((state: any) => state.address.provinces);
   const selectedProvince = useSelector(
-    (state: any) => state.address.personalProvinceId
+    (state: any) => state.address.birthPlaceProvinceId
   );
 
   const dispatch = useDispatch();
 
   const handleProvinceChange = (province: Province) => {
-    dispatch(setPersonalProvinceId({ provinceId: province?.value }));
+    dispatch(setBirthPlaceProvinceId({ provinceId: province?.value }));
   };
 
   const [
@@ -31,6 +31,13 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
       getCitiesByProvince(selectedProvince);
     }
   }, [selectedProvince]);
+
+  useEffect(() => {
+    if(patientDetails.birthPlaceProvinceId){
+      dispatch(setBirthPlaceProvinceId({ provinceId: patientDetails.birthPlaceProvinceId }));
+      getCitiesByProvince(patientDetails.birthPlaceProvinceId);
+    }
+  }, [patientDetails.birthPlaceProvinceId])
 
   const [transformedCities, setTransformedCities] = useState([]);
   useEffect(() => {
@@ -130,6 +137,7 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
                 onAutoCompleteChange={(province: Province) =>
                   handleProvinceChange(province)
                 }
+                defaultValue={patientDetails.birthPlaceProvinceId}
               />
             </div>
             <div className="col-span-4">
@@ -145,6 +153,7 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
                     ? transformedCities
                     : []
                 }
+                defaultValue={patientDetails.birthPlaceCityId}
               />
             </div>
           </div>

@@ -18,51 +18,41 @@ const TextArea: React.FC<Props> = ({
   defaultValue = "",
   isRequired = false
 }) => {
-  const { control } = useFormContext();
-  const actionType = useSelector((state: any) => state.actionType.actionType);
-  const [value, setValue] = useState(defaultValue ?? "");
+  const { control, setValue } = useFormContext();
+    const actionType = useSelector((state: any) => state.actionType.actionType);
 
-  useEffect(() => {
-    setValue(defaultValue ?? "");
-  }, [defaultValue]);
+    useEffect(() => {
+        setValue(fieldName, defaultValue); 
+    }, [defaultValue, setValue, fieldName]);
 
-  const handleValueChange = (newValue: string) => {
-    setValue(newValue);
-  };
+    const requiredValidations = isRequired ? { required: `${label} field is required` } : {};
 
-  const requiredValidations = () => {
-    if(isRequired){
-      return { required: `${label} field is required` };
-    }
-    return { required: undefined };
-  }
-
-  return (
-    <>
-      <Controller
-        name={fieldName}
-        control={control}
-        defaultValue={defaultValue ?? ""}
-        disabled={actionType === "View"}
-        rules={requiredValidations()}
-        render={({ field, fieldState: { error } }) => (
-          <TextField
-            {...field}
-            type={type}
-            label={label}
-            multiline
-            rows={3}
-            variant="outlined"
-            error={!!error}
-            helperText={error ? error.message : null}
-            fullWidth
-            value={value}
-            onChange={(e) => handleValueChange(e.target.value)}
-          />
-        )}
-      />
-    </>
-  );
+    return ( 
+        <Controller
+            name={fieldName}
+            control={control}
+            defaultValue={defaultValue}
+            rules={requiredValidations}
+            render={({ field, fieldState: { error } }) => (
+                <TextField
+                    {...field}
+                    type={type}
+                    label={label}
+                    variant="outlined"
+                    multiline
+                    minRows={3}
+                    maxRows={3}
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                    fullWidth
+                    disabled={actionType === "View"}
+                    onChange={(e) => {
+                        field.onChange(e);
+                    }}
+                />
+            )}
+        />
+    );
 };
 
 export default TextArea;

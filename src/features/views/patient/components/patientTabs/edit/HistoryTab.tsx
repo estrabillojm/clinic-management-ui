@@ -58,165 +58,174 @@ const HistoryTab = ({ data, selectedTab }: any) => {
     <>
       <div className={`grid grid-cols-12 gap-8 mb-8 ${selectedTab === 4 ? "block" : "hidden"}`}>
         <div className="col-span-4 border-r border-gray-300 px-5">
+          <div className="grid grid-cols-1 gap-4 pb-2">
+            <h3 className="text-primary font-semibold">Past History</h3>
+          </div>
           <FormGroup>
             <CheckBox
               label="Unremarkable"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("Unremarkable")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="HCVD"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("HCVD")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="CHD"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("CHD")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="CVA"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("CVA")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="Gut Disease"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("Gut Disease")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="Blood Disease"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("Blood Disease")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="Allergy"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("Allergy")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="Git Disease"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("Git Disease")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="Pulmo Disease"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("Pulmo Disease")}
               onChange={handleFamilyHistoryCheck}
             />
             <CheckBox
               label="CA"
-              fieldName="familyHistory"
+              fieldName="historiesPast"
               isChecked={familyHistories.includes("CA")}
               onChange={handleFamilyHistoryCheck}
             />
           </FormGroup>
-          <TextArea label="Other (Remarks)" fieldName="pastHistoryRemarks" />
+          <TextArea label="Other (Remarks)" fieldName="pastHistoryRemarks" defaultValue={data.historiesPastRemarks}/>
         </div>
 
         <div className="col-span-4 border-r border-gray-300 px-5">
+          <div className="grid grid-cols-1 gap-4 pb-2">
+            <h3 className="text-primary font-semibold">Family History</h3>
+          </div>
           <FormGroup>
             <CheckBox
               label="Unremarkable"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("Unremarkable")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="HCVD"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("HCVD")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="CHD"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("CHD")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="CVA"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("CVA")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="Gut Disease"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("Gut Disease")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="Blood Disease"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("Blood Disease")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="Allergy"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("Allergy")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="Git Disease"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("Git Disease")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="Pulmo Disease"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("Pulmo Disease")}
               onChange={handlePastHistoryCheck}
             />
             <CheckBox
               label="CA"
-              fieldName="pastHistory"
+              fieldName="historiesFamily"
               isChecked={pastHistories.includes("CA")}
               onChange={handlePastHistoryCheck}
             />
           </FormGroup>
-          <TextArea label="Other (Remarks)" fieldName="pastHistoryRemarks" />
+          <TextArea label="Other (Remarks)" fieldName="pastHistoryRemarks" defaultValue={data.historiesFamilyRemarks}/>
         </div>
 
         <div className="col-span-4">
+          <div className="grid grid-cols-1 gap-4 pb-2">
+            <h3 className="text-primary font-semibold">Social History</h3>
+          </div>
           <FormGroup>
             <CheckBox
               label="Smoking"
-              fieldName="pastHistory"
+              fieldName="historiesSocial"
               isChecked={socialHistories.includes("Smoking")}
               onChange={handleSocialHistoryCheck}
             />
             <CheckBox
               label="Alcohol Intake"
-              fieldName="pastHistory"
+              fieldName="historiesSocial"
               isChecked={socialHistories.includes("Alcohol Intake")}
               onChange={handleSocialHistoryCheck}
             />
             <CheckBox
               label="Betel Nut Chewing"
-              fieldName="pastHistory"
+              fieldName="historiesSocial"
               isChecked={socialHistories.includes("Betel Nut Chewing")}
               onChange={handleSocialHistoryCheck}
             />
             <CheckBox
               label="Drug or Food Allergy"
-              fieldName="pastHistory"
+              fieldName="historiesSocial"
               isChecked={socialHistories.includes("Drug or Food Allergy")}
               onChange={handleSocialHistoryCheck}
             />
           </FormGroup>
-          <TextArea label="Other (Remarks)" fieldName="pastHistoryRemarks" />
+          <TextArea label="Other (Remarks)" fieldName="pastHistoryRemarks" defaultValue={data.historiesSocialRemarks}/>
         </div>
       </div>
     </>

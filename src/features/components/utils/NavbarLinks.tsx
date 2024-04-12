@@ -1,5 +1,6 @@
-import { FaClinicMedical } from "react-icons/fa";
+import { FaClinicMedical, FaRegEye } from "react-icons/fa";
 import { FaUserShield, FaUserTag, FaTags, FaUsersGear, FaUserSecret } from "react-icons/fa6";
+import { MdHealthAndSafety } from "react-icons/md";
 
 interface NavbarLinkProps {
     page: string;
@@ -44,6 +45,16 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
                 name: 'System Roles',
                 link: '/AdministratorRoles',
                 icon: <FaUserTag />
+                },
+                {
+                    name: 'Optical',
+                    link: '/branches',
+                    icon: <FaRegEye />
+                },
+                {
+                    name: 'General Patient',
+                    link: '/branches',
+                    icon: <MdHealthAndSafety />
                 },
                 {
                     name: 'Branches',

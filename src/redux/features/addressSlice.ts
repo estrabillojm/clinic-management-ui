@@ -8,13 +8,15 @@ type Province = {
 
 type InitialState = {
   provinces: Province | [],
-  personalProvinceId: string | null,
+  birthPlaceProvinceId: string | null,
+  contactProvinceId: string | null,
   personToNotifyProvinceId: string | null,
 }
 
 const initialState: InitialState = {
   provinces: [],
-  personalProvinceId: null,
+  birthPlaceProvinceId: null,
+  contactProvinceId: null,
   personToNotifyProvinceId: null,
 };
 
@@ -32,16 +34,18 @@ const addressSlice = createSlice({
         })
       }
     },
-    setPersonalProvinceId: (state, action) => {
-      state.personalProvinceId = action.payload.provinceId
+    setBirthPlaceProvinceId: (state, action) => {
+      state.birthPlaceProvinceId = action.payload.provinceId
     },
     setPersonToNotifyProvinceId: (state, action) => {
-      console.log("ACTION", action.payload.provinceId)
       state.personToNotifyProvinceId = action.payload.provinceId
-    }
+    },
+    setContactProvinceId: (state, action) => {
+      state.contactProvinceId = action.payload.provinceId
+    },
   },
 });
 
-export const { mapProvinces, setPersonalProvinceId, setPersonToNotifyProvinceId } = addressSlice.actions;
+export const { mapProvinces, setBirthPlaceProvinceId, setPersonToNotifyProvinceId, setContactProvinceId } = addressSlice.actions;
 
 export default addressSlice.reducer;

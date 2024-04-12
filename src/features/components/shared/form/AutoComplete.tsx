@@ -33,9 +33,7 @@ const AutoComplete: React.FC<Props> = ({
   useEffect(() => {
     if (defaultValue) {
       const defaultOption = options.find(option => option.value === defaultValue);
-      setValue(defaultOption || null);
-    } else {
-      setValue(null);
+        setValue(defaultOption || null);
     }
   }, [defaultValue, options]);
 
