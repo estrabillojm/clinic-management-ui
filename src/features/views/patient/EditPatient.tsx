@@ -1,6 +1,6 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
-import { UserTypes } from "../../../types/users";
+// import { UserTypes } from "../../../types/users"; TODO: ADD TYPES HERE
 import { FormProvider, useForm } from "react-hook-form";
 import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,8 @@ import { setActivePatientHistory } from "../../../redux/features/patientHistoryS
 import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
 import { mapProvinces } from "../../../redux/features/addressSlice";
 import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
-import EditPatientValidator from "./components/validator/editPatientValidator";
+import EditPatientValidator from "./components/validator/EditPatientValidator";
+import { ternaryChecker } from "../../../utils/ternaryChecker";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,14 @@ const Content = () => {
 
   const formValidator = useSelector(
     (state: any) => state.patientValidator.invalidFields
+  );
+
+  const formData = useSelector(
+    (state: any) => state.patientValidator.patientDetails
+  );
+
+  const patientHistory = useSelector(
+    (state: any) => state.patientHistories.patientHistory
   );
 
   const { patientId } = useParams();
@@ -54,29 +63,31 @@ const Content = () => {
   }, [patientDetails, detailsLoading, detailsSuccess]);
 
   const methods = useForm();
-  const onSubmit = (data: UserTypes): void => {
+  const onSubmit = (data: any): void => {
     let formattedDate = "";
     if ("$d" in data.dateOfBirth) {
       formattedDate = dayjs(data.dateOfBirth.$d).format("L");
     } else {
       formattedDate = dayjs(data.dateOfBirth).format("L");
     }
+
     let formattedData = {
       ...data,
       physicianRemarksHeightUnit: "cm",
       physicianRemarksWeightUnit: "kg",
       dateOfBirth: formattedDate,
+      physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
     };
 
     dispatch(validatePatientForm({ patient: formattedData }));
 
-    // ADD HISTORIES HERE AND DISPATCH THE ARRAY OF HISTORIES IN HISTORYTAB COMPONENT
   };
 
   useEffect(() => {
-    if (formValidator.length) {
-      console.log(formValidator);
-    } else {
+    console.log("submit ka dto", formData);
+    if (!formValidator.length) {
+      // PARA BUKAS: CREATE A API CALL TOM
+      console.log("submit ka dto", formData);
     }
   }, [formValidator]);
 
@@ -148,6 +159,7 @@ const ActionButton = () => {
 
   const handleLoadTransaction = async () => {
     await getPatientHistory(history.result.id);
+
   };
 
   useEffect(() => {
@@ -173,18 +185,8 @@ const ActionButton = () => {
   return (
     <>
       <div className="flex flex-col">
-        <CustomButton
-          text="Load Recent Transaction"
-          type="button"
-          color="#246068"
-          onClick={handleLoadTransaction}
-        />
-        <CustomButton
-          text="Back"
-          type="button"
-          color="#383d39"
-          onClick={() => navigate(-1)}
-        />
+        <CustomButton text="Load Recent Transaction" type="button" color="#246068" onClick={handleLoadTransaction} />
+        <CustomButton text="Back" type="button" color="#383d39" onClick={() => navigate(-1)} />
       </div>
     </>
   );
@@ -195,15 +197,12 @@ const EditPatient = () => {
   useEffect(() => {
     dispatch(setEdit());
   }, []);
+  const headerDescription = "Welcome to the medical history addition form. This form allows you to provide detailed information about patient's medical history, which is essential for effective healthcare management."
   return (
     <Layout
       pageTitle={"Administrator"}
       Header={
-        <Header
-          title="Add Transaction - Existing Patient"
-          description="Welcome to the medical history addition form. This form allows you to provide detailed information about patient's medical history, which is essential for effective healthcare management."
-          actions={<ActionButton />}
-        />
+        <Header title="Add Transaction - Existing Patient" description={headerDescription} actions={<ActionButton />} />
       }
       Content={<Content />}
       activeLink={0}

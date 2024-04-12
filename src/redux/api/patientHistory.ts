@@ -19,7 +19,13 @@ export const patientHistoryApi = apiService.injectEndpoints({
                 url: `/patient-histories/${patientHistoryId}` // TODO : REPLACE UUID AS A VARIABLE
             }),
             providesTags: ["PatientHistory"],
-        })
+        }),
+        // createPatientHistory: builder.mutation({
+        //     query: (payload) => ({
+
+        //     }),
+        //     invalidatesTags: ["PatientHistory", "PatientHistories"]
+        // })
 
     })
 })

@@ -69,7 +69,7 @@ const PersonToNotifyTab = ({ data, selectedTab } : any) => {
           <div className="col-span-4">
             <AutoComplete
               label="Province*"
-              fieldName="birthPlaceProvinceId"
+              fieldName="notifyProvinceId"
               isRequired={false}
               options={provinces}
               onAutoCompleteChange={(province: Province) =>

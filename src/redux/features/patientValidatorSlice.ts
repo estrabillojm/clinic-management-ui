@@ -8,10 +8,12 @@ type PatientValidator = {
 
 type InitialState = {
     invalidFields: PatientValidator[] | [];
+    patientDetails: any;
 }
 
 const initialState: InitialState = { // TODO : CHANGE THIS
-  invalidFields: []
+  invalidFields: [],
+  patientDetails: null,
 };
 
 const patientValidatorSlice = createSlice({
@@ -19,7 +21,7 @@ const patientValidatorSlice = createSlice({
   initialState,
   reducers: {
     validatePatientForm: (state, action) => {
-//   PATIENT TABS INDEX LEGEND
+  	//   PATIENT TABS INDEX LEGEND
     // 0 - PERSONAL
     // 1 - CONTACT
     // 2 - PERSON TO NOTIFY
@@ -27,6 +29,8 @@ const patientValidatorSlice = createSlice({
     // 4 - HISTORY
     // 5 - SOAP
     // 6 - PHYSICIAN
+
+    console.log("action payload", action.payload)
 
     const { patient } = action.payload
       if(patient){
@@ -53,8 +57,9 @@ const patientValidatorSlice = createSlice({
                 }
             }
         })
-        
+
         state.invalidFields = requiredFields.filter((field) => invalidList.includes(field.column))
+        state.patientDetails = patient
 
       }
     }
