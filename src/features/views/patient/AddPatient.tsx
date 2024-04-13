@@ -13,6 +13,11 @@ import { setAdd } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import AddPatientTabUtils from "./components/utils/addPatientTabUtils";
+import { useAddNewPatientMutation } from "../../../redux/api/patients";
+import { useGetBranchListQuery } from "../../../redux/api/branchApi";
+
+import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
+import { mapProvinces } from "../../../redux/features/addressSlice";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -21,12 +26,20 @@ const Content = () => {
     (state: tabSelectedProps) => state.patients.tabSelected
   );
 
-  const methods = useForm();
-  const onSubmit = (data: UserTypes, error: any): void => {
+  const [createPatient] = useAddNewPatientMutation();
+  const methods = useForm<UserTypes>();
+  const onSubmit = async (data: UserTypes, errors: any): Promise<void> => {
     // ADD HISTORIES HERE AND DISPATCH THE ARRAY OF HISTORIES IN HISTORYTAB COMPONENT
     console.log(data);
-    if(error){
-      return;
+    // if (errors) {
+    //   console.log(errors)
+    //   return;
+    // }
+    try {
+      await createPatient({ ...data });
+      console.log("created patient");
+    } catch (error) {
+      console.log(error);
     }
     // let formattedDate;
     // formattedDate = "";
@@ -46,7 +59,9 @@ const Content = () => {
             <MenuWithHeader headers={headers} />
             <FormProvider {...methods}>
               <form
-                onSubmit={methods.handleSubmit(onSubmit as () => void)}
+                onSubmit={methods.handleSubmit((data, error) =>
+                  onSubmit(data, error)
+                )}
                 className="p-4"
               >
                 <AddPatientTabUtils tabSelected={tabSelected} />
@@ -87,6 +102,21 @@ const Content = () => {
 const ActionButton = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // GET Province
+  const {
+    data: provinces,
+    isLoading: isProvincesLoading,
+    isSuccess: isProvincesSuccess,
+  } = useGetAllProvincesQuery(null);
+
+  useEffect(() => {
+    if(provinces && !isProvincesLoading && isProvincesSuccess) {
+      dispatch(mapProvinces(provinces));
+    }
+  }, [provinces, isProvincesLoading, isProvincesSuccess]);
+  // End GET Province
+
   return (
     <>
       <div className="flex flex-col">

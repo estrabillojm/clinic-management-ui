@@ -1,11 +1,49 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import DatePicker from "../../../../../components/shared/form/DatePicker";
 import Input from "../../../../../components/shared/form/Input";
+import { setBirthPlaceProvinceId } from "../../../../../../redux/features/addressSlice";
+import { useEffect, useState } from "react";
+import { City, Province } from "../../../../../../types/address";
+import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
 
 const PersonalTab = () => {
   const gender = useSelector((state: any) => state.enum.gender);
   const civilStatus = useSelector((state: any) => state.enum.status);
+  const provinces = useSelector((state: any) => state.address.provinces);
+  const selectedProvince = useSelector(
+    (state: any) => state.address.birthPlaceProvinceId
+  )
+
+  const dispatch = useDispatch();
+
+  const handleProvinceChange = (province: Province) => {
+    dispatch(setBirthPlaceProvinceId({ provinceId: province?.value }));
+  };
+
+  const [
+    getCitiesByProvince,
+    { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
+  ] = useLazyGetCitiesByProvinceQuery();
+  useEffect(() => {
+    if(selectedProvince) {
+      getCitiesByProvince(selectedProvince);
+    }
+  },[selectedProvince])
+
+  const [transformedCities, setTransformedCities] = useState([]);
+  useEffect(() => {
+    if(cities && !isCitiesLoading && isCitiesSuccess){
+      setTransformedCities(()=>
+        cities.results.map((city: City) => {
+          return {
+            label: city.name,
+            value: city.code,
+          };
+        })
+      );
+    }
+  }, [cities, isCitiesSuccess, isCitiesLoading]);
 
   return (
     <>
@@ -58,7 +96,10 @@ const PersonalTab = () => {
             label="Province*"
             fieldName="province"
             isRequired={false}
-            options={[]}
+            options={provinces}
+            onAutoCompleteChange={(province: Province) =>
+              handleProvinceChange(province)
+            }
           />
         </div>
         <div className="col-span-4">
@@ -66,7 +107,14 @@ const PersonalTab = () => {
             label="City / Municipality*"
             fieldName="city"
             isRequired={false}
-            options={[]}
+            options={
+              transformedCities.length &&
+              isCitiesSuccess &&
+              !isCitiesLoading &&
+              selectedProvince
+                ? transformedCities
+                : []
+            }
           />
         </div>
       </div>

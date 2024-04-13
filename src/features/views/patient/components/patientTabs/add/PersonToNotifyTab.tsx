@@ -1,11 +1,42 @@
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
+import { City, Province } from "../../../../../../types/address";
+import { setPersonToNotifyProvinceId } from "../../../../../../redux/features/addressSlice";
+import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
 
-const PersonToNotifyTab = ({ data } : any) => {
+const PersonToNotifyTab = () => {
+  const provinces = useSelector((state: any) => state.address.provinces);
+  const selectedProvince = useSelector(
+    (state: any) => state.address.personToNotifyProvinceId
+  )
+
+  const dispatch = useDispatch();
+
+  const handleProvinceChange = (province: Province) => {
+    dispatch(setPersonToNotifyProvinceId({ provinceId: province?.value }));
+  }
+
+  const [
+    getCitiesByProvince,
+    { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading}
+  ] = useLazyGetCitiesByProvinceQuery();
   useEffect(() => {
-    console.log(data);
-  }, [])
+    if(selectedProvince) {
+      getCitiesByProvince(selectedProvince);
+    }
+  }, [selectedProvince]);
+
+  const [transformedCities, setTransformedCities] = useState([]);
+  useEffect(() => {
+    if (cities && isCitiesSuccess && !isCitiesLoading) {
+      setTransformedCities(() =>
+        cities.results.map((city: City) => {})
+      )
+    }
+  })
+
   return (
     <>
       <div className="grid grid-cols-12 gap-4 mb-8">
@@ -32,7 +63,10 @@ const PersonToNotifyTab = ({ data } : any) => {
             label="Province*"
             fieldName="province"
             isRequired={false}
-            options={[]}
+            options={provinces}
+            onAutoCompleteChange={(province: Province) => {
+              handleProvinceChange(province)
+            }}
           />
         </div>
         <div className="col-span-4">
