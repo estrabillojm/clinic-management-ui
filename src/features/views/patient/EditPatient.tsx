@@ -16,10 +16,11 @@ import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import {
+  useCreatePatientHistoryMutation,
   useGetRecentPatientHistoryQuery,
   useLazyGetPatientHistoryQuery,
 } from "../../../redux/api/patientHistory";
-import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
+import { clearPatientHistory, setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
 import { mapProvinces } from "../../../redux/features/addressSlice";
 import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
@@ -63,7 +64,17 @@ const Content = () => {
   }, [patientDetails, detailsLoading, detailsSuccess]);
 
   const methods = useForm();
-  const onSubmit = (data: any): void => {
+  const [
+    createPatientHistory,
+    { isSuccess: patientHistorySuccess, isLoading: patientHistoryLoading },
+  ] = useCreatePatientHistoryMutation();
+
+  const historiesPast = useSelector((state : { historyTab: { pastHistory: string }}) => state.historyTab.pastHistory);
+  const historiesFamily = useSelector((state : { historyTab: { familyHistory: string }}) => state.historyTab.familyHistory);
+  const historiesSocial = useSelector((state : { historyTab: { socialHistory: string }}) => state.historyTab.socialHistory);
+  const onSubmit = (data: any): void | boolean => {
+    if(patientHistoryLoading) return false;
+
     let formattedDate = "";
     if ("$d" in data.dateOfBirth) {
       formattedDate = dayjs(data.dateOfBirth.$d).format("L");
@@ -76,20 +87,23 @@ const Content = () => {
       physicianRemarksHeightUnit: "cm",
       physicianRemarksWeightUnit: "kg",
       dateOfBirth: formattedDate,
+      historiesPast,
+      historiesFamily,
+      historiesSocial,
       physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
     };
 
     dispatch(validatePatientForm({ patient: formattedData }));
-
+    createPatientHistory(formData);
   };
-
+  const navigate = useNavigate();
   useEffect(() => {
-    console.log("submit ka dto", formData);
-    if (!formValidator.length) {
-      // PARA BUKAS: CREATE A API CALL TOM
-      console.log("submit ka dto", formData);
+    if(patientHistorySuccess && !patientHistoryLoading){
+      // dispatch(clearPatientHistory());
+      // navigate("/patients/list/4f482948-d33f-42ac-8830-a8b182695649"); // TODO : CREATE A CLINIC ID, THAT WAS ADDED IN TOKEN
     }
-  }, [formValidator]);
+  },[patientHistorySuccess, patientHistoryLoading])
+
 
   return (
     <>
@@ -104,7 +118,7 @@ const Content = () => {
               >
                 {formValidator.length ? (
                   <>
-                    <EditPatientValidator formValidator={formValidator}/>
+                    <EditPatientValidator formValidator={formValidator} />
                   </>
                 ) : (
                   <></>
@@ -159,7 +173,6 @@ const ActionButton = () => {
 
   const handleLoadTransaction = async () => {
     await getPatientHistory(history.result.id);
-
   };
 
   useEffect(() => {
@@ -185,8 +198,18 @@ const ActionButton = () => {
   return (
     <>
       <div className="flex flex-col">
-        <CustomButton text="Load Recent Transaction" type="button" color="#246068" onClick={handleLoadTransaction} />
-        <CustomButton text="Back" type="button" color="#383d39" onClick={() => navigate(-1)} />
+        <CustomButton
+          text="Load Recent Transaction"
+          type="button"
+          color="#246068"
+          onClick={handleLoadTransaction}
+        />
+        <CustomButton
+          text="Back"
+          type="button"
+          color="#383d39"
+          onClick={() => navigate(-1)}
+        />
       </div>
     </>
   );
@@ -197,12 +220,17 @@ const EditPatient = () => {
   useEffect(() => {
     dispatch(setEdit());
   }, []);
-  const headerDescription = "Welcome to the medical history addition form. This form allows you to provide detailed information about patient's medical history, which is essential for effective healthcare management."
+  const headerDescription =
+    "Welcome to the medical history addition form. This form allows you to provide detailed information about patient's medical history, which is essential for effective healthcare management.";
   return (
     <Layout
       pageTitle={"Administrator"}
       Header={
-        <Header title="Add Transaction - Existing Patient" description={headerDescription} actions={<ActionButton />} />
+        <Header
+          title="Add Transaction - Existing Patient"
+          description={headerDescription}
+          actions={<ActionButton />}
+        />
       }
       Content={<Content />}
       activeLink={0}

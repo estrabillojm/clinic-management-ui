@@ -13,6 +13,7 @@ import actionTypeSlice from "./features/actionTypeSlice";
 import patientSlice from "./features/patientSlice";
 import addressSlice from "./features/addressSlice";
 import patientValidatorSlice from "./features/patientValidatorSlice";
+import historyTabSlice from "./features/historyTabSlice";
 //   import { loginApi } from "./api/loginApi";
   
   const reducer = combineReducers({
@@ -28,6 +29,7 @@ import patientValidatorSlice from "./features/patientValidatorSlice";
     patientDetails: patientSlice,
     address: addressSlice,
     patientValidator: patientValidatorSlice,
+    historyTab: historyTabSlice,
   });
   export const setupStore = () =>
     configureStore({

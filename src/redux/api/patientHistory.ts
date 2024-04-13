@@ -20,12 +20,18 @@ export const patientHistoryApi = apiService.injectEndpoints({
             }),
             providesTags: ["PatientHistory"],
         }),
-        // createPatientHistory: builder.mutation({
-        //     query: (payload) => ({
-
-        //     }),
-        //     invalidatesTags: ["PatientHistory", "PatientHistories"]
-        // })
+        // TODO IN API - ADD UPDATE PATIENT INFO THEN RETURN THE PATIENT TRANSACTION HISTORY ID
+        createPatientHistory: builder.mutation({
+            query: (data) => ({
+                url: "/patient-histories",
+                method: "POST",
+                body: {
+                    patientTransactionHistoryId: "c620ff49-65c9-4dc4-87b0-a53fbee148ea",
+                    ...data
+                },
+              }),
+            invalidatesTags: ["PatientHistory", "PatientHistories"]
+        })
 
     })
 })
@@ -33,5 +39,6 @@ export const patientHistoryApi = apiService.injectEndpoints({
 export const {
     useGetRecentPatientHistoryQuery,
     useGetPatientHistoriesQuery,
-    useLazyGetPatientHistoryQuery
+    useLazyGetPatientHistoryQuery,
+    useCreatePatientHistoryMutation,
 } = patientHistoryApi;

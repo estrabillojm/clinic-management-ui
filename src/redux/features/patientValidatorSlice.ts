@@ -51,10 +51,13 @@ const patientValidatorSlice = createSlice({
         const requiredFieldArray = requiredFields.map((data) => data.column);
         let invalidList: string[] = [];
         Object.keys(patient).forEach((key) => {
-            if(!patient[key.trim()] && requiredFieldArray.includes(key)){
-                if(!patient[key].trim()){
+
+              if(!patient[key.trim()] && requiredFieldArray.includes(key)){
+
+                  if(!patient[key]){
                     invalidList.push(key)
-                }
+                  }
+                
             }
         })
 
