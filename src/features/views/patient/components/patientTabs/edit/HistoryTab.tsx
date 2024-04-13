@@ -2,6 +2,8 @@ import { FormGroup } from "@mui/material";
 import CheckBox from "../../../../../components/shared/form/CheckBox";
 import TextArea from "../../../../../components/shared/form/TextArea";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setFamilyHistory, setPastHistory, setSocialHistory } from "../../../../../../redux/features/historyTabSlice";
 
 const HistoryTab = ({ data, selectedTab }: any) => {
   const [socialHistories, setSocialHistories] = useState<string[]>([]);
@@ -49,9 +51,18 @@ const HistoryTab = ({ data, selectedTab }: any) => {
       setFamilyHistories(familyHistories.filter((item) => item !== value));
     }
   };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(socialHistories);
+    dispatch(setFamilyHistory(familyHistories))
+  }, [familyHistories]);
+
+  useEffect(() => {
+    dispatch(setPastHistory(pastHistories))
+  }, [pastHistories]);
+
+  useEffect(() => {
+    dispatch(setSocialHistory(socialHistories))
   }, [socialHistories]);
 
   return (
@@ -59,7 +70,7 @@ const HistoryTab = ({ data, selectedTab }: any) => {
       <div className={`grid grid-cols-12 gap-8 mb-8 ${selectedTab === 4 ? "block" : "hidden"}`}>
         <div className="col-span-4 border-r border-gray-300 px-5">
           <div className="grid grid-cols-1 gap-4 pb-2">
-            <h3 className="text-primary font-semibold">Past History</h3>
+            <h3 className="text-primary font-semibold">Family History</h3>
           </div>
           <FormGroup>
             <CheckBox
@@ -128,7 +139,7 @@ const HistoryTab = ({ data, selectedTab }: any) => {
 
         <div className="col-span-4 border-r border-gray-300 px-5">
           <div className="grid grid-cols-1 gap-4 pb-2">
-            <h3 className="text-primary font-semibold">Family History</h3>
+            <h3 className="text-primary font-semibold">Past History</h3>
           </div>
           <FormGroup>
             <CheckBox

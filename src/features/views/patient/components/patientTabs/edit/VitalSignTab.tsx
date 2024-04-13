@@ -4,9 +4,11 @@ import Input from "../../../../../components/shared/form/Input";
 import TextArea from "../../../../../components/shared/form/TextArea";
 import calculateBMI from "../../../../../../utils/bmiCalculator";
 import { TextField } from "@mui/material";
+import { BLOOD_TYPE_ENUM } from "../../../../../../enums/bloodType";
 
 const VitalSignTab = ({ data, selectedTab }: any) => {
   const [bmi, setBmi] = useState(0);
+  const bloodTypes = BLOOD_TYPE_ENUM.map((blood) => ({ label: blood, value: blood}));
 
   useEffect(() => {
     if (data.physicianRemarksWeight && data.physicianRemarksHeight) {
@@ -24,7 +26,7 @@ const VitalSignTab = ({ data, selectedTab }: any) => {
               <Input
                 type="number"
                 label="Height (cm)*"
-                fieldName="physicianRemarksheight"
+                fieldName="physicianRemarksHeight"
                 defaultValue={data.physicianRemarksHeight}
               />
            
@@ -33,7 +35,7 @@ const VitalSignTab = ({ data, selectedTab }: any) => {
               <Input
                 type="number"
                 label="Weight (kg)*"
-                fieldName="physicianRemarksweight"
+                fieldName="physicianRemarksWeight"
                 defaultValue={data.physicianRemarksWeight}
               />
            
@@ -60,7 +62,7 @@ const VitalSignTab = ({ data, selectedTab }: any) => {
             <Input
               type="number"
               label="Systolic*"
-              fieldName="physicianRemarksSystolic"
+              fieldName="physicianRemarksBpSystolic"
               defaultValue={data.physicianRemarksBpSystolic}
             />
           </div>
@@ -68,7 +70,7 @@ const VitalSignTab = ({ data, selectedTab }: any) => {
             <Input
               type="number"
               label="Diastolic*"
-              fieldName="physicianRemarksDiastolic"
+              fieldName="physicianRemarksBpDiastolic"
               defaultValue={data.physicianRemarksBpDiastolic}
             />
           </div>
@@ -112,7 +114,7 @@ const VitalSignTab = ({ data, selectedTab }: any) => {
               label="Blood Type*"
               fieldName="physicianRemarksBloodType"
               isRequired={false}
-              options={[]}
+              options={bloodTypes}
             />
           </div>
         </div>
