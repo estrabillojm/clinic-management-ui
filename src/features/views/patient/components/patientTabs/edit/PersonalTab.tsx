@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import DatePicker from "../../../../../components/shared/form/DatePicker";
 import Input from "../../../../../components/shared/form/Input";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { setBirthPlaceProvinceId } from "../../../../../../redux/features/addressSlice";
 import { useEffect, useState } from "react";
 import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
@@ -26,6 +26,7 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
     getCitiesByProvince,
     { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
   ] = useLazyGetCitiesByProvinceQuery();
+
   useEffect(() => {
     if (selectedProvince) {
       getCitiesByProvince(selectedProvince);
@@ -33,11 +34,11 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
   }, [selectedProvince]);
 
   useEffect(() => {
-    if(patientDetails.birthPlaceProvinceId){
+    if (patientDetails.birthPlaceProvinceId) {
       dispatch(setBirthPlaceProvinceId({ provinceId: patientDetails.birthPlaceProvinceId }));
       getCitiesByProvince(patientDetails.birthPlaceProvinceId);
     }
-  }, [patientDetails.birthPlaceProvinceId])
+  }, [patientDetails.birthPlaceProvinceId]);
 
   const [transformedCities, setTransformedCities] = useState([]);
   useEffect(() => {
@@ -53,6 +54,23 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
     }
   }, [cities, isCitiesSuccess, isCitiesLoading]);
 
+  const calculateAge = (dob: Dayjs | null) => {
+    if (!dob) return "";
+    return dayjs().diff(dob, 'year');
+  };
+
+  const [age, setAge] = useState<string | number>("");
+
+  const handleDateOfBirthChange = (date: Dayjs | null) => {
+    setAge(calculateAge(date));
+  };
+
+  useEffect(() => {
+    if (patientDetails.dateOfBirth) {
+      const initialDate = dayjs(patientDetails.dateOfBirth);
+      setAge(calculateAge(initialDate));
+    }
+  }, [patientDetails.dateOfBirth]);
 
   return (
     <>
@@ -92,7 +110,9 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
               <DatePicker
                 label="Date of Birth*"
                 fieldName="dateOfBirth"
-                defaultValue={dayjs(patientDetails.dateOfBirth)}
+                defaultValue={patientDetails.dateOfBirth ? dayjs(patientDetails.dateOfBirth) : null}
+                onHandleChange={handleDateOfBirthChange}
+                isRequired
               />
             </div>
             <div>
@@ -100,7 +120,8 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
                 label={"Age*"}
                 type="number"
                 fieldName="age"
-                defaultValue={data.age}
+                defaultValue={age}
+                readonly={true}
               />
             </div>
             <div className="col-span-2">
@@ -162,4 +183,5 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
     </>
   );
 };
+
 export default PersonalTab;

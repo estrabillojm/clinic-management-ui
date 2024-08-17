@@ -30,7 +30,6 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
 
   useEffect(() => {
     if (cities && isCitiesSuccess && !isCitiesLoading) {
-      console.log("city here")
       setTransformedCities(() =>
         cities.results.map((city: City) => {
           return {

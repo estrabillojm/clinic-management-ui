@@ -9,9 +9,10 @@ type Props = {
     fieldName: string;
     defaultValue?: string | number;
     isRequired?: boolean;
+    readonly?: boolean
 }
 
-const Input = ({ label, fieldName, type="text", defaultValue="", isRequired=false } : Props) => {
+const Input = ({ label, fieldName, type="text", defaultValue="", isRequired=false, readonly=false } : Props) => {
     const { control, setValue } = useFormContext();
     const actionType = useSelector((state: any) => state.actionType.actionType);
 
@@ -36,7 +37,7 @@ const Input = ({ label, fieldName, type="text", defaultValue="", isRequired=fals
                     error={!!error}
                     helperText={error ? error.message : null}
                     fullWidth
-                    disabled={actionType === "View"}
+                    disabled={actionType === "View" || readonly}
                     onChange={(e) => {
                         field.onChange(e);
                     }}
