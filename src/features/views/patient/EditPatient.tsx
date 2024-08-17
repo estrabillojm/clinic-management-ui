@@ -17,9 +17,10 @@ import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import {
   useCreatePatientHistoryMutation,
-  useGetRecentPatientHistoryQuery,
   useLazyGetPatientHistoryQuery,
+  useLazyGetRecentPatientHistoryQuery,
 } from "../../../redux/api/patientHistory";
+
 import { clearPatientHistory, setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
 import { mapProvinces } from "../../../redux/features/addressSlice";
@@ -93,8 +94,9 @@ const Content = () => {
       physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
     };
 
+    console.log("data", formattedData)
     dispatch(validatePatientForm({ patient: formattedData }));
-    createPatientHistory(formData);
+    createPatientHistory({patientId, ...formData});
   };
   const navigate = useNavigate();
   useEffect(() => {
@@ -164,15 +166,11 @@ const ActionButton = () => {
   const { patientId } = useParams();
   const dispatch = useDispatch();
 
-  const { data: history } = useGetRecentPatientHistoryQuery({ patientId });
-
-  const [
-    getPatientHistory,
-    { isLoading: transactionLoading, isSuccess: transactionSuccess },
-  ] = useLazyGetPatientHistoryQuery();
+  const [getRecentPatientHistory, { data: history, isLoading: transactionLoading, isSuccess: transactionSuccess  } ]= useLazyGetRecentPatientHistoryQuery();
 
   const handleLoadTransaction = async () => {
-    await getPatientHistory(history.result.id);
+    // await getPatientHistory(history.result.id);
+    await getRecentPatientHistory({ patientId })
   };
 
   useEffect(() => {

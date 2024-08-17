@@ -4,13 +4,13 @@ export const patientHistoryApi = apiService.injectEndpoints({
     endpoints: (builder) => ({
         getRecentPatientHistory: builder.query({
             query: (props) => ({
-                url: `/patient-histories/recent?clinicId=0c7694f1-a867-4131-ad3b-6a3e971e8b72&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
+                url: `/patient-histories/recent?clinicId=d32247a8-8589-41de-bfb3-aea615bdf862&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
             }),
             providesTags: ["RecentPatientHistory"],
         }),
         getPatientHistories: builder.query({
             query: (props) => ({
-                url: `/patient-histories/list?clinicId=0c7694f1-a867-4131-ad3b-6a3e971e8b72&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
+                url: `/patient-histories/list?clinicId=d32247a8-8589-41de-bfb3-aea615bdf862&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
             }),
             providesTags: ["PatientHistories"],
         }),
@@ -26,7 +26,6 @@ export const patientHistoryApi = apiService.injectEndpoints({
                 url: "/patient-histories",
                 method: "POST",
                 body: {
-                    patientTransactionHistoryId: "c620ff49-65c9-4dc4-87b0-a53fbee148ea",
                     ...data
                 },
               }),
@@ -38,6 +37,7 @@ export const patientHistoryApi = apiService.injectEndpoints({
 
 export const {
     useGetRecentPatientHistoryQuery,
+    useLazyGetRecentPatientHistoryQuery,
     useGetPatientHistoriesQuery,
     useLazyGetPatientHistoryQuery,
     useCreatePatientHistoryMutation,

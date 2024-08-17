@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
-import { setContactProvinceId } from "../../../../../../redux/features/addressSlice";
+import { setAddressProvinceId, setContactProvinceId } from "../../../../../../redux/features/addressSlice";
 import { City, Province } from "../../../../../../types/address";
 import { useEffect, useState } from "react";
 import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
@@ -16,20 +16,25 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
     (state: any) => state.address.contactProvinceId
   );
 
-  const [transformedCities, setTransformedCities] = useState([]);
-
   const [
     getCitiesByProvince,
     { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
   ] = useLazyGetCitiesByProvinceQuery();
 
-  
   useEffect(() => {
     if (selectedProvince) {
       getCitiesByProvince(selectedProvince);
     }
   }, [selectedProvince]);
 
+  useEffect(() => {
+    if (patientDetails.provinceId) {
+      dispatch(setContactProvinceId({provinceId: patientDetails.provinceId}));  
+      getCitiesByProvince(patientDetails.birthPlaceProvinceId);
+    }
+  }, [patientDetails.birthPlaceProvinceId]);
+
+  const [transformedCities, setTransformedCities] = useState([]);
   useEffect(() => {
     if (cities && isCitiesSuccess && !isCitiesLoading) {
       setTransformedCities(() =>
@@ -51,7 +56,7 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
           <Input type="email" label="Email" fieldName="email" defaultValue={patientDetails.email} />
         </div>
         <div className="col-span-4">
-          <Input type="text" label="Contact" fieldName="contact"  defaultValue={patientDetails.contact}/>
+          <Input type="text" label="Contact" fieldName="contact" defaultValue={patientDetails.contact}/>
         </div>
       </div>
       <div className="grid grid-cols-12 gap-4 pb-2">
@@ -69,6 +74,7 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
             onAutoCompleteChange={(province: Province) =>
               handleProvinceChange(province)
             }
+            defaultValue={patientDetails.provinceId} 
           />
         </div>
         <div className="col-span-4">
@@ -84,17 +90,18 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
                 ? transformedCities
                 : []
             }
+            defaultValue={patientDetails.cityId} 
           />
         </div>
         <div className="col-span-4">
-          <Input type="text" label="Barangay" fieldName="barangay"/>
+          <Input type="text" label="Barangay" fieldName="barangay" defaultValue={patientDetails.barangay} />
         </div>
       </div>
 
 
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-9">
-          <Input label="House/Bldg floor/Street" fieldName="street" />
+          <Input label="House/Bldg floor/Street" fieldName="street" defaultValue={patientDetails.street}/>
         </div>
       </div>
       </div>

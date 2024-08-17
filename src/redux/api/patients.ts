@@ -4,7 +4,7 @@ export const patientApi = apiService.injectEndpoints({
     endpoints: (builder) => ({
         getPatientList: builder.query({
             query: () => ({
-                url: `/patients/0c7694f1-a867-4131-ad3b-6a3e971e8b72` // PATIENT'S BY CLINIC ID
+                url: `/patients/d32247a8-8589-41de-bfb3-aea615bdf862` // PATIENT'S BY CLINIC ID
             }),
             providesTags: ["Patients"],
         }),
