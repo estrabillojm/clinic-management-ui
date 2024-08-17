@@ -7,6 +7,13 @@ import dayjs from "dayjs";
 const PersonalTab = ({ data, patientDetails }: any) => {
   const gender = useSelector((state: any) => state.enum.gender);
   const civilStatus = useSelector((state: any) => state.enum.status);
+  const computeAge = (dob: any) => {
+    if (dob) {
+      const birthDate = dayjs(dob);
+      const today = dayjs();
+      return today.diff(birthDate, 'year');
+    }
+  };
 
   return (
     <>
@@ -21,23 +28,38 @@ const PersonalTab = ({ data, patientDetails }: any) => {
               />
             </div>
             <div className="col-span-3">
-              <Input label="First Name*" fieldName="firstName" defaultValue={patientDetails.firstName.toUpperCase()} />
+              <Input
+                label="First Name*"
+                fieldName="firstName"
+                defaultValue={patientDetails.firstName.toUpperCase()}
+              />
             </div>
             <div className="col-span-3">
-              <Input label="Middle Name" fieldName="middleName" defaultValue={patientDetails.middleName ? patientDetails.middleName.toUpperCase() : ""} />
+              <Input
+                label="Middle Name"
+                fieldName="middleName"
+                defaultValue={patientDetails.middleName ? patientDetails.middleName.toUpperCase() : ""}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-12 gap-4 mb-8">
             <div className="col-span-3">
-              <DatePicker label="Date of Birth*" fieldName="dateOfBirth" defaultValue={dayjs(patientDetails.dateOfBirth)} />
+              <DatePicker
+                label="Date of Birth*"
+                fieldName="dateOfBirth"
+                defaultValue={dayjs(patientDetails.dateOfBirth)}
+                onHandleChange={() => {
+                  computeAge(dayjs(patientDetails.dateOfBirth));
+                }}
+              />
             </div>
-            <div>
+            <div className="col-span-3">
               <Input
-                label={"Age*"}
+                label="Age*"
                 type="number"
                 fieldName="age"
-                defaultValue={data.age}
+                defaultValue={computeAge(patientDetails.dateOfBirth)}
               />
             </div>
             <div className="col-span-2">
@@ -58,8 +80,6 @@ const PersonalTab = ({ data, patientDetails }: any) => {
                 defaultValue={patientDetails.civilStatus}
               />
             </div>
-
-            <div></div>
           </div>
 
           <div className="grid grid-cols-1 gap-4 pb-2">
@@ -89,4 +109,5 @@ const PersonalTab = ({ data, patientDetails }: any) => {
     </>
   );
 };
+
 export default PersonalTab;
