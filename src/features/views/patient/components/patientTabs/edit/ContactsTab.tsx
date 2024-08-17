@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
-import { setAddressProvinceId, setContactProvinceId } from "../../../../../../redux/features/addressSlice";
+import { setContactProvinceId } from "../../../../../../redux/features/addressSlice";
 import { City, Province } from "../../../../../../types/address";
 import { useEffect, useState } from "react";
 import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
@@ -28,11 +28,12 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
   }, [selectedProvince]);
 
   useEffect(() => {
+    console.log("awiiiiiiiitttt", patientDetails.provinceId)
     if (patientDetails.provinceId) {
       dispatch(setContactProvinceId({provinceId: patientDetails.provinceId}));  
-      getCitiesByProvince(patientDetails.birthPlaceProvinceId);
+      getCitiesByProvince(patientDetails.provinceId);
     }
-  }, [patientDetails.birthPlaceProvinceId]);
+  }, [patientDetails.provinceId]);
 
   const [transformedCities, setTransformedCities] = useState([]);
   useEffect(() => {

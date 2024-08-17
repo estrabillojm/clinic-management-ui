@@ -77,7 +77,7 @@ const PersonToNotifyTab = ({ data, selectedTab } : any) => {
         <div className="col-span-4">
               <AutoComplete
                 label="Province*"
-                fieldName="birthPlaceProvinceId"
+                fieldName="notifyProvinceId"
                 isRequired={false}
                 options={provinces}
                 onAutoCompleteChange={(province: Province) =>
@@ -89,7 +89,7 @@ const PersonToNotifyTab = ({ data, selectedTab } : any) => {
             <div className="col-span-4">
               <AutoComplete
                 label="City / Municipality*"
-                fieldName="birthPlaceCityId"
+                fieldName="notifyCityId"
                 isRequired={false}
                 options={
                   transformedCities.length &&
@@ -105,11 +105,6 @@ const PersonToNotifyTab = ({ data, selectedTab } : any) => {
           
           <div className="col-span-4">
             <Input label="Barangay" fieldName="notifyBarangay" defaultValue={data.notifyBarangay}/>
-          </div>
-        </div>
-        <div className="grid grid-cols-12 gap-4 mb-8">
-          <div className="col-span-8">
-            <Input label="Street" fieldName="notifyStreet" />
           </div>
         </div>
       </div>

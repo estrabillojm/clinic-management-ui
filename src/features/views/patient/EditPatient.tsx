@@ -17,7 +17,6 @@ import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import {
   useCreatePatientHistoryMutation,
-  useLazyGetPatientHistoryQuery,
   useLazyGetRecentPatientHistoryQuery,
 } from "../../../redux/api/patientHistory";
 

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
-import TextArea from "../../../../../components/shared/form/TextArea";
 import { TextField } from "@mui/material";
 import { calculateBMI } from "../../utils/bmiCalculator";
 import { BLOOD_TYPE_ENUM } from "../../../../../../enums/bloodType";
@@ -126,16 +125,19 @@ const VitalSignTab = ({ data, selectedTab }: any) => {
             fieldName="physicianRemarksBloodType"
             isRequired={false}
             options={bloodTypes}
+            defaultValue={data.physicianRemarksBloodType}
           />
         </div>
       </div>
 
       <div className="grid grid-cols-12 gap-4 mb-8">
         <div className="col-span-6">
-          <TextArea
+          <Input
+            type="string"
             label="Remarks"
-            fieldName="physicianRemarksRemarks"
-            defaultValue={data.physicianRemarksRemarks}
+            fieldName="physicianRemarksVitalSignRemarks"
+            defaultValue={data.physicianRemarksVitalSignRemarks}
+            isMultiline={true}
           />
         </div>
       </div>

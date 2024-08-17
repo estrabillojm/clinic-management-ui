@@ -1,7 +1,16 @@
-import { FormGroup, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import {
+  FormGroup,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
 import { useEffect, useState, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import { setFamilyHistory, setPastHistory, setSocialHistory } from "../../../../../../redux/features/historyTabSlice";
+import {
+  setFamilyHistory,
+  setPastHistory,
+  setSocialHistory,
+} from "../../../../../../redux/features/historyTabSlice";
+import Input from "../../../../../components/shared/form/Input";
 
 // Define the type for props
 interface HistoryTabProps {
@@ -34,20 +43,22 @@ const HistoryTab: React.FC<HistoryTabProps> = ({ data, selectedTab }) => {
   }, [data, data.historiesFamily]);
 
   // Generic function to handle checkbox changes
-  const handleCheckChange = (type: 'social' | 'past' | 'family', value: string) => (e: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target;
-    const setHistories = {
-      social: setSocialHistories,
-      past: setPastHistories,
-      family: setFamilyHistories
-    }[type];
+  const handleCheckChange =
+    (type: "social" | "past" | "family", value: string) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = e.target;
+      const setHistories = {
+        social: setSocialHistories,
+        past: setPastHistories,
+        family: setFamilyHistories,
+      }[type];
 
-    if (checked) {
-      setHistories(prev => [...prev, value]);
-    } else {
-      setHistories(prev => prev.filter(item => item !== value));
-    }
-  };
+      if (checked) {
+        setHistories((prev) => [...prev, value]);
+      } else {
+        setHistories((prev) => prev.filter((item) => item !== value));
+      }
+    };
 
   const dispatch = useDispatch();
 
@@ -64,32 +75,44 @@ const HistoryTab: React.FC<HistoryTabProps> = ({ data, selectedTab }) => {
   }, [socialHistories, dispatch]);
 
   return (
-    <div className={`grid grid-cols-12 gap-8 mb-8 ${selectedTab === 4 ? "block" : "hidden"}`}>
+    <div
+      className={`grid grid-cols-12 gap-8 mb-8 ${selectedTab === 4 ? "block" : "hidden"}`}
+    >
       <div className="col-span-4 border-r border-gray-300 px-5">
         <div className="grid grid-cols-1 gap-4 pb-2">
           <h3 className="text-primary font-semibold">Family History</h3>
         </div>
         <FormGroup>
-          {["Unremarkable", "HCVD", "CHD", "CVA", "Gut Disease", "Blood Disease", "Allergy", "Git Disease", "Pulmo Disease", "CA"].map(label => (
+          {[
+            "Unremarkable",
+            "HCVD",
+            "CHD",
+            "CVA",
+            "Gut Disease",
+            "Blood Disease",
+            "Allergy",
+            "Git Disease",
+            "Pulmo Disease",
+            "CA",
+          ].map((label) => (
             <FormControlLabel
               key={label}
               control={
                 <Checkbox
                   checked={familyHistories.includes(label)}
-                  onChange={handleCheckChange('family', label)}
+                  onChange={handleCheckChange("family", label)}
                 />
               }
               label={label}
             />
           ))}
         </FormGroup>
-        <TextField
-          label="Other (Remarks)"
-          multiline
-          rows={4}
+        <Input
+          type="string"
+          label="Remarks"
+          fieldName="historiesFamilyRemarks"
           defaultValue={data.historiesFamilyRemarks}
-          fullWidth
-          margin="normal"
+          isMultiline={true}
         />
       </div>
 
@@ -98,26 +121,36 @@ const HistoryTab: React.FC<HistoryTabProps> = ({ data, selectedTab }) => {
           <h3 className="text-primary font-semibold">Past History</h3>
         </div>
         <FormGroup>
-          {["Unremarkable", "HCVD", "CHD", "CVA", "Gut Disease", "Blood Disease", "Allergy", "Git Disease", "Pulmo Disease", "CA"].map(label => (
+          {[
+            "Unremarkable",
+            "HCVD",
+            "CHD",
+            "CVA",
+            "Gut Disease",
+            "Blood Disease",
+            "Allergy",
+            "Git Disease",
+            "Pulmo Disease",
+            "CA",
+          ].map((label) => (
             <FormControlLabel
               key={label}
               control={
                 <Checkbox
                   checked={pastHistories.includes(label)}
-                  onChange={handleCheckChange('past', label)}
+                  onChange={handleCheckChange("past", label)}
                 />
               }
               label={label}
             />
           ))}
         </FormGroup>
-        <TextField
-          label="Other (Remarks)"
-          multiline
-          rows={4}
+        <Input
+          type="string"
+          label="Remarks"
+          fieldName="historiesPastRemarks"
           defaultValue={data.historiesPastRemarks}
-          fullWidth
-          margin="normal"
+          isMultiline={true}
         />
       </div>
 
@@ -126,26 +159,30 @@ const HistoryTab: React.FC<HistoryTabProps> = ({ data, selectedTab }) => {
           <h3 className="text-primary font-semibold">Social History</h3>
         </div>
         <FormGroup>
-          {["Smoking", "Alcohol Intake", "Betel Nut Chewing", "Drug or Food Allergy"].map(label => (
+          {[
+            "Smoking",
+            "Alcohol Intake",
+            "Betel Nut Chewing",
+            "Drug or Food Allergy",
+          ].map((label) => (
             <FormControlLabel
               key={label}
               control={
                 <Checkbox
                   checked={socialHistories.includes(label)}
-                  onChange={handleCheckChange('social', label)}
+                  onChange={handleCheckChange("social", label)}
                 />
               }
               label={label}
             />
           ))}
         </FormGroup>
-        <TextField
-          label="Other (Remarks)"
-          multiline
-          rows={4}
+        <Input
+          type="string"
+          label="Remarks"
+          fieldName="historiesSocialRemarks"
           defaultValue={data.historiesSocialRemarks}
-          fullWidth
-          margin="normal"
+          isMultiline={true}
         />
       </div>
     </div>

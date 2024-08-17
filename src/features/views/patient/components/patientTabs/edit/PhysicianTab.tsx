@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGetPhysicianListQuery } from "../../../../../../redux/api/physicianApi";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
-import TextArea from "../../../../../components/shared/form/TextArea";
+import Input from "../../../../../components/shared/form/Input";
 
 type Physician = {
   id: string;
@@ -56,8 +56,12 @@ const PhysicianTab = ({ data, selectedTab }: any) => {
             />
           </div>
           <div className="col-span-6">
-            <TextArea label="Remarks" fieldName="remarks" 
-            defaultValue={data.physicianRemarks}
+            <Input
+              type="string"
+              label="Remarks"
+              fieldName="remarks"
+              defaultValue={data.remarks}
+              isMultiline={true}
             />
           </div>
         </div>
