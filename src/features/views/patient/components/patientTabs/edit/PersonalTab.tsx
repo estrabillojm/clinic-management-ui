@@ -84,6 +84,7 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
                 fieldName={"lastName"}
                 defaultValue={patientDetails.lastName.toUpperCase()}
               />
+
             </div>
             <div className="col-span-3">
               <Input
@@ -115,7 +116,7 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
                 isRequired
               />
             </div>
-            <div>
+            <div className="col-span-2">
               <Input
                 label={"Age*"}
                 type="number"

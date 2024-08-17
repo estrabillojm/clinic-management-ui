@@ -22,6 +22,8 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
     getCitiesByProvince,
     { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
   ] = useLazyGetCitiesByProvinceQuery();
+
+  
   useEffect(() => {
     if (selectedProvince) {
       getCitiesByProvince(selectedProvince);
