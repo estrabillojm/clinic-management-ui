@@ -34,12 +34,6 @@ const EditPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
           <PhysicianTab data={patientHistory} selectedTab={tabSelected}/>
         </>
       }
-
-      {/* 
-      
-      
-      
-       */}
     </>
   )
 

@@ -1,31 +1,90 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import DatePicker from "../../../../../components/shared/form/DatePicker";
 import Input from "../../../../../components/shared/form/Input";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { setBirthPlaceProvinceId } from "../../../../../../redux/features/addressSlice";
+import { useEffect, useState } from "react";
+import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
+import { City, Province } from "../../../../../../types/address";
 
-const PersonalTab = ({ data, patientDetails }: any) => {
+const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any) => {
   const gender = useSelector((state: any) => state.enum.gender);
   const civilStatus = useSelector((state: any) => state.enum.status);
-  const computeAge = (dob: any) => {
-    if (dob) {
-      const birthDate = dayjs(dob);
-      const today = dayjs();
-      return today.diff(birthDate, 'year');
-    }
+  const provinces = useSelector((state: any) => state.address.provinces);
+  const selectedProvince = useSelector(
+    (state: any) => state.address.birthPlaceProvinceId
+  );
+
+  const dispatch = useDispatch();
+
+  const handleProvinceChange = (province: Province) => {
+    dispatch(setBirthPlaceProvinceId({ provinceId: province?.value }));
   };
+
+  const [
+    getCitiesByProvince,
+    { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
+  ] = useLazyGetCitiesByProvinceQuery();
+
+  useEffect(() => {
+    if (selectedProvince) {
+      getCitiesByProvince(selectedProvince);
+    }
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    if (patientDetails.birthPlaceProvinceId) {
+      dispatch(setBirthPlaceProvinceId({ provinceId: patientDetails.birthPlaceProvinceId }));
+      getCitiesByProvince(patientDetails.birthPlaceProvinceId);
+    }
+  }, [patientDetails.birthPlaceProvinceId]);
+
+  const [transformedCities, setTransformedCities] = useState([]);
+  useEffect(() => {
+    if (cities && isCitiesSuccess && !isCitiesLoading) {
+      setTransformedCities(() =>
+        cities.results.map((city: City) => {
+          return {
+            label: city.name,
+            value: city.code,
+          };
+        })
+      );
+    }
+  }, [cities, isCitiesSuccess, isCitiesLoading]);
+
+  const calculateAge = (dob: Dayjs | null) => {
+    if (!dob) return "";
+    return dayjs().diff(dob, 'year');
+  };
+
+  const [age, setAge] = useState<string | number>("");
+
+  const handleDateOfBirthChange = (date: Dayjs | null) => {
+    setAge(calculateAge(date));
+  };
+
+  useEffect(() => {
+    if (patientDetails.dateOfBirth) {
+      const initialDate = dayjs(patientDetails.dateOfBirth);
+      setAge(calculateAge(initialDate));
+    }
+  }, [patientDetails.dateOfBirth]);
 
   return (
     <>
       {patientDetails && data && (
-        <>
+        <div className={`${selectedTab === 0 ? "block" : "hidden"}`}>
           <div className="grid grid-cols-12 gap-4 mb-8">
             <div className="col-span-3">
+              {requiredFields.includes("lastName") ? true : false}
               <Input
-                label="Last Name*"
-                fieldName="lastName"
+                label={"Last Name*"}
+                fieldName={"lastName"}
                 defaultValue={patientDetails.lastName.toUpperCase()}
               />
+
             </div>
             <div className="col-span-3">
               <Input
@@ -38,7 +97,11 @@ const PersonalTab = ({ data, patientDetails }: any) => {
               <Input
                 label="Middle Name"
                 fieldName="middleName"
-                defaultValue={patientDetails.middleName ? patientDetails.middleName.toUpperCase() : ""}
+                defaultValue={
+                  patientDetails.middleName
+                    ? patientDetails.middleName.toUpperCase()
+                    : ""
+                }
               />
             </div>
           </div>
@@ -48,25 +111,24 @@ const PersonalTab = ({ data, patientDetails }: any) => {
               <DatePicker
                 label="Date of Birth*"
                 fieldName="dateOfBirth"
-                defaultValue={dayjs(patientDetails.dateOfBirth)}
-                onHandleChange={() => {
-                  computeAge(dayjs(patientDetails.dateOfBirth));
-                }}
+                defaultValue={patientDetails.dateOfBirth ? dayjs(patientDetails.dateOfBirth) : null}
+                onHandleChange={handleDateOfBirthChange}
+                isRequired
               />
             </div>
-            <div className="col-span-3">
+            <div className="col-span-2">
               <Input
-                label="Age*"
+                label={"Age*"}
                 type="number"
                 fieldName="age"
-                defaultValue={computeAge(patientDetails.dateOfBirth)}
+                defaultValue={age}
+                readonly={true}
               />
             </div>
             <div className="col-span-2">
               <AutoComplete
                 label="Gender*"
                 fieldName="gender"
-                isRequired={false}
                 options={gender}
                 defaultValue={patientDetails.gender}
               />
@@ -74,12 +136,13 @@ const PersonalTab = ({ data, patientDetails }: any) => {
             <div className="col-span-2">
               <AutoComplete
                 label="Civil Status"
-                fieldName="status"
-                isRequired={false}
+                fieldName="civilStatus"
                 options={civilStatus}
                 defaultValue={patientDetails.civilStatus}
               />
             </div>
+
+            <div></div>
           </div>
 
           <div className="grid grid-cols-1 gap-4 pb-2">
@@ -90,21 +153,33 @@ const PersonalTab = ({ data, patientDetails }: any) => {
             <div className="col-span-4">
               <AutoComplete
                 label="Province*"
-                fieldName="province"
+                fieldName="birthPlaceProvinceId"
                 isRequired={false}
-                options={[]}
+                options={provinces}
+                onAutoCompleteChange={(province: Province) =>
+                  handleProvinceChange(province)
+                }
+                defaultValue={patientDetails.birthPlaceProvinceId}
               />
             </div>
             <div className="col-span-4">
               <AutoComplete
                 label="City / Municipality*"
-                fieldName="city"
+                fieldName="birthPlaceCityId"
                 isRequired={false}
-                options={[]}
+                options={
+                  transformedCities.length &&
+                  isCitiesSuccess &&
+                  !isCitiesLoading &&
+                  selectedProvince
+                    ? transformedCities
+                    : []
+                }
+                defaultValue={patientDetails.birthPlaceCityId}
               />
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );
