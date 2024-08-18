@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { setBirthPlaceProvinceId } from "../../../../../../redux/features/addressSlice";
 import { useEffect, useState } from "react";
 import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
-import { City, Province } from "../../../../../../types/address";
+import { City } from "../../../../../../types/address";
 
 const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any) => {
   const gender = useSelector((state: any) => state.enum.gender);
@@ -17,11 +17,6 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
   );
 
   const dispatch = useDispatch();
-
-  const handleProvinceChange = (province: Province) => {
-    dispatch(setBirthPlaceProvinceId({ provinceId: province?.value }));
-  };
-
   const [
     getCitiesByProvince,
     { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
@@ -156,9 +151,6 @@ const PersonalTab = ({ data, patientDetails, selectedTab, requiredFields }: any)
                 fieldName="birthPlaceProvinceId"
                 isRequired={false}
                 options={provinces}
-                onAutoCompleteChange={(province: Province) =>
-                  handleProvinceChange(province)
-                }
                 defaultValue={patientDetails.birthPlaceProvinceId}
               />
             </div>

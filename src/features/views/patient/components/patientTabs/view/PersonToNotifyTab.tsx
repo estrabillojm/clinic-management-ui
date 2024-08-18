@@ -4,17 +4,13 @@ import Input from "../../../../../components/shared/form/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { setPersonToNotifyProvinceId } from "../../../../../../redux/features/addressSlice";
 import { useLazyGetCitiesByProvinceQuery } from "../../../../../../redux/api/addressApi";
-import { City, Province } from "../../../../../../types/address";
+import { City } from "../../../../../../types/address";
 import { RELATION_ENUM } from "../../../../../../enums/relation";
 
 const PersonToNotifyTab = ({ data, selectedTab } : any) => {
   const provinces = useSelector((state: any) => state.address.provinces);
   const dispatch = useDispatch();
   const selectedProvince = useSelector((state: any) => state.address.personToNotifyProvinceId);
-
-  const handleProvinceChange = (province: Province) => {
-    dispatch(setPersonToNotifyProvinceId({provinceId: province?.value}));  
-  };
 
   const [getCitiesByProvince, { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading}] = useLazyGetCitiesByProvinceQuery();
 
@@ -80,9 +76,6 @@ const PersonToNotifyTab = ({ data, selectedTab } : any) => {
                 fieldName="notifyProvinceId"
                 isRequired={false}
                 options={provinces}
-                onAutoCompleteChange={(province: Province) =>
-                  handleProvinceChange(province)
-                }
                 defaultValue={data.notifyProvinceId}
               />
             </div>

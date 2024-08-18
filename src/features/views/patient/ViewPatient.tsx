@@ -20,6 +20,8 @@ import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import ViewPatientTabUtils from "./components/utils/viewPatientTabUtils";
+import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
+import { mapProvinces } from "../../../redux/features/addressSlice";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -47,6 +49,18 @@ const Content = () => {
     isLoading: detailsLoading,
     isSuccess: detailsSuccess,
   } = useGetPatientDetailsQuery({ patientId });
+
+  const {
+    data: provinces,
+    isLoading: isProvincesLoading,
+    isSuccess: isProvincesSuccess,
+  } = useGetAllProvincesQuery(null);
+
+  useEffect(() => {
+    if (provinces && !isProvincesLoading && isProvincesSuccess) {
+      dispatch(mapProvinces(provinces));
+    }
+  }, [provinces, isProvincesLoading, isProvincesSuccess]);
 
   useEffect(() => {
     if (patientDetails && !detailsLoading && detailsSuccess) {
