@@ -21,4 +21,5 @@ export const patientApi = apiService.injectEndpoints({
 export const {
     useGetPatientListQuery,
     useGetPatientDetailsQuery,
+    useLazyGetPatientDetailsQuery,
 } = patientApi;

@@ -34,12 +34,6 @@ const PhysicianTab = ({ data, selectedTab }: any) => {
     }
   }, [physicians]);
 
-  useEffect(() => {
-    if(data){
-      console.log(data);
-    }
-  }, [data])
-
   return (
     <>
       {isLoading ? (

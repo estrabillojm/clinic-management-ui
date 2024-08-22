@@ -4,7 +4,7 @@ export const patientHistoryApi = apiService.injectEndpoints({
     endpoints: (builder) => ({
         getRecentPatientHistory: builder.query({
             query: (props) => ({
-                url: `/patient-histories/recent?clinicId=d32247a8-8589-41de-bfb3-aea615bdf862&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
+                url: `/patient-histories/recent?clinicId=${props.clinicId}&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
             }),
             providesTags: ["RecentPatientHistory"],
         }),
@@ -30,12 +30,19 @@ export const patientHistoryApi = apiService.injectEndpoints({
                 },
               }),
             invalidatesTags: ["PatientHistory", "PatientHistories"]
-        })
+        }),
+        getPatientTransactionHistory: builder.query({
+            query: (patientId) => ({
+                url: `/patient-histories/transaction/patient/${patientId}`
+            }),
+            providesTags: ["PatientHistory"],
+        }),
 
     })
 })
 
 export const {
+    useLazyGetPatientTransactionHistoryQuery,
     useGetRecentPatientHistoryQuery,
     useLazyGetRecentPatientHistoryQuery,
     useGetPatientHistoriesQuery,
