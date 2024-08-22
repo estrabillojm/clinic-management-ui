@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGetPhysicianListQuery } from "../../../../../../redux/api/physicianApi";
 import AutoComplete from "../../../../../components/shared/form/AutoComplete";
-import TextArea from "../../../../../components/shared/form/TextArea";
+import Input from "../../../../../components/shared/form/Input";
 
 type Physician = {
   id: string;
@@ -15,12 +15,17 @@ type PhysicianList = {
   value: string;
 };
 
-const PhysicianTab = ({ data }: any) => {
+const PhysicianTab = ({ selectedTab }: any) => {
   const {
     data: physicians,
     isLoading,
   } = useGetPhysicianListQuery(null);
   const [physicianList, setPhysicianList] = useState<PhysicianList[]>([]);
+
+  const data = {
+    physicianId: "",
+    remarks: ""
+  }
 
   useEffect(() => {
     if (physicians) {
@@ -34,28 +39,28 @@ const PhysicianTab = ({ data }: any) => {
     }
   }, [physicians]);
 
-  useEffect(() => {
-    if(data){
-      console.log(data);
-    }
-  }, [data])
-
   return (
     <>
       {isLoading ? (
         <h3>Loading Data</h3> // Create a loader for the content
       ) : (
-        <div className="grid grid-cols-12 gap-4 mb-8">
+        <div className={`grid grid-cols-12 gap-4 mb-8 ${selectedTab === 6 ? "block" : "hidden"}`}>
           <div className="col-span-4">
             <AutoComplete
               label="Physician"
-              fieldName="physician"
-              isRequired={true}
+              fieldName="physicianId"
+              isRequired={false}
               options={physicianList}
+              defaultValue={data.physicianId}
             />
           </div>
           <div className="col-span-6">
-            <TextArea label="Remarks" fieldName="remarks" 
+            <Input
+              type="string"
+              label="Remarks"
+              fieldName="remarks"
+              defaultValue={data.remarks}
+              isMultiline={true}
             />
           </div>
         </div>

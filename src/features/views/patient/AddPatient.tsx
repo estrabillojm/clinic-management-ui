@@ -1,130 +1,181 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
-import { UserTypes } from "../../../types/users";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
 import { useDispatch, useSelector } from "react-redux";
-// import dayjs from "dayjs";
+import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { headerProps, tabSelectedProps } from "../../../types/patientInfoTypes";
-import { useEffect } from "react";
-import { setAdd } from "../../../redux/features/actionTypeSlice";
+import AddPatientTabUtils from "./components/utils/addPatientTabUtils";
+import { useEffect, useState } from "react";
+import { setEdit } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
-import AddPatientTabUtils from "./components/utils/addPatientTabUtils";
+import {
+  useCreatePatientHistoryMutation,
+} from "../../../redux/api/patientHistory";
+import {
+  clearPatientHistory
+} from "../../../redux/features/patientHistorySlice";
+import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
+import { mapProvinces } from "../../../redux/features/addressSlice";
+import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
+import EditPatientValidator from "./components/validator/EditPatientValidator";
+import { ternaryChecker } from "../../../utils/ternaryChecker";
+
+interface PatientFormData {
+  dateOfBirth: Date | dayjs.Dayjs;
+  physicianId: string;
+}
+
+interface ApiResponse {
+  data: {
+    clinicId: string;
+  };
+}
 
 const Content = () => {
   const dispatch = useDispatch();
-  const headers = useSelector((state: headerProps) => state.patients.tabs);
-  const tabSelected = useSelector(
-    (state: tabSelectedProps) => state.patients.tabSelected
-  );
+  const { patientId } = useParams<{ patientId: string }>();
 
-  const methods = useForm();
-  const onSubmit = (data: UserTypes, error: any): void => {
-    // ADD HISTORIES HERE AND DISPATCH THE ARRAY OF HISTORIES IN HISTORYTAB COMPONENT
-    console.log(data);
-    if(error){
-      return;
-    }
-    // let formattedDate;
-    // formattedDate = "";
-    // if (data.dateOfBirth && "$d" in data.dateOfBirth) {
-    //   formattedDate = dayjs(data.dateOfBirth.$d).format("L");
-    // } else {
-    //   formattedDate = dayjs(data.dateOfBirth).format("L");
-    // }
-    // console.log({ ...data, dateOfBirth: formattedDate });
+  useEffect(() => {
+    dispatch(setEdit());
+  }, [dispatch]);
+
+  const headers = useSelector((state: { patients: { tabs: headerProps['patients']['tabs'] } }) => state.patients.tabs);
+  const tabSelected = useSelector((state: { patients: { tabSelected: tabSelectedProps['patients']['tabSelected'] } }) => state.patients.tabSelected);
+  const formValidator = useSelector((state: { patientValidator: { invalidFields: any[] } }) => state.patientValidator.invalidFields);
+  const formData = useSelector((state: { patientValidator: { patientDetails: any } }) => state.patientValidator.patientDetails);
+  const patientHistory = useSelector((state: { patientHistories: { patientHistory: any } }) => state.patientHistories.patientHistory);
+
+  const methods = useForm<PatientFormData>();
+  const [createPatientHistory, { isSuccess: patientHistorySuccess, isLoading: patientHistoryLoading }] = useCreatePatientHistoryMutation();
+  const historiesPast = useSelector((state: { historyTab: { pastHistory: string } }) => state.historyTab.pastHistory);
+  const historiesFamily = useSelector((state: { historyTab: { familyHistory: string } }) => state.historyTab.familyHistory);
+  const historiesSocial = useSelector((state: { historyTab: { socialHistory: string } }) => state.historyTab.socialHistory);
+
+  const [isSubmitReady, setIsSubmitReady] = useState(false);
+  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
+  
+  const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
+
+    if (patientHistoryLoading) return;
+
+    const formattedDate = dayjs(data.dateOfBirth).format("L");
+    const formattedData = {
+      ...data,
+      physicianRemarksHeightUnit: "cm",
+      physicianRemarksWeightUnit: "kg",
+      dateOfBirth: formattedDate,
+      historiesPast,
+      historiesFamily,
+      historiesSocial,
+      physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
+    };
+
+
+    
+    console.log(formattedData);
+    dispatch(validatePatientForm({ patient: formattedData }));
+    // setIsSubmitReady(true);
   };
 
+  useEffect(() => {
+    if (isSubmitReady) {
+      (async () => {
+        const result = await createPatientHistory({ patientId, ...formData });
+        if ('data' in result) {
+          setApiResponse(result.data);
+        } else {
+          console.error(result.error);
+        }
+      })();
+      setIsSubmitReady(false);
+    }
+  }, [isSubmitReady, createPatientHistory, formData, patientId]);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (patientHistorySuccess && !patientHistoryLoading && apiResponse) {
+      dispatch(clearPatientHistory());
+      if('clinicId' in apiResponse){
+        navigate(`/patients/list/${apiResponse.clinicId}`);
+      }
+    }
+  }, [patientHistorySuccess, patientHistoryLoading, apiResponse, dispatch, navigate]);
+
   return (
-    <>
-      <div className="flex gap-8">
-        <div className="flex-1 flex-col gap-2">
-          <div className="min-w-[10em] min-h-[20em] bg-gray-100 border border-gray-200 shadow">
-            <MenuWithHeader headers={headers} />
-            <FormProvider {...methods}>
-              <form
-                onSubmit={methods.handleSubmit(onSubmit as () => void)}
-                className="p-4"
-              >
-                <AddPatientTabUtils tabSelected={tabSelected} />
-                <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
-                  <Button
-                    variant="outlined"
-                    onClick={() =>
-                      tabSelected > 0
-                        ? dispatch(setTabSelected(tabSelected - 1))
-                        : dispatch(setTabSelected(tabSelected))
-                    }
-                    disabled={tabSelected === 0}
-                  >
-                    Previous
-                  </Button>
-                  <Button
-                    variant={tabSelected === 6 ? "contained" : "outlined"}
-                    color="success"
-                    type={tabSelected === 6 ? "submit" : "button"}
-                    onClick={() =>
-                      tabSelected < 6
-                        ? dispatch(setTabSelected(tabSelected + 1))
-                        : dispatch(setTabSelected(tabSelected))
-                    }
-                  >
-                    {tabSelected === 6 ? "Save" : "Next"}
-                  </Button>
-                </div>
-              </form>
-            </FormProvider>
-          </div>
+    <div className="flex gap-8">
+      <div className="flex-1 flex-col gap-2">
+        <div className="min-w-[10em] min-h-[20em] bg-gray-100 border border-gray-200 shadow">
+          <MenuWithHeader headers={headers} />
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className="p-4">
+              {formValidator.length > 0 && <EditPatientValidator formValidator={formValidator} />}
+              <AddPatientTabUtils tabSelected={tabSelected} />
+              <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
+                <Button
+                  variant="outlined"
+                  onClick={() => tabSelected > 0 ? dispatch(setTabSelected(tabSelected - 1)) : dispatch(setTabSelected(tabSelected))}
+                  disabled={tabSelected === 0}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant={tabSelected === 6 ? "contained" : "outlined"}
+                  color="success"
+                  type={tabSelected === 6 ? "submit" : "button"}
+                  onClick={() => tabSelected < 6 ? dispatch(setTabSelected(tabSelected + 1)) : dispatch(setTabSelected(tabSelected))}
+                >
+                  {tabSelected === 6 ? "Save Transaction" : "Next"}
+                </Button>
+              </div>
+            </form>
+          </FormProvider>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
 const ActionButton = () => {
-  const params = useParams();
   const navigate = useNavigate();
+  // const { patientId } = useParams<{ patientId: string }>();
+  const dispatch = useDispatch();
+
+  const { data: provinces, isLoading: isProvincesLoading, isSuccess: isProvincesSuccess } = useGetAllProvincesQuery(null);
+
+
+
+  useEffect(() => {
+    if (provinces && !isProvincesLoading && isProvincesSuccess) {
+      dispatch(mapProvinces(provinces));
+    }
+  }, [provinces, isProvincesLoading, isProvincesSuccess, dispatch]);
+
   return (
-    <>
-      <div className="flex flex-col">
-        {params.patientId && (
-          <Link to="/patient/id-here/add">
-            <CustomButton
-              text="Load Recent Transaction"
-              type="button"
-              color="#246068"
-            />
-          </Link>
-        )}
-        <CustomButton
-          text="Back to Menu"
-          type="button"
-          color="#383d39"
-          onClick={() => navigate(-1)}
-        />
-      </div>
-    </>
+    <div className="flex flex-col">
+      <CustomButton text="Back" type="button" color="#383d39" onClick={() => navigate(-1)} />
+    </div>
   );
 };
 
-const AddPatient = () => {
+const EditPatient = () => {
   const dispatch = useDispatch();
-  const params = useParams();
-
   useEffect(() => {
-    dispatch(setAdd());
-  }, []);
+    dispatch(setEdit());
+  }, [dispatch]);
+
+  const headerDescription = "Welcome to the medical history addition form. This form allows you to provide detailed information about the patient's medical history, which is essential for effective healthcare management.";
 
   return (
     <Layout
-      pageTitle={"Administrator"}
+      pageTitle="Administrator"
       Header={
         <Header
-          title={`${params.patientId ? "Add Existing Patient Transaction" : "New Patient"}`}
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+          title="Add Transaction - New Patient"
+          description={headerDescription}
           actions={<ActionButton />}
         />
       }
@@ -134,4 +185,4 @@ const AddPatient = () => {
   );
 };
 
-export default AddPatient;
+export default EditPatient;
