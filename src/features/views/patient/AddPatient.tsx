@@ -12,17 +12,14 @@ import { useEffect, useState } from "react";
 import { setEdit } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
-import {
-  useCreatePatientHistoryMutation,
-} from "../../../redux/api/patientHistory";
-import {
-  clearPatientHistory
-} from "../../../redux/features/patientHistorySlice";
+import { useCreatePatientHistoryMutation } from "../../../redux/api/patientHistory";
+import { clearPatientHistory } from "../../../redux/features/patientHistorySlice";
 import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
 import { mapProvinces } from "../../../redux/features/addressSlice";
 import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
 import EditPatientValidator from "./components/validator/EditPatientValidator";
 import { ternaryChecker } from "../../../utils/ternaryChecker";
+import { useCreatePatientMutation } from "../../../redux/api/patients";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -37,29 +34,56 @@ interface ApiResponse {
 
 const Content = () => {
   const dispatch = useDispatch();
-  const { patientId } = useParams<{ patientId: string }>();
+  // const { patientId } = useParams<{ patientId: string }>();
 
   useEffect(() => {
     dispatch(setEdit());
   }, [dispatch]);
 
-  const headers = useSelector((state: { patients: { tabs: headerProps['patients']['tabs'] } }) => state.patients.tabs);
-  const tabSelected = useSelector((state: { patients: { tabSelected: tabSelectedProps['patients']['tabSelected'] } }) => state.patients.tabSelected);
-  const formValidator = useSelector((state: { patientValidator: { invalidFields: any[] } }) => state.patientValidator.invalidFields);
-  const formData = useSelector((state: { patientValidator: { patientDetails: any } }) => state.patientValidator.patientDetails);
-  const patientHistory = useSelector((state: { patientHistories: { patientHistory: any } }) => state.patientHistories.patientHistory);
+  const headers = useSelector(
+    (state: { patients: { tabs: headerProps["patients"]["tabs"] } }) =>
+      state.patients.tabs
+  );
+  const tabSelected = useSelector(
+    (state: {
+      patients: { tabSelected: tabSelectedProps["patients"]["tabSelected"] };
+    }) => state.patients.tabSelected
+  );
+  const formValidator = useSelector(
+    (state: { patientValidator: { invalidFields: any[] } }) =>
+      state.patientValidator.invalidFields
+  );
+  const formData = useSelector(
+    (state: { patientValidator: { patientDetails: any } }) =>
+      state.patientValidator.patientDetails
+  );
+  const patientHistory = useSelector(
+    (state: { patientHistories: { patientHistory: any } }) =>
+      state.patientHistories.patientHistory
+  );
 
   const methods = useForm<PatientFormData>();
-  const [createPatientHistory, { isSuccess: patientHistorySuccess, isLoading: patientHistoryLoading }] = useCreatePatientHistoryMutation();
-  const historiesPast = useSelector((state: { historyTab: { pastHistory: string } }) => state.historyTab.pastHistory);
-  const historiesFamily = useSelector((state: { historyTab: { familyHistory: string } }) => state.historyTab.familyHistory);
-  const historiesSocial = useSelector((state: { historyTab: { socialHistory: string } }) => state.historyTab.socialHistory);
+  const [
+    createPatientHistory,
+    { isSuccess: patientHistorySuccess, isLoading: patientHistoryLoading },
+  ] = useCreatePatientHistoryMutation();
+  const historiesPast = useSelector(
+    (state: { historyTab: { pastHistory: string } }) =>
+      state.historyTab.pastHistory
+  );
+  const historiesFamily = useSelector(
+    (state: { historyTab: { familyHistory: string } }) =>
+      state.historyTab.familyHistory
+  );
+  const historiesSocial = useSelector(
+    (state: { historyTab: { socialHistory: string } }) =>
+      state.historyTab.socialHistory
+  );
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
   const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
-  
-  const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
 
+  const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
 
     const formattedDate = dayjs(data.dateOfBirth).format("L");
@@ -74,36 +98,90 @@ const Content = () => {
       physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
     };
 
-
-    
-    console.log(formattedData);
     dispatch(validatePatientForm({ patient: formattedData }));
-    // setIsSubmitReady(true);
+    setIsSubmitReady(true);
   };
+
+  const [createPatient, { data: patient, isSuccess: isPatientSuccess }] = useCreatePatientMutation()
 
   useEffect(() => {
     if (isSubmitReady) {
+      console.log(formData);
+      const {
+        lastName,
+        firstName,
+        middleName,
+        dateOfBirth,
+        gender,
+        civilStatus,
+        religion,
+        nationality,
+        birthPlaceProvinceId,
+        birthPlaceCityId,
+        provinceId,
+        cityId,
+        barangay,
+        street,
+        email,
+        contact
+      } = formData;
+
+
       (async () => {
-        const result = await createPatientHistory({ patientId, ...formData });
+        await createPatient({
+          lastName,
+          firstName,
+          middleName,
+          dateOfBirth,
+          gender,
+          civilStatus,
+          religion,
+          nationality,
+          birthPlaceProvinceId,
+          birthPlaceCityId, 
+          provinceId,
+          cityId,
+          barangay,
+          street,
+          email,
+          contact,
+          clinicId: "d32247a8-8589-41de-bfb3-aea615bdf862",
+          branchId: "a95cc42f-7865-46b3-948c-1ce5500e105e",
+        })
+      })()
+      setIsSubmitReady(false);
+    }
+  }, [isSubmitReady, createPatientHistory, formData]);
+
+  useEffect(() => {
+    console.log("awiiiiiiiiit this", patient)
+    if(patient && isPatientSuccess){
+      (async () => {
+        const result = await createPatientHistory({ patientId: patient.result.patientId, ...formData });
         if ('data' in result) {
           setApiResponse(result.data);
         } else {
           console.error(result.error);
         }
       })();
-      setIsSubmitReady(false);
     }
-  }, [isSubmitReady, createPatientHistory, formData, patientId]);
+  }, [patient, isPatientSuccess])
 
   const navigate = useNavigate();
   useEffect(() => {
     if (patientHistorySuccess && !patientHistoryLoading && apiResponse) {
       dispatch(clearPatientHistory());
-      if('clinicId' in apiResponse){
+      if ("clinicId" in apiResponse) {
         navigate(`/patients/list/${apiResponse.clinicId}`);
       }
     }
-  }, [patientHistorySuccess, patientHistoryLoading, apiResponse, dispatch, navigate]);
+  }, [
+    patientHistorySuccess,
+    patientHistoryLoading,
+    apiResponse,
+    dispatch,
+    navigate,
+  ]);
 
   return (
     <div className="flex gap-8">
@@ -112,12 +190,18 @@ const Content = () => {
           <MenuWithHeader headers={headers} />
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="p-4">
-              {formValidator.length > 0 && <EditPatientValidator formValidator={formValidator} />}
+              {formValidator.length > 0 && (
+                <EditPatientValidator formValidator={formValidator} />
+              )}
               <AddPatientTabUtils tabSelected={tabSelected} />
               <div className="border-t border-gray-300 pt-3 flex justify-end gap-2">
                 <Button
                   variant="outlined"
-                  onClick={() => tabSelected > 0 ? dispatch(setTabSelected(tabSelected - 1)) : dispatch(setTabSelected(tabSelected))}
+                  onClick={() =>
+                    tabSelected > 0
+                      ? dispatch(setTabSelected(tabSelected - 1))
+                      : dispatch(setTabSelected(tabSelected))
+                  }
                   disabled={tabSelected === 0}
                 >
                   Previous
@@ -126,7 +210,11 @@ const Content = () => {
                   variant={tabSelected === 6 ? "contained" : "outlined"}
                   color="success"
                   type={tabSelected === 6 ? "submit" : "button"}
-                  onClick={() => tabSelected < 6 ? dispatch(setTabSelected(tabSelected + 1)) : dispatch(setTabSelected(tabSelected))}
+                  onClick={() =>
+                    tabSelected < 6
+                      ? dispatch(setTabSelected(tabSelected + 1))
+                      : dispatch(setTabSelected(tabSelected))
+                  }
                 >
                   {tabSelected === 6 ? "Save Transaction" : "Next"}
                 </Button>
@@ -144,9 +232,11 @@ const ActionButton = () => {
   // const { patientId } = useParams<{ patientId: string }>();
   const dispatch = useDispatch();
 
-  const { data: provinces, isLoading: isProvincesLoading, isSuccess: isProvincesSuccess } = useGetAllProvincesQuery(null);
-
-
+  const {
+    data: provinces,
+    isLoading: isProvincesLoading,
+    isSuccess: isProvincesSuccess,
+  } = useGetAllProvincesQuery(null);
 
   useEffect(() => {
     if (provinces && !isProvincesLoading && isProvincesSuccess) {
@@ -156,18 +246,24 @@ const ActionButton = () => {
 
   return (
     <div className="flex flex-col">
-      <CustomButton text="Back" type="button" color="#383d39" onClick={() => navigate(-1)} />
+      <CustomButton
+        text="Back"
+        type="button"
+        color="#383d39"
+        onClick={() => navigate(-1)}
+      />
     </div>
   );
 };
 
-const EditPatient = () => {
+const AddPatient = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setEdit());
   }, [dispatch]);
 
-  const headerDescription = "Welcome to the medical history addition form. This form allows you to provide detailed information about the patient's medical history, which is essential for effective healthcare management.";
+  const headerDescription =
+    "Welcome to the medical history addition form. This form allows you to provide detailed information about the patient's medical history, which is essential for effective healthcare management.";
 
   return (
     <Layout
@@ -185,4 +281,4 @@ const EditPatient = () => {
   );
 };
 
-export default EditPatient;
+export default AddPatient;

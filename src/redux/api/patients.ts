@@ -13,12 +13,23 @@ export const patientApi = apiService.injectEndpoints({
                 url: `/patients/details/${props.patientId}`
             }),
             providesTags: ["PatientDetails"],
-        })
+        }),
+        createPatient: builder.mutation({
+            query: (data) => ({
+                url: "/patients",
+                method: "POST",
+                body: {
+                    ...data
+                },
+              }),
+            invalidatesTags: ["PatientHistory", "PatientHistories", "Patients", "PatientDetails"]
+        }),
 
     })
 })
 
 export const {
+    useCreatePatientMutation,
     useGetPatientListQuery,
     useGetPatientDetailsQuery,
     useLazyGetPatientDetailsQuery,
