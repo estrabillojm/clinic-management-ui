@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useGetBranchListQuery } from "../../../redux/api/branchApi";
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
@@ -7,11 +6,6 @@ import BranchCard from "./components/BranchCard";
 const Content = () => {
 
     const { data: branches, isLoading } = useGetBranchListQuery(null);
-
-    useEffect(() => {
-      console.log(branches)
-    }, [branches]);
-
 
     return ( 
         <>

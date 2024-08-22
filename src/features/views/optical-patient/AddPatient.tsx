@@ -154,6 +154,7 @@ const Content = () => {
   }, [isSubmitReady, createPatientHistory, formData]);
 
   useEffect(() => {
+    console.log("awiiiiiiiiit this", patient)
     if(patient && isPatientSuccess){
       (async () => {
         const result = await createPatientHistory({ patientId: patient.result.patientId, ...formData });

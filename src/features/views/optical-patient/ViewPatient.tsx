@@ -181,10 +181,9 @@ const ActionButton = () => {
   const { patientId } = useParams();
   const dispatch = useDispatch();
 
-  const { branchId, clinicId } = useParams();
   const handleAddTransaction = () => {
     dispatch(setActivePatientHistory({ result: {}}));
-    navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patientId}/add/transaction`)
+    navigate(`/patient/${patientId}/add/transaction`)
   }
 
   return (

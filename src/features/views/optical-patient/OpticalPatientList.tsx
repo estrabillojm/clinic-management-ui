@@ -4,7 +4,7 @@ import Filter from "../../components/shared/table/Filter";
 import TableParentLayout from "../../components/shared/table/TableParentLayout";
 import SortingOptions from "../../components/shared/table/SortingOptions";
 import Table from "../../components/shared/table/Table";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CustomButton from "../../components/shared/global/Button";
 import { useGetPatientListQuery } from "../../../redux/api/patients";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,15 +18,13 @@ const Content = () => {
     { label: "First Name", column: "firstName" },
     { label: "Age", column: "age" }
   ];
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const dataTable = useSelector((state: any) => state.patients.dataTable);
   const { data: patients, isLoading, isSuccess } = useGetPatientListQuery(null);
-  const { branchId, clinicId } = useParams();
+
   useEffect(() => {
     if(dataTable){
       dispatch(clearDataTable())
-      navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${dataTable.id}/info`)
     }
   }, [dataTable])
 
@@ -53,11 +51,10 @@ const Content = () => {
 };
 
 const ActionButton = () => {
-  const { branchId, clinicId } = useParams();
   return (
     <>
       <div className="flex flex-col">
-        <Link to={`/clinic/${clinicId}/branch/${branchId}/patient/add/new`}>
+        <Link to="/patient/add/new">
           <CustomButton text="Add Patient" type="button" color="#246068"/>
         </Link>
         <Link to="/branches" className="w-full">
@@ -68,13 +65,13 @@ const ActionButton = () => {
   )
 }
 
-const PatientList = () => {
+const OpticalPatientList = () => {
   return (
     <Layout
       pageTitle={"Administrator"}
       Header={
         <Header
-          title="General Patients List"
+          title="Optical Patients List"
           description="Welcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently. "
           actions={<ActionButton/>}
         />
@@ -85,4 +82,4 @@ const PatientList = () => {
   );
 };
 
-export default PatientList;
+export default OpticalPatientList;
