@@ -1,20 +1,17 @@
 import { Link } from "react-router-dom";
 import { FaClinicMedical } from "react-icons/fa";
-import { getUserInfo } from "../../../../redux/features/userSlice";
 
 type Props = {
     branchName: string;
     description: string;
     id: string;
+    clinicId: string;
 }
-const BranchCard = ({ id, branchName, description } : Props) => {
-
-    const accessToken = localStorage.getItem("accesstoken");
-    const userInfo = getUserInfo(accessToken)
+const BranchCard = ({ id, branchName, description, clinicId } : Props) => {
 
     return ( 
         <>
-            <Link to={`/clinic/${userInfo.clinic.clinicId}/patients/list/${id}`}>
+            <Link to={`/clinic/${clinicId}/patients/list/${id}`}>
                 <div className="border-4 border-secondaryBg rounded-lg pb-4 px-2 pt-8 hover:bg-slate-300 transition-all relative overflow-hidden">
                     <FaClinicMedical className="absolute h-32 w-40 bottom-[-20px] right-1 text-secondaryBg z-0"/>
                     <div className="border-l-2 border-gray-300 pl-2 z-10 relative">

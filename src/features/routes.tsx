@@ -49,7 +49,7 @@ const routes = createBrowserRouter([
         { path: "branches", element: <PrivateRoute element={<BranchList />} /> },
         { path: "clinic/:clinicId/patients/list/:branchId", element: <PrivateRoute element={<PatientList />} /> },
         { path: "clinic/:clinicId/branch/:branchId/patient/:patientId/info", element: <PrivateRoute element={<ViewPatient />} /> },
-        { path: "clinic/:clinicId/branch/:branchIdpatient/add/new", element: <PrivateRoute element={<AddPatient />} /> },
+        { path: "clinic/:clinicId/branch/:branchId/patient/add/new", element: <PrivateRoute element={<AddPatient />} /> },
         { path: "clinic/:clinicId/branch/:branchId/patient/:patientId/add/transaction", element: <PrivateRoute element={<EditPatient />} /> },
 
         { path: "clinic/:clinicId/optical/list/:branchId", element: <PrivateRoute element={<OpticalPatientList />} /> },
