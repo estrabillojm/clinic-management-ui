@@ -20,6 +20,7 @@ import { validatePatientForm } from "../../../redux/features/patientValidatorSli
 import EditPatientValidator from "./components/validator/EditPatientValidator";
 import { ternaryChecker } from "../../../utils/ternaryChecker";
 import { useCreatePatientMutation } from "../../../redux/api/patients";
+import { PATIENT_TYPE } from "../../../enums/patientType";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -62,18 +63,6 @@ const Content = () => {
     createPatientHistory,
     { isSuccess: patientHistorySuccess, isLoading: patientHistoryLoading },
   ] = useCreatePatientHistoryMutation();
-  const historiesPast = useSelector(
-    (state: { historyTab: { pastHistory: string } }) =>
-      state.historyTab.pastHistory
-  );
-  const historiesFamily = useSelector(
-    (state: { historyTab: { familyHistory: string } }) =>
-      state.historyTab.familyHistory
-  );
-  const historiesSocial = useSelector(
-    (state: { historyTab: { socialHistory: string } }) =>
-      state.historyTab.socialHistory
-  );
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
 
@@ -83,17 +72,11 @@ const Content = () => {
     const formattedDate = dayjs(data.dateOfBirth).format("L");
     const formattedData = {
       ...data,
-      physicianRemarksHeightUnit: "cm",
-      physicianRemarksWeightUnit: "kg",
-      dateOfBirth: formattedDate,
-      historiesPast,
-      historiesFamily,
-      historiesSocial,
-      physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
     };
 
-    dispatch(validatePatientForm({ patient: formattedData }));
-    setIsSubmitReady(true);
+    console.log(formattedData)
+    // dispatch(validatePatientForm({ patient: formattedData }));
+    // setIsSubmitReady(true);
   };
 
   const [createPatient, { data: patient, isSuccess: isPatientSuccess }] =
@@ -140,6 +123,7 @@ const Content = () => {
           street,
           email,
           contact,
+          patientType: PATIENT_TYPE.optical,
           clinicId,
           branchId,
         });

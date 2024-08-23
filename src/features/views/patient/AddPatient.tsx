@@ -20,6 +20,7 @@ import { validatePatientForm } from "../../../redux/features/patientValidatorSli
 import EditPatientValidator from "./components/validator/EditPatientValidator";
 import { ternaryChecker } from "../../../utils/ternaryChecker";
 import { useCreatePatientMutation } from "../../../redux/api/patients";
+import { PATIENT_TYPE } from "../../../enums/patientType";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -141,6 +142,7 @@ const Content = () => {
           contact,
           clinicId,
           branchId,
+          patientType: PATIENT_TYPE.general,
         });
       })();
       setIsSubmitReady(false);
