@@ -16,11 +16,10 @@ import { useCreatePatientHistoryMutation } from "../../../redux/api/patientHisto
 import { clearPatientHistory } from "../../../redux/features/patientHistorySlice";
 import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
 import { mapProvinces } from "../../../redux/features/addressSlice";
-import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
 import EditPatientValidator from "./components/validator/EditPatientValidator";
-import { ternaryChecker } from "../../../utils/ternaryChecker";
 import { useCreatePatientMutation } from "../../../redux/api/patients";
 import { PATIENT_TYPE } from "../../../enums/patientType";
+import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -68,15 +67,12 @@ const Content = () => {
 
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
-
-    const formattedDate = dayjs(data.dateOfBirth).format("L");
     const formattedData = {
       ...data,
     };
 
-    console.log(formattedData)
-    // dispatch(validatePatientForm({ patient: formattedData }));
-    // setIsSubmitReady(true);
+    dispatch(validatePatientForm({ patient: formattedData }));
+    setIsSubmitReady(true);
   };
 
   const [createPatient, { data: patient, isSuccess: isPatientSuccess }] =
