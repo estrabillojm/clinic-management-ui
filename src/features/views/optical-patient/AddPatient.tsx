@@ -26,12 +26,6 @@ interface PatientFormData {
   physicianId: string;
 }
 
-interface ApiResponse {
-  data: {
-    clinicId: string;
-  };
-}
-
 const Content = () => {
   const dispatch = useDispatch();
   // const { patientId } = useParams<{ patientId: string }>();
@@ -81,7 +75,6 @@ const Content = () => {
   );
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
-  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
 
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
@@ -102,8 +95,10 @@ const Content = () => {
     setIsSubmitReady(true);
   };
 
-  const [createPatient, { data: patient, isSuccess: isPatientSuccess }] = useCreatePatientMutation()
+  const [createPatient, { data: patient, isSuccess: isPatientSuccess }] =
+    useCreatePatientMutation();
 
+  const { clinicId, branchId } = useParams();
   useEffect(() => {
     if (isSubmitReady) {
       console.log(formData);
@@ -118,14 +113,13 @@ const Content = () => {
         nationality,
         birthPlaceProvinceId,
         birthPlaceCityId,
-        provinceId,
-        cityId,
+        province,
+        city,
         barangay,
         street,
         email,
-        contact
+        contact,
       } = formData;
-
 
       (async () => {
         await createPatient({
@@ -138,50 +132,39 @@ const Content = () => {
           religion,
           nationality,
           birthPlaceProvinceId,
-          birthPlaceCityId, 
-          provinceId,
-          cityId,
+          birthPlaceCityId,
+          provinceId: province,
+          cityId: city,
           barangay,
           street,
           email,
           contact,
-          clinicId: "d32247a8-8589-41de-bfb3-aea615bdf862",
-          branchId: "a95cc42f-7865-46b3-948c-1ce5500e105e",
-        })
-      })()
+          clinicId,
+          branchId,
+        });
+      })();
       setIsSubmitReady(false);
     }
   }, [isSubmitReady, createPatientHistory, formData]);
 
   useEffect(() => {
-    console.log("awiiiiiiiiit this", patient)
-    if(patient && isPatientSuccess){
+    if (patient && isPatientSuccess) {
       (async () => {
-        const result = await createPatientHistory({ patientId: patient.result.patientId, ...formData });
-        if ('data' in result) {
-          setApiResponse(result.data);
-        } else {
-          console.error(result.error);
-        }
+        await createPatientHistory({
+          patientId: patient.result.patientId,
+          ...formData,
+        });
       })();
     }
-  }, [patient, isPatientSuccess])
+  }, [patient, isPatientSuccess]);
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (patientHistorySuccess && !patientHistoryLoading && apiResponse) {
+    if (patientHistorySuccess && !patientHistoryLoading) {
       dispatch(clearPatientHistory());
-      if ("clinicId" in apiResponse) {
-        navigate(`/patients/list/${apiResponse.clinicId}`);
-      }
+      navigate(`/clinic/${clinicId}/patients/list/${branchId}`);
     }
-  }, [
-    patientHistorySuccess,
-    patientHistoryLoading,
-    apiResponse,
-    dispatch,
-    navigate,
-  ]);
+  }, [patientHistorySuccess, patientHistoryLoading, dispatch, navigate]);
 
   return (
     <div className="flex gap-8">
@@ -276,7 +259,7 @@ const AddPatient = () => {
         />
       }
       Content={<Content />}
-      activeLink={0}
+      activeLink={2}
     />
   );
 };

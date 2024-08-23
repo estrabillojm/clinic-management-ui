@@ -37,7 +37,7 @@ const Content = () => {
   const [searchFirstName, setSearchFirstName] = useState("")
   const [searchLastName, setSearchLastName] = useState("")
   const onSearch = async () => {
-    await getPatientList({clinicId, params: { searchFirstName, searchLastName }})
+    await getPatientList({clinicId, patientType: PATIENT_TYPE.general, params: { searchFirstName, searchLastName }})
   }
 
   return (
@@ -96,7 +96,7 @@ const PatientList = () => {
         />
       }
       Content={<Content />}
-      activeLink={0}
+      activeLink={1}
     />
   );
 };

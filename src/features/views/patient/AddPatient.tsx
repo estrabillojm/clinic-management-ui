@@ -259,7 +259,7 @@ const AddPatient = () => {
         />
       }
       Content={<Content />}
-      activeLink={0}
+      activeLink={1}
     />
   );
 };

@@ -202,7 +202,7 @@ const ActionButton = () => {
 
 const ViewPatient = () => {
   const description =
-    "The Patient Information Overview provides a comprehensive snapshot of essential details regarding a patient's medical history, current health status, and pertinent demographic information.";
+    "Welcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently.";
   return (
     <Layout
       pageTitle={"Administrator"}
@@ -214,7 +214,7 @@ const ViewPatient = () => {
         />
       }
       Content={<Content />}
-      activeLink={0}
+      activeLink={1}
     />
   );
 };

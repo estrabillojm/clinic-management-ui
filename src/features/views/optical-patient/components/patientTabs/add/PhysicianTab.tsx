@@ -15,11 +15,11 @@ type PhysicianList = {
   value: string;
 };
 
-const PhysicianTab = ({ selectedTab }: any) => {
+const PhysicianTab = ({ selectedTab, clinicId }: any) => {
   const {
     data: physicians,
     isLoading,
-  } = useGetPhysicianListQuery(null);
+  } = useGetPhysicianListQuery(clinicId);
   const [physicianList, setPhysicianList] = useState<PhysicianList[]>([]);
 
   const data = {

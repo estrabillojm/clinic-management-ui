@@ -48,11 +48,6 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
                 // link: '/AdministratorRoles',
                 // icon: <FaUserTag />
                 // },
-                // {
-                //     name: 'Optical',
-                //     link: `/clinic/${clinicId}/optical/list/${branchId}`,
-                //     icon: <FaRegEye />
-                // },
                 {
                     name: 'Branches',
                     link: '/branches',
@@ -62,6 +57,11 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
                     name: 'General Patient',
                     link: `/clinic/${clinicId}/patients/list/${branchId}`,
                     icon: <MdHealthAndSafety />
+                },
+                {
+                    name: 'Optical',
+                    link: `/optic/${clinicId}/optical/list/${branchId}`,
+                    icon: <FaRegEye />
                 },
         ];
         default:

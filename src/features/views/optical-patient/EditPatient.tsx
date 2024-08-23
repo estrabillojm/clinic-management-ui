@@ -34,12 +34,6 @@ interface PatientFormData {
   physicianId: string;
 }
 
-interface ApiResponse {
-  data: {
-    clinicId: string;
-  };
-}
-
 const Content = () => {
   const dispatch = useDispatch();
   const { patientId } = useParams<{ patientId: string }>();
@@ -69,8 +63,6 @@ const Content = () => {
   const historiesSocial = useSelector((state: { historyTab: { socialHistory: string } }) => state.historyTab.socialHistory);
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
-  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
-  
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
 
@@ -93,26 +85,21 @@ const Content = () => {
   useEffect(() => {
     if (isSubmitReady) {
       (async () => {
-        const result = await createPatientHistory({ patientId, ...formData });
-        if ('data' in result) {
-          setApiResponse(result.data);
-        } else {
-          console.error(result.error);
-        }
+        await createPatientHistory({ patientId, ...formData });
       })();
       setIsSubmitReady(false);
     }
   }, [isSubmitReady, createPatientHistory, formData, patientId]);
 
+
+  const { branchId, clinicId } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    if (patientHistorySuccess && !patientHistoryLoading && apiResponse) {
+    if (patientHistorySuccess && !patientHistoryLoading) {
       dispatch(clearPatientHistory());
-      if('clinicId' in apiResponse){
-        navigate(`/patients/list/${apiResponse.clinicId}`);
-      }
+      navigate(`/clinic/${clinicId}/patients/list/${branchId}`);
     }
-  }, [patientHistorySuccess, patientHistoryLoading, apiResponse, dispatch, navigate]);
+  }, [patientHistorySuccess, patientHistoryLoading, dispatch, navigate]);
 
   return (
     <div className="flex gap-8">
@@ -211,7 +198,7 @@ const EditPatient = () => {
         />
       }
       Content={<Content />}
-      activeLink={0}
+      activeLink={2}
     />
   );
 };
