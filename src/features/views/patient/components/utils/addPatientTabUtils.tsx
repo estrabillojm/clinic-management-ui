@@ -7,6 +7,7 @@ import PhysicianTab from "../patientTabs/add/PhysicianTab";
 import SoapTab from "../patientTabs/add/SoapTab";
 import VitalSignTab from "../patientTabs/add/VitalSignTab";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const AddPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
 
@@ -18,6 +19,8 @@ const AddPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
     setRequiredFields(formValidator.map((field: any) => field.column));
   }, [formValidator]);
 
+  const { clinicId, branchId } = useParams();
+
   return (
     <>
         <PersonalTab selectedTab={tabSelected} requiredFields={requiredFields}/>
@@ -26,7 +29,7 @@ const AddPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
         <VitalSignTab selectedTab={tabSelected}/>
         <HistoryTab selectedTab={tabSelected}/>
         <SoapTab selectedTab={tabSelected}/>
-        <PhysicianTab selectedTab={tabSelected}/>
+        <PhysicianTab selectedTab={tabSelected} clinicId={clinicId}/>
     </>
   )
 

@@ -1,12 +1,13 @@
 import { useSelector } from "react-redux";
-import ContactsTab from "../patientTabs/edit/ContactsTab";
-import HistoryTab from "../patientTabs/edit/HistoryTab";
-import PersonToNotifyTab from "../patientTabs/edit/PersonToNotifyTab";
-import PersonalTab from "../patientTabs/edit/PersonalTab";
-import PhysicianTab from "../patientTabs/edit/PhysicianTab";
-import SoapTab from "../patientTabs/edit/SoapTab";
-import VitalSignTab from "../patientTabs/edit/VitalSignTab";
+import ContactsTab from "../patientTabs/view/ContactsTab";
+import HistoryTab from "../patientTabs/view/HistoryTab";
+import PersonToNotifyTab from "../patientTabs/view/PersonToNotifyTab";
+import PersonalTab from "../patientTabs/view/PersonalTab";
+import PhysicianTab from "../patientTabs/view/PhysicianTab";
+import SoapTab from "../patientTabs/view/SoapTab";
+import VitalSignTab from "../patientTabs/view/VitalSignTab";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const ViewPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
 
@@ -21,6 +22,7 @@ const ViewPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
     setRequiredFields(formValidator.map((field: any) => field.column));
   }, [formValidator]);
 
+  const { clinicId, branchId } = useParams();
   return (
     <>
       {
@@ -31,7 +33,7 @@ const ViewPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
           <VitalSignTab data={patientHistory} selectedTab={tabSelected}/>
           <HistoryTab data={patientHistory} selectedTab={tabSelected}/>
           <SoapTab data={patientHistory} selectedTab={tabSelected}/>
-          <PhysicianTab data={patientHistory} selectedTab={tabSelected}/>
+          <PhysicianTab data={patientHistory} selectedTab={tabSelected} clinicId={clinicId}/>
         </>
       }
     </>

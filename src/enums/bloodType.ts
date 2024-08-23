@@ -1,7 +1,7 @@
 export const BLOOD_TYPE_ENUM = Object.freeze([
     "A",
     "A-",
-    "B-",
+    "B",
     "B-",
     "O",
     "O-",

@@ -15,11 +15,11 @@ type PhysicianList = {
   value: string;
 };
 
-const PhysicianTab = ({ data, selectedTab }: any) => {
+const PhysicianTab = ({ data, selectedTab, clinicId }: any) => {
   const {
     data: physicians,
     isLoading,
-  } = useGetPhysicianListQuery(null);
+  } = useGetPhysicianListQuery(clinicId);
   const [physicianList, setPhysicianList] = useState<PhysicianList[]>([]);
 
   useEffect(() => {
@@ -33,12 +33,6 @@ const PhysicianTab = ({ data, selectedTab }: any) => {
       );
     }
   }, [physicians]);
-
-  useEffect(() => {
-    if(data){
-      console.log(data);
-    }
-  }, [data])
 
   return (
     <>

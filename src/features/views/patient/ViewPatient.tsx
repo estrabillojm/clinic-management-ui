@@ -34,13 +34,13 @@ const Content = () => {
     (state: tabSelectedProps) => state.patients.tabSelected
   );
 
-  const { patientId } = useParams();
+  const { patientId, clinicId } = useParams();
   // GET HISTORIES
   const {
     data: histories,
     isLoading: historiesLoading,
     isSuccess: historiesSuccess,
-  } = useGetPatientHistoriesQuery({ patientId });
+  } = useGetPatientHistoriesQuery({ clinicId, patientId });
   // END GET ALL HISTORIES
 
   // PATIENT DETAILS
@@ -71,13 +71,12 @@ const Content = () => {
 
 
   const [activeCard, setActiveCard] = useState(null);
-
   // GET RECENT PATIENT HISTORY
   const {
     data: history,
     isLoading,
     isSuccess,
-  } = useGetRecentPatientHistoryQuery({ patientId });
+  } = useGetRecentPatientHistoryQuery({ clinicId, patientId });
 
   useEffect(() => {
     if (history && !isLoading && isSuccess) {
@@ -178,10 +177,9 @@ const Content = () => {
 
 const ActionButton = () => {
   const navigate = useNavigate();
-  const { patientId } = useParams();
+  const { patientId, branchId, clinicId } = useParams();
   const dispatch = useDispatch();
 
-  const { branchId, clinicId } = useParams();
   const handleAddTransaction = () => {
     dispatch(setActivePatientHistory({ result: {}}));
     navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patientId}/add/transaction`)
