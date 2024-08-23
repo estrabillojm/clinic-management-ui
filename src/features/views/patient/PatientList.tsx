@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { clearDataTable } from "../../../redux/features/patientInfoTabSlice";
 import { Button, TextField } from "@mui/material";
+import { PATIENT_TYPE } from "../../../enums/patientType";
 
 const Content = () => {
   const headers = [
@@ -24,8 +25,7 @@ const Content = () => {
 
   const { branchId, clinicId } = useParams();
   useEffect(() => {
-    console.log(clinicId)
-    getPatientList({clinicId, params: { searchFirstName, searchLastName }})
+    getPatientList({clinicId, patientType: PATIENT_TYPE.general, params: { searchFirstName, searchLastName}})
   }, [])
   useEffect(() => {
     if(dataTable){

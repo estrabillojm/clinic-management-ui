@@ -5,11 +5,11 @@ export const patientApi = apiService.injectEndpoints({
         getPatientList: builder.query({
             query: (props) => {
                 let queryParams = ""
-                console.log(props)
                 if(props.params.searchFirstName || props.params.searchLastName || props.params.dateOfBirth){
-                    queryParams += `?firstName=${props.params.searchFirstName}&lastName=${props.params.searchLastName}&dateOfBirth=${props.params.dateOfBirth}`
+                    queryParams += `&firstName=${props.params.searchFirstName}&lastName=${props.params.searchLastName}&dateOfBirth=${props.params.dateOfBirth}`
                 }
-                return {url: `/patients/${props.clinicId}${queryParams}`}
+                
+                return {url: `/patients/${props.clinicId}?patientType=${props.patientType ?? ""}${queryParams}`}
             },
             providesTags: ["Patients"],
         }),
