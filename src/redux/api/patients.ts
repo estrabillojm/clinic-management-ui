@@ -3,9 +3,14 @@ import { apiService } from "../apiService";
 export const patientApi = apiService.injectEndpoints({
     endpoints: (builder) => ({
         getPatientList: builder.query({
-            query: () => ({
-                url: `/patients/d32247a8-8589-41de-bfb3-aea615bdf862` // PATIENT'S BY CLINIC ID
-            }),
+            query: (props) => {
+                let queryParams = ""
+                console.log(props)
+                if(props.params.searchFirstName || props.params.searchLastName || props.params.dateOfBirth){
+                    queryParams += `?firstName=${props.params.searchFirstName}&lastName=${props.params.searchLastName}&dateOfBirth=${props.params.dateOfBirth}`
+                }
+                return {url: `/patients/${props.clinicId}${queryParams}`}
+            },
             providesTags: ["Patients"],
         }),
         getPatientDetails: builder.query({
@@ -31,6 +36,7 @@ export const patientApi = apiService.injectEndpoints({
 export const {
     useCreatePatientMutation,
     useGetPatientListQuery,
+    useLazyGetPatientListQuery,
     useGetPatientDetailsQuery,
     useLazyGetPatientDetailsQuery,
 } = patientApi;

@@ -1,5 +1,5 @@
 type Props = {
-    filter: React.ReactNode;
+    filter?: React.ReactNode;
     table: React.ReactNode;
     options?: React.ReactNode;
 }
@@ -7,7 +7,7 @@ type Props = {
 const TableParentLayout = ({ filter, table, options } : Props) => {
     return ( 
         <>
-        <div className=" border-8 w-full flex gap-4">
+        <div className="w-full flex gap-4">
             <div className="flex flex-col w-full">
                 { filter }
                 { table }

@@ -54,14 +54,14 @@ export const NavbarLinks = ({ page }: NavbarLinkProps): NavbarLink[] => {
                 //     icon: <FaRegEye />
                 // },
                 {
-                    name: 'General Patient',
-                    link: `/clinic/${clinicId}/patients/list/${branchId}`,
-                    icon: <MdHealthAndSafety />
-                },
-                {
                     name: 'Branches',
                     link: '/branches',
                     icon: <FaClinicMedical />
+                },
+                {
+                    name: 'General Patient',
+                    link: `/clinic/${clinicId}/patients/list/${branchId}`,
+                    icon: <MdHealthAndSafety />
                 },
         ];
         default:

@@ -1,28 +1,32 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
-import Filter from "../../components/shared/table/Filter";
 import TableParentLayout from "../../components/shared/table/TableParentLayout";
-import SortingOptions from "../../components/shared/table/SortingOptions";
 import Table from "../../components/shared/table/Table";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../../components/shared/global/Button";
-import { useGetPatientListQuery } from "../../../redux/api/patients";
+import {  useLazyGetPatientListQuery } from "../../../redux/api/patients";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { clearDataTable } from "../../../redux/features/patientInfoTabSlice";
+import { Button, TextField } from "@mui/material";
 
 const Content = () => {
   const headers = [
-    { label: "Patient Number", column: "id" },
-    { label: "Last Name", column: "lastName" },
+    { label: "Patient Number", column: "trimmedId" },
     { label: "First Name", column: "firstName" },
-    { label: "Age", column: "age" }
+    { label: "Last Name", column: "lastName" },
   ];
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const dataTable = useSelector((state: any) => state.patients.dataTable);
-  const { data: patients, isLoading, isSuccess } = useGetPatientListQuery(null);
+  const [getPatientList, { data: patients, isLoading, isSuccess }] = useLazyGetPatientListQuery();
+
+
   const { branchId, clinicId } = useParams();
+  useEffect(() => {
+    console.log(clinicId)
+    getPatientList({clinicId, params: { searchFirstName, searchLastName }})
+  }, [])
   useEffect(() => {
     if(dataTable){
       dispatch(clearDataTable())
@@ -30,23 +34,35 @@ const Content = () => {
     }
   }, [dataTable])
 
+  const [searchFirstName, setSearchFirstName] = useState("")
+  const [searchLastName, setSearchLastName] = useState("")
+  const onSearch = async () => {
+    await getPatientList({clinicId, params: { searchFirstName, searchLastName }})
+  }
+
   return (
     <>
       {
       
       !isLoading && isSuccess &&
-      <TableParentLayout
-        filter={<Filter />}
-        table={ <Table 
-          rows={patients?.result?.patientTransactions}
-          headers={headers} 
-          btnText="View Patient Info"
-          />
-        }
-        options={
-          <SortingOptions title="Walk In Table Settings" columns={headers} />
-        }
-      />
+      <>
+        <div className="col-span-3 flex justify-end mb-4 gap-1"> 
+          <TextField size="small" label="First Name" onChange={(e) => setSearchFirstName(e.target.value)}/>
+          <TextField size="small" label="Last Name" onChange={(e) => setSearchLastName(e.target.value)}/>
+          <Button size="small" variant="contained" color="success" onClick={onSearch}>Search</Button>
+        </div>
+        <TableParentLayout
+          table={ <Table 
+            rows={patients?.result?.patientTransactions}
+            headers={headers} 
+            btnText="View Patient Info"
+            />
+          }
+          // options={
+          //   <SortingOptions title="Walk In Table Settings" columns={headers} />
+          // }
+        />
+      </>
       }
     </>
   );
