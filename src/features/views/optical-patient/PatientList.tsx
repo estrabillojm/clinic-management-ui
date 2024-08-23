@@ -7,7 +7,7 @@ import CustomButton from "../../components/shared/global/Button";
 import { useLazyGetPatientListQuery } from "../../../redux/api/patients";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { clearDataTable } from "../../../redux/features/patientInfoTabSlice";
+import { clearDataTable } from "../../../redux/features/opticalPatientInfoTabSlice";
 import { Alert, Button, TextField } from "@mui/material";
 import { PATIENT_TYPE } from "../../../enums/patientType";
 
@@ -102,7 +102,7 @@ const ActionButton = () => {
   return (
     <>
       <div className="flex flex-col">
-        <Link to={`/clinic/${clinicId}/branch/${branchId}/patient/add/new`}>
+        <Link to={`/optic/${clinicId}/branch/${branchId}/patient/add/new`}>
           <CustomButton text="Add Patient" type="button" color="#246068" />
         </Link>
         <Link to="/branches" className="w-full">

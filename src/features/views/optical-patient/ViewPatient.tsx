@@ -1,7 +1,7 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
 import { FormProvider, useForm } from "react-hook-form";
-import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
+import MenuWithHeader from "../../components/shared/menuWithHeader/OpticsMenuWithHeader";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "./components/Card";
 import CustomButton from "../../components/shared/global/Button";
@@ -16,7 +16,7 @@ import {
 import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 import { setView } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
-import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
+import { setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import ViewPatientTabUtils from "./components/utils/viewPatientTabUtils";

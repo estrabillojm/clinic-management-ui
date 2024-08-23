@@ -6,6 +6,7 @@ import {
   import { apiService } from "./apiService";
   import userSlice from "./features/userSlice";
   import patientInfoTabSlice from "./features/patientInfoTabSlice";
+  import opticalPatientInfoTabSlice from "./features/opticalPatientInfoTabSlice";
 import enumSlice from "./enums/enumSlice";
 import adminTabSlice from "./features/adminTabSlice";
 import patientHistorySlice from "./features/patientHistorySlice";
@@ -22,6 +23,7 @@ import historyTabSlice from "./features/historyTabSlice";
     sample: sampleSlice, // REMOVE THIS IF NECESSARY
     user: userSlice,
     patients: patientInfoTabSlice,
+    optics: opticalPatientInfoTabSlice,
     adminTabs: adminTabSlice,
     patientHistories: patientHistorySlice,
     enum: enumSlice,

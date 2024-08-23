@@ -1,7 +1,7 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
+import MenuWithHeader from "../../components/shared/menuWithHeader/OpticsMenuWithHeader";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
@@ -11,7 +11,7 @@ import AddPatientTabUtils from "./components/utils/addPatientTabUtils";
 import { useEffect, useState } from "react";
 import { setEdit } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
-import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
+import { setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
 import { useCreatePatientHistoryMutation } from "../../../redux/api/patientHistory";
 import { clearPatientHistory } from "../../../redux/features/patientHistorySlice";
 import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
@@ -35,13 +35,14 @@ const Content = () => {
   }, [dispatch]);
 
   const headers = useSelector(
-    (state: { patients: { tabs: headerProps["patients"]["tabs"] } }) =>
-      state.patients.tabs
+    (state: { optics: { tabs: headerProps["patients"]["tabs"] } }) =>
+      state.optics.tabs
   );
+
   const tabSelected = useSelector(
     (state: {
-      patients: { tabSelected: tabSelectedProps["patients"]["tabSelected"] };
-    }) => state.patients.tabSelected
+      optics: { tabSelected: tabSelectedProps["patients"]["tabSelected"] };
+    }) => state.optics.tabSelected
   );
   const formValidator = useSelector(
     (state: { patientValidator: { invalidFields: any[] } }) =>
@@ -190,16 +191,16 @@ const Content = () => {
                   Previous
                 </Button>
                 <Button
-                  variant={tabSelected === 6 ? "contained" : "outlined"}
+                  variant={tabSelected === 3 ? "contained" : "outlined"}
                   color="success"
-                  type={tabSelected === 6 ? "submit" : "button"}
+                  type={tabSelected === 3 ? "submit" : "button"}
                   onClick={() =>
-                    tabSelected < 6
+                    tabSelected < 3
                       ? dispatch(setTabSelected(tabSelected + 1))
                       : dispatch(setTabSelected(tabSelected))
                   }
                 >
-                  {tabSelected === 6 ? "Save Transaction" : "Next"}
+                  {tabSelected === 3 ? "Save Transaction" : "Next"}
                 </Button>
               </div>
             </form>
@@ -253,7 +254,7 @@ const AddPatient = () => {
       pageTitle="Administrator"
       Header={
         <Header
-          title="Add Transaction - New Patient"
+          title="Add Transaction - New Optical Patient"
           description={headerDescription}
           actions={<ActionButton />}
         />

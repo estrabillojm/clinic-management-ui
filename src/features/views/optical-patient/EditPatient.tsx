@@ -1,7 +1,7 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import MenuWithHeader from "../../components/shared/menuWithHeader/MenuWithHeader";
+import MenuWithHeader from "../../components/shared/menuWithHeader/OpticsMenuWithHeader";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import CustomButton from "../../components/shared/global/Button";
@@ -11,7 +11,7 @@ import EditPatientTabUtils from "./components/utils/editPatientTabUtils";
 import { useEffect, useState } from "react";
 import { setEdit } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
-import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
+import { setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
 import { useGetPatientDetailsQuery, useLazyGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import {

@@ -44,7 +44,7 @@ const PhysicianTab = ({ selectedTab, clinicId }: any) => {
       {isLoading ? (
         <h3>Loading Data</h3> // Create a loader for the content
       ) : (
-        <div className={`grid grid-cols-12 gap-4 mb-8 ${selectedTab === 6 ? "block" : "hidden"}`}>
+        <div className={`grid grid-cols-12 gap-4 mb-8 ${selectedTab === 3 ? "block" : "hidden"}`}>
           <div className="col-span-4">
             <AutoComplete
               label="Physician"
