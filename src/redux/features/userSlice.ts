@@ -12,14 +12,18 @@ const userInfoDefaultValues = {
   lastName: "",
   iat: 0,
   exp: 0,
+  clinic: {
+    clinicId: ""
+  },
 };
+
 
 export const getUserInfo = (token: string | null) => {
   //get initial state from decoded access token
-  const info = token && jwtDecode(token);
+  const info: any = token && jwtDecode(token);
 
   //if no token, return default values
-  return info;
+  return {...info, userId:null, systemRole: null, username: null};
 };
 
 const initialState: any = { // TODO : CHANGE THIS

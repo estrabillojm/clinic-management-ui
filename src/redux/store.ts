@@ -6,6 +6,7 @@ import {
   import { apiService } from "./apiService";
   import userSlice from "./features/userSlice";
   import patientInfoTabSlice from "./features/patientInfoTabSlice";
+  import opticalPatientInfoTabSlice from "./features/opticalPatientInfoTabSlice";
 import enumSlice from "./enums/enumSlice";
 import adminTabSlice from "./features/adminTabSlice";
 import patientHistorySlice from "./features/patientHistorySlice";
@@ -13,6 +14,7 @@ import actionTypeSlice from "./features/actionTypeSlice";
 import patientSlice from "./features/patientSlice";
 import addressSlice from "./features/addressSlice";
 import patientValidatorSlice from "./features/patientValidatorSlice";
+import historyTabSlice from "./features/historyTabSlice";
 //   import { loginApi } from "./api/loginApi";
   
   const reducer = combineReducers({
@@ -21,6 +23,7 @@ import patientValidatorSlice from "./features/patientValidatorSlice";
     sample: sampleSlice, // REMOVE THIS IF NECESSARY
     user: userSlice,
     patients: patientInfoTabSlice,
+    optics: opticalPatientInfoTabSlice,
     adminTabs: adminTabSlice,
     patientHistories: patientHistorySlice,
     enum: enumSlice,
@@ -28,6 +31,7 @@ import patientValidatorSlice from "./features/patientValidatorSlice";
     patientDetails: patientSlice,
     address: addressSlice,
     patientValidator: patientValidatorSlice,
+    historyTab: historyTabSlice,
   });
   export const setupStore = () =>
     configureStore({

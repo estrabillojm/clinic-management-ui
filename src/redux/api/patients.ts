@@ -3,9 +3,14 @@ import { apiService } from "../apiService";
 export const patientApi = apiService.injectEndpoints({
     endpoints: (builder) => ({
         getPatientList: builder.query({
-            query: () => ({
-                url: `/patients/0b0e5cc1-44e0-4147-904e-e59075278ff7` // PATIENT'S BY CLINIC ID
-            }),
+            query: (props) => {
+                let queryParams = ""
+                if(props.params.searchFirstName || props.params.searchLastName || props.params.dateOfBirth){
+                    queryParams += `&firstName=${props.params.searchFirstName}&lastName=${props.params.searchLastName}&dateOfBirth=${props.params.dateOfBirth}`
+                }
+                
+                return {url: `/patients/${props.clinicId}?patientType=${props.patientType ?? ""}${queryParams}`}
+            },
             providesTags: ["Patients"],
         }),
         getPatientDetails: builder.query({
@@ -13,12 +18,25 @@ export const patientApi = apiService.injectEndpoints({
                 url: `/patients/details/${props.patientId}`
             }),
             providesTags: ["PatientDetails"],
-        })
+        }),
+        createPatient: builder.mutation({
+            query: (data) => ({
+                url: "/patients",
+                method: "POST",
+                body: {
+                    ...data
+                },
+              }),
+            invalidatesTags: ["PatientHistory", "PatientHistories", "Patients", "PatientDetails"]
+        }),
 
     })
 })
 
 export const {
+    useCreatePatientMutation,
     useGetPatientListQuery,
+    useLazyGetPatientListQuery,
     useGetPatientDetailsQuery,
+    useLazyGetPatientDetailsQuery,
 } = patientApi;

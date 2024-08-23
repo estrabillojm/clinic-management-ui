@@ -1,17 +1,15 @@
 import { useEffect } from "react";
 import { useGetBranchListQuery } from "../../../redux/api/branchApi";
+import { getUserInfo } from "../../../redux/features/userSlice";
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
 import BranchCard from "./components/BranchCard";
 
 const Content = () => {
 
-    const { data: branches, isLoading } = useGetBranchListQuery(null);
-
-    useEffect(() => {
-      console.log(branches)
-    }, [branches]);
-
+    const accessToken = localStorage.getItem("accesstoken");
+    const userInfo = getUserInfo(accessToken)
+    const { data: branches, isLoading } = useGetBranchListQuery(userInfo.clinic.clinicId);
 
     return ( 
         <>
@@ -24,6 +22,7 @@ const Content = () => {
                     id={branch.id}
                     branchName={branch.name}
                     description={ branch.description }
+                    clinicId={userInfo.clinic.clinicId}
                   />
                 ))
               }

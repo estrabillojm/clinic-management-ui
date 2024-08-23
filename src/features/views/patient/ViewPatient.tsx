@@ -20,6 +20,8 @@ import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import ViewPatientTabUtils from "./components/utils/viewPatientTabUtils";
+import { useGetAllProvincesQuery } from "../../../redux/api/addressApi";
+import { mapProvinces } from "../../../redux/features/addressSlice";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -32,13 +34,13 @@ const Content = () => {
     (state: tabSelectedProps) => state.patients.tabSelected
   );
 
-  const { patientId } = useParams();
+  const { patientId, clinicId } = useParams();
   // GET HISTORIES
   const {
     data: histories,
     isLoading: historiesLoading,
     isSuccess: historiesSuccess,
-  } = useGetPatientHistoriesQuery({ patientId });
+  } = useGetPatientHistoriesQuery({ clinicId, patientId });
   // END GET ALL HISTORIES
 
   // PATIENT DETAILS
@@ -47,6 +49,18 @@ const Content = () => {
     isLoading: detailsLoading,
     isSuccess: detailsSuccess,
   } = useGetPatientDetailsQuery({ patientId });
+
+  const {
+    data: provinces,
+    isLoading: isProvincesLoading,
+    isSuccess: isProvincesSuccess,
+  } = useGetAllProvincesQuery(null);
+
+  useEffect(() => {
+    if (provinces && !isProvincesLoading && isProvincesSuccess) {
+      dispatch(mapProvinces(provinces));
+    }
+  }, [provinces, isProvincesLoading, isProvincesSuccess]);
 
   useEffect(() => {
     if (patientDetails && !detailsLoading && detailsSuccess) {
@@ -57,13 +71,12 @@ const Content = () => {
 
 
   const [activeCard, setActiveCard] = useState(null);
-
   // GET RECENT PATIENT HISTORY
   const {
     data: history,
     isLoading,
     isSuccess,
-  } = useGetRecentPatientHistoryQuery({ patientId });
+  } = useGetRecentPatientHistoryQuery({ clinicId, patientId });
 
   useEffect(() => {
     if (history && !isLoading && isSuccess) {
@@ -164,12 +177,12 @@ const Content = () => {
 
 const ActionButton = () => {
   const navigate = useNavigate();
-  const { patientId } = useParams();
+  const { patientId, branchId, clinicId } = useParams();
   const dispatch = useDispatch();
 
   const handleAddTransaction = () => {
     dispatch(setActivePatientHistory({ result: {}}));
-    navigate(`/patient/${patientId}/add/transaction`)
+    navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patientId}/add/transaction`)
   }
 
   return (
@@ -189,7 +202,7 @@ const ActionButton = () => {
 
 const ViewPatient = () => {
   const description =
-    "The Patient Information Overview provides a comprehensive snapshot of essential details regarding a patient's medical history, current health status, and pertinent demographic information.";
+    "Welcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently.";
   return (
     <Layout
       pageTitle={"Administrator"}
@@ -201,7 +214,7 @@ const ViewPatient = () => {
         />
       }
       Content={<Content />}
-      activeLink={0}
+      activeLink={1}
     />
   );
 };

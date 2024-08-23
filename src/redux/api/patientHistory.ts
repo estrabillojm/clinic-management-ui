@@ -4,28 +4,48 @@ export const patientHistoryApi = apiService.injectEndpoints({
     endpoints: (builder) => ({
         getRecentPatientHistory: builder.query({
             query: (props) => ({
-                url: `/patient-histories/recent?clinicId=0b0e5cc1-44e0-4147-904e-e59075278ff7&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
+                url: `/patient-histories/recent?clinicId=${props.clinicId}&patientId=${props.patientId}`
             }),
             providesTags: ["RecentPatientHistory"],
         }),
         getPatientHistories: builder.query({
             query: (props) => ({
-                url: `/patient-histories/list?clinicId=0b0e5cc1-44e0-4147-904e-e59075278ff7&patientId=${props.patientId}` // TODO : REPLACE UUID AS A VARIABLE
+                url: `/patient-histories/list?clinicId=${props.clinicId}&patientId=${props.patientId}`
             }),
             providesTags: ["PatientHistories"],
         }),
         getPatientHistory: builder.query({
             query: (patientHistoryId) => ({
-                url: `/patient-histories/${patientHistoryId}` // TODO : REPLACE UUID AS A VARIABLE
+                url: `/patient-histories/${patientHistoryId}`
             }),
             providesTags: ["PatientHistory"],
-        })
+        }),
+        // TODO IN API - ADD UPDATE PATIENT INFO THEN RETURN THE PATIENT TRANSACTION HISTORY ID
+        createPatientHistory: builder.mutation({
+            query: (data) => ({
+                url: "/patient-histories",
+                method: "POST",
+                body: {
+                    ...data
+                },
+              }),
+            invalidatesTags: ["PatientHistory", "PatientHistories"]
+        }),
+        getPatientTransactionHistory: builder.query({
+            query: (patientId) => ({
+                url: `/patient-histories/transaction/patient/${patientId}`
+            }),
+            providesTags: ["PatientHistory"],
+        }),
 
     })
 })
 
 export const {
+    useLazyGetPatientTransactionHistoryQuery,
     useGetRecentPatientHistoryQuery,
+    useLazyGetRecentPatientHistoryQuery,
     useGetPatientHistoriesQuery,
-    useLazyGetPatientHistoryQuery
+    useLazyGetPatientHistoryQuery,
+    useCreatePatientHistoryMutation,
 } = patientHistoryApi;

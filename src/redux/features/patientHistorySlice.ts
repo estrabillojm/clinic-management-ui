@@ -10,10 +10,13 @@ const patientHistorySlice = createSlice({
   reducers: {
     setActivePatientHistory: (state, action) => {
       state.patientHistory = action.payload.result ?? {}
-    }
+    },
+    clearPatientHistory: (state) => {
+      state.patientHistory = {}
+    },
   },
 });
 
-export const { setActivePatientHistory } = patientHistorySlice.actions;
+export const { setActivePatientHistory, clearPatientHistory } = patientHistorySlice.actions;
 
 export default patientHistorySlice.reducer;

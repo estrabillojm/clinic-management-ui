@@ -1,7 +1,6 @@
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
 import { Controller, useFormContext } from "react-hook-form";
 import { Dayjs } from "dayjs";
 import { useSelector } from "react-redux";
@@ -13,7 +12,7 @@ interface Props {
   enteredDate?: Dayjs | null;
   className?: string;
   fieldName: string;
-  onHandleChange?: (value: Dayjs | null) => any;
+  onHandleChange?: (value: Dayjs | null) => void;
   maxDate?: Dayjs | null;
   minDate?: Dayjs | null;
   disabled?: boolean;
@@ -29,18 +28,18 @@ const DatePicker = ({
   minDate = null,
   disablePast = false,
   defaultValue = null,
-  isRequired = false
-  //errors, // Add errors prop here
+  isRequired = false,
+  onHandleChange
 }: Props) => {
   const { control } = useFormContext();
-  const actionType = useSelector((state: any) => state.actionType.actionType)
+  const actionType = useSelector((state: any) => state.actionType.actionType);
 
   const requiredValidations = () => {
-    if(isRequired){
+    if (isRequired) {
       return { required: `${label} field is required` };
     }
     return { required: undefined };
-  }
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -49,14 +48,19 @@ const DatePicker = ({
         control={control}
         defaultValue={defaultValue}
         rules={requiredValidations()}
-        render={({ field }) => (
+        render={({ field: { onChange, value, ...fieldProps } }) => (
           <DesktopDatePicker
-            {...field}
+            {...fieldProps}
             label={label}
+            value={value || null}
             disablePast={disablePast}
             disabled={actionType === "View"}
             minDate={minDate}
             maxDate={maxDate}
+            onChange={(date) => {
+              onChange(date);
+              if (onHandleChange) onHandleChange(date); // Call custom handler
+            }}
             sx={{
               "& .MuiInputBase-input": {
                 fontWeight: 500,
