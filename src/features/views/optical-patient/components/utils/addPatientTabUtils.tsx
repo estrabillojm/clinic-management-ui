@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import ContactsTab from "../patientTabs/add/ContactsTab";
-import PersonToNotifyTab from "../patientTabs/add/PersonToNotifyTab";
+import OpticalTab from "../patientTabs/add/OpticalTab";
 import PersonalTab from "../patientTabs/add/PersonalTab";
 import PhysicianTab from "../patientTabs/add/PhysicianTab";
 import { useEffect, useState } from "react";
@@ -16,13 +16,13 @@ const AddPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
     setRequiredFields(formValidator.map((field: any) => field.column));
   }, [formValidator]);
 
-  const { clinicId, branchId } = useParams();
+  const { clinicId } = useParams();
 
   return (
     <>
         <PersonalTab selectedTab={tabSelected} requiredFields={requiredFields}/>
         <ContactsTab selectedTab={tabSelected}/>
-        <PersonToNotifyTab selectedTab={tabSelected}/>
+        <OpticalTab selectedTab={tabSelected}/>
         <PhysicianTab selectedTab={tabSelected} clinicId={clinicId}/>
     </>
   )
