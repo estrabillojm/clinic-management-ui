@@ -97,7 +97,7 @@ const Content = () => {
   useEffect(() => {
     if (patientHistorySuccess && !patientHistoryLoading) {
       dispatch(clearPatientHistory());
-      navigate(`/clinic/${clinicId}/patients/list/${branchId}`);
+      navigate(`/optic/${clinicId}/optical/list/${branchId}`);
     }
   }, [patientHistorySuccess, patientHistoryLoading, dispatch, navigate]);
 
@@ -119,12 +119,12 @@ const Content = () => {
                   Previous
                 </Button>
                 <Button
-                  variant={tabSelected === 6 ? "contained" : "outlined"}
+                  variant={tabSelected === 3 ? "contained" : "outlined"}
                   color="success"
-                  type={tabSelected === 6 ? "submit" : "button"}
-                  onClick={() => tabSelected < 6 ? dispatch(setTabSelected(tabSelected + 1)) : dispatch(setTabSelected(tabSelected))}
+                  type={tabSelected === 3 ? "submit" : "button"}
+                  onClick={() => tabSelected < 3 ? dispatch(setTabSelected(tabSelected + 1)) : dispatch(setTabSelected(tabSelected))}
                 >
-                  {tabSelected === 6 ? "Save Transaction" : "Next"}
+                  {tabSelected === 3 ? "Save Transaction" : "Next"}
                 </Button>
               </div>
             </form>
