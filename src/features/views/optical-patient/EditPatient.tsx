@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { setEdit } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
 import { setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
-import { useGetPatientDetailsQuery, useLazyGetPatientDetailsQuery } from "../../../redux/api/patients";
+import { useGetPatientDetailsQuery, useLazyGetPatientDetailsQuery, useUpdatePatientMutation } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import {
   useCreatePatientHistoryMutation,
@@ -63,6 +63,8 @@ const Content = () => {
   const historiesSocial = useSelector((state: { historyTab: { socialHistory: string } }) => state.historyTab.socialHistory);
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
+  const [updatePatient, { isSuccess: isPatientSuccess }] =
+  useUpdatePatientMutation();
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
 
@@ -79,17 +81,22 @@ const Content = () => {
     };
 
     dispatch(validatePatientForm({ patient: formattedData }));
+
+    (async () => {
+      await updatePatient({ data: formattedData, patientId });
+    })();
+
     setIsSubmitReady(true);
   };
 
   useEffect(() => {
-    if (isSubmitReady) {
+    if (isSubmitReady && isPatientSuccess) {
       (async () => {
         await createPatientHistory({ patientId, ...formData });
       })();
       setIsSubmitReady(false);
     }
-  }, [isSubmitReady, createPatientHistory, formData, patientId]);
+  }, [isSubmitReady, createPatientHistory, formData, patientId, isPatientSuccess]);
 
 
   const { branchId, clinicId } = useParams();

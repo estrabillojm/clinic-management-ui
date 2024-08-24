@@ -102,8 +102,6 @@ const Content = () => {
   const [updatePatient, { isSuccess: isPatientSuccess }] =
   useUpdatePatientMutation();
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
-    console.log("before pasok")
-
     if (patientHistoryLoading) return;
     const formattedDate = dayjs(data.dateOfBirth).format("L");
     const formattedData = {
