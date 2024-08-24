@@ -15,6 +15,7 @@ import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import {
   useGetPatientDetailsQuery,
   useLazyGetPatientDetailsQuery,
+  useUpdatePatientMutation,
 } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import {
@@ -98,9 +99,12 @@ const Content = () => {
   );
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
+  const [updatePatient, { isSuccess: isPatientSuccess }] =
+  useUpdatePatientMutation();
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
-    if (patientHistoryLoading) return;
+    console.log("before pasok")
 
+    if (patientHistoryLoading) return;
     const formattedDate = dayjs(data.dateOfBirth).format("L");
     const formattedData = {
       ...data,
@@ -114,17 +118,21 @@ const Content = () => {
     };
 
     dispatch(validatePatientForm({ patient: formattedData }));
+
+    (async () => {
+      await updatePatient({ data: formattedData, patientId });
+    })();
     setIsSubmitReady(true);
   };
 
   useEffect(() => {
-    if (isSubmitReady) {
+    if (isSubmitReady && isPatientSuccess) {
       (async () => {
         await createPatientHistory({ patientId, ...formData });
       })();
       setIsSubmitReady(false);
     }
-  }, [isSubmitReady, createPatientHistory, formData, patientId]);
+  }, [isSubmitReady, createPatientHistory, formData, patientId, isPatientSuccess]);
 
   const { branchId, clinicId } = useParams();
   const navigate = useNavigate();
