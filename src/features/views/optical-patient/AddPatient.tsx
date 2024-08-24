@@ -81,7 +81,6 @@ const Content = () => {
   const { clinicId, branchId } = useParams();
   useEffect(() => {
     if (isSubmitReady) {
-      console.log(formData);
       const {
         lastName,
         firstName,

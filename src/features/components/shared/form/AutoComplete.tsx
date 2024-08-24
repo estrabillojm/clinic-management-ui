@@ -62,7 +62,6 @@ const AutoComplete: React.FC<Props> = ({
           options={options}
           getOptionLabel={(option: Option) => option.label}
           onChange={(event: any, newValue: Option | null) => {
-            console.log(event);
             onChange(newValue ? newValue.value : '');
             handleValueChange(newValue);
             if(onAutoCompleteChange){

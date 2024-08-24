@@ -8,10 +8,6 @@ type Props = {
 };
 
 const Card = ({ isActive, handleCardClick, data }: Props) => {
-  useEffect(() => {
-    console.log("sheesh", data);
-  }, []);
-
   return (
     <>
       <div

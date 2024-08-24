@@ -19,9 +19,6 @@ const LoginPage = () => {
   const token = localStorage.getItem("accesstoken");
 
   useEffect(() => {
-    console.log("VER RESULT", verifiedResult)
-  }, [verifiedResult])
-  useEffect(() => {
     if(token){
       verifyToken({token});
     }

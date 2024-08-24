@@ -9,10 +9,6 @@ type Props = {
 
 const Card = ({ isActive, handleCardClick, data } : Props) => {
 
-    useEffect(() => {
-        console.log("sheesh", data)
-    }, [])
-
     return ( 
         <>
             <div onClick={handleCardClick} className={`border rounded-md p-4 mt-4  ${isActive ? "bg-green-200 cursor-default" : "bg-yellow-100 cursor-pointer hover:bg-yellow-50 transition-all"}`}>

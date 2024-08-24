@@ -30,8 +30,6 @@ const patientValidatorSlice = createSlice({
     // 5 - SOAP
     // 6 - PHYSICIAN
 
-    console.log("action payload", action.payload)
-
     const { patient } = action.payload
       if(patient){
         const requiredFields = Object.freeze([

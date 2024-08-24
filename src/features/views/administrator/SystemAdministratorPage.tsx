@@ -21,7 +21,7 @@ const SystemAdministratorPage = () => {
   );
 
   const onSubmit = (data: UserTypes): void => {
-    console.log(data);
+    // console.log(data);
   };
 
   useEffect(() => {

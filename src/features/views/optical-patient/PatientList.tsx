@@ -33,7 +33,6 @@ const Content = () => {
   }, []);
   
   useEffect(() => {
-    console.log(dataTable)
     if (dataTable) {
       dispatch(clearDataTable());
       navigate(
