@@ -85,7 +85,7 @@ const Content = () => {
                   <Table
                     rows={patients?.result?.patientTransactions}
                     headers={headers}
-                    btnText="View Patient Infoss"
+                    btnText="View Patient Info"
                   />
                 }
               />

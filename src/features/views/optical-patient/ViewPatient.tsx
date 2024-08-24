@@ -208,7 +208,7 @@ const ViewPatient = () => {
       pageTitle={"Administrator"}
       Header={
         <Header
-          title="View Patient Information"
+          title="View Patient Information - Optics"
           description={description}
           actions={<ActionButton />}
         />
