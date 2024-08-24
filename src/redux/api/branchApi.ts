@@ -4,7 +4,7 @@ export const branchApi = apiService.injectEndpoints({
     endpoints: (builder) => ({
         getBranchList: builder.query({
             query: (clinicId) => ({
-                url: `/branches/clinics/${clinicId}` // TODO : REPLACE UUID AS A VARIABLE
+                url: `/branches/clinics/${clinicId}`
             }),
             providesTags: ["Branches"],
         })

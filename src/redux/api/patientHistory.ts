@@ -20,7 +20,6 @@ export const patientHistoryApi = apiService.injectEndpoints({
             }),
             providesTags: ["PatientHistory"],
         }),
-        // TODO IN API - ADD UPDATE PATIENT INFO THEN RETURN THE PATIENT TRANSACTION HISTORY ID
         createPatientHistory: builder.mutation({
             query: (data) => ({
                 url: "/patient-histories",
