@@ -18,6 +18,7 @@ import EditPatient from "./views/patient/EditPatient";
 // Optical Patient
 import OpticalPatientList from "./views/optical-patient/PatientList";
 import OpticalAddPatient from "./views/optical-patient/AddPatient";
+import OpticalViewPatient from "./views/optical-patient/ViewPatient";
 
 type PrivateRouteProps = {
   element: React.ReactNode | null;
@@ -56,6 +57,7 @@ const routes = createBrowserRouter([
         // OPTICAL
         { path: "optic/:clinicId/optical/list/:branchId", element: <PrivateRoute element={<OpticalPatientList />} /> },
         { path: "optic/:clinicId/branch/:branchId/patient/add/new", element: <PrivateRoute element={<OpticalAddPatient />} /> },
+        { path: "optic/:clinicId/branch/:branchId/optical/:patientId/info", element: <PrivateRoute element={<OpticalViewPatient />} /> },
 
         { path: "*", element: <h1>NOT FOUND</h1>}
         // ADD MULTIPLE IF NEEDED

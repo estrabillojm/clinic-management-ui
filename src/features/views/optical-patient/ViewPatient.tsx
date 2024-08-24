@@ -29,9 +29,9 @@ const Content = () => {
   useEffect(() => {
     dispatch(setView());
   }, []);
-  const headers = useSelector((state: headerProps) => state.patients.tabs);
+  const headers = useSelector((state: headerProps) => state.optics.tabs);
   const tabSelected = useSelector(
-    (state: tabSelectedProps) => state.patients.tabSelected
+    (state: tabSelectedProps) => state.optics.tabSelected
   );
 
   const { patientId, clinicId } = useParams();
@@ -137,10 +137,10 @@ const Content = () => {
                     <Button
                       variant={"outlined"}
                       color="success"
-                      disabled={tabSelected === 6}
+                      disabled={tabSelected === 3}
                       type={"button"}
                       onClick={() =>
-                        tabSelected < 6
+                        tabSelected < 4
                           ? dispatch(setTabSelected(tabSelected + 1))
                           : dispatch(setTabSelected(tabSelected))
                       }

@@ -35,7 +35,7 @@ const Content = () => {
     if (dataTable) {
       dispatch(clearDataTable());
       navigate(
-        `/clinic/${clinicId}/branch/${branchId}/patient/${dataTable.id}/info`
+        `/optic/${clinicId}/branch/${branchId}/optical/${dataTable.id}/info`
       );
     }
   }, [dataTable]);
@@ -85,7 +85,7 @@ const Content = () => {
                   <Table
                     rows={patients?.result?.patientTransactions}
                     headers={headers}
-                    btnText="View Patient Info"
+                    btnText="View Patient Infoss"
                   />
                 }
               />
