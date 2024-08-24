@@ -69,7 +69,6 @@ const Content = () => {
   }, [patientDetails, detailsLoading, detailsSuccess]);
   // END PATIENT DETAILS
 
-
   const [activeCard, setActiveCard] = useState(null);
   // GET RECENT PATIENT HISTORY
   const {
@@ -77,6 +76,7 @@ const Content = () => {
     isLoading,
     isSuccess,
   } = useGetRecentPatientHistoryQuery({ clinicId, patientId });
+
 
   useEffect(() => {
     if (history && !isLoading && isSuccess) {
@@ -182,7 +182,7 @@ const ActionButton = () => {
 
   const handleAddTransaction = () => {
     dispatch(setActivePatientHistory({ result: {}}));
-    navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patientId}/add/transaction`)
+    navigate(`/optic/${clinicId}/branch/${branchId}/optical/${patientId}/add/transaction`)
   }
 
   return (

@@ -42,8 +42,8 @@ const Content = () => {
     dispatch(setEdit());
   }, [dispatch]);
 
-  const headers = useSelector((state: { patients: { tabs: headerProps['patients']['tabs'] } }) => state.patients.tabs);
-  const tabSelected = useSelector((state: { patients: { tabSelected: tabSelectedProps['patients']['tabSelected'] } }) => state.patients.tabSelected);
+  const headers = useSelector((state: headerProps) => state.optics.tabs);
+  const tabSelected = useSelector((state: tabSelectedProps) => state.optics.tabSelected);
   const formValidator = useSelector((state: { patientValidator: { invalidFields: any[] } }) => state.patientValidator.invalidFields);
   const formData = useSelector((state: { patientValidator: { patientDetails: any } }) => state.patientValidator.patientDetails);
   const patientHistory = useSelector((state: { patientHistories: { patientHistory: any } }) => state.patientHistories.patientHistory);
@@ -192,7 +192,7 @@ const EditPatient = () => {
       pageTitle="Administrator"
       Header={
         <Header
-          title="Add Transaction - Existing Patient"
+          title="Add Transaction - Existing Optical Patient"
           description={headerDescription}
           actions={<ActionButton />}
         />
