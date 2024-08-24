@@ -208,13 +208,15 @@ const ActionButton = () => {
     }
   }, [provinces, isProvincesLoading, isProvincesSuccess, dispatch]);
 
+  const { clinicId, branchId } = useParams();
+
   return (
     <div className="flex flex-col">
       <CustomButton
         text="Back"
         type="button"
         color="#383d39"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(`/optic/${clinicId}/optical/list/${branchId}`)}
       />
     </div>
   );

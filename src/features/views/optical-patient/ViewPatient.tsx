@@ -16,7 +16,7 @@ import {
 import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 import { setView } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
-import { setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
+import { clearDataTable, setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import ViewPatientTabUtils from "./components/utils/viewPatientTabUtils";
@@ -104,6 +104,7 @@ const Content = () => {
       dispatch(setActivePatientHistory(patientHistory));
     }
   }, [patientHistory])
+
 
   // END GET HISTORY BY HISTORY ID
 
@@ -193,7 +194,7 @@ const ActionButton = () => {
           text="Back"
           type="button"
           color="#383d39"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/optic/${clinicId}/optical/list/${branchId}`)}
         />
       </div>
     </>

@@ -1,7 +1,7 @@
 import { Header } from "../../components/shared/global/Header";
 import { Layout } from "../../components/shared/global/Layout";
 import TableParentLayout from "../../components/shared/table/TableParentLayout";
-import Table from "../../components/shared/table/Table";
+import Table from "../../components/shared/table/OpticTable";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../../components/shared/global/Button";
 import { useLazyGetPatientListQuery } from "../../../redux/api/patients";
@@ -19,7 +19,7 @@ const Content = () => {
   ];
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dataTable = useSelector((state: any) => state.patients.dataTable);
+  const dataTable = useSelector((state: any) => state.optics.dataTable);
   const [getPatientList, { data: patients, isLoading, isSuccess }] =
     useLazyGetPatientListQuery();
 
@@ -31,7 +31,9 @@ const Content = () => {
       params: { searchFirstName, searchLastName },
     });
   }, []);
+  
   useEffect(() => {
+    console.log(dataTable)
     if (dataTable) {
       dispatch(clearDataTable());
       navigate(
