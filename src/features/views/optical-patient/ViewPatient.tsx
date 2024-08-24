@@ -16,7 +16,7 @@ import {
 import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 import { setView } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
-import { setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
+import { clearDataTable, setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import ViewPatientTabUtils from "./components/utils/viewPatientTabUtils";
@@ -29,9 +29,9 @@ const Content = () => {
   useEffect(() => {
     dispatch(setView());
   }, []);
-  const headers = useSelector((state: headerProps) => state.patients.tabs);
+  const headers = useSelector((state: headerProps) => state.optics.tabs);
   const tabSelected = useSelector(
-    (state: tabSelectedProps) => state.patients.tabSelected
+    (state: tabSelectedProps) => state.optics.tabSelected
   );
 
   const { patientId, clinicId } = useParams();
@@ -69,7 +69,6 @@ const Content = () => {
   }, [patientDetails, detailsLoading, detailsSuccess]);
   // END PATIENT DETAILS
 
-
   const [activeCard, setActiveCard] = useState(null);
   // GET RECENT PATIENT HISTORY
   const {
@@ -77,6 +76,7 @@ const Content = () => {
     isLoading,
     isSuccess,
   } = useGetRecentPatientHistoryQuery({ clinicId, patientId });
+
 
   useEffect(() => {
     if (history && !isLoading && isSuccess) {
@@ -104,6 +104,7 @@ const Content = () => {
       dispatch(setActivePatientHistory(patientHistory));
     }
   }, [patientHistory])
+
 
   // END GET HISTORY BY HISTORY ID
 
@@ -137,10 +138,10 @@ const Content = () => {
                     <Button
                       variant={"outlined"}
                       color="success"
-                      disabled={tabSelected === 6}
+                      disabled={tabSelected === 3}
                       type={"button"}
                       onClick={() =>
-                        tabSelected < 6
+                        tabSelected < 4
                           ? dispatch(setTabSelected(tabSelected + 1))
                           : dispatch(setTabSelected(tabSelected))
                       }
@@ -182,7 +183,7 @@ const ActionButton = () => {
 
   const handleAddTransaction = () => {
     dispatch(setActivePatientHistory({ result: {}}));
-    navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patientId}/add/transaction`)
+    navigate(`/optic/${clinicId}/branch/${branchId}/optical/${patientId}/add/transaction`)
   }
 
   return (
@@ -193,7 +194,7 @@ const ActionButton = () => {
           text="Back"
           type="button"
           color="#383d39"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/optic/${clinicId}/optical/list/${branchId}`)}
         />
       </div>
     </>
@@ -208,7 +209,7 @@ const ViewPatient = () => {
       pageTitle={"Administrator"}
       Header={
         <Header
-          title="View Patient Information"
+          title="View Patient Information - Optics"
           description={description}
           actions={<ActionButton />}
         />

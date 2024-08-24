@@ -184,7 +184,6 @@ const ActionButton = () => {
     dispatch(setActivePatientHistory({ result: {}}));
     navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patientId}/add/transaction`)
   }
-
   return (
     <>
       <div className="flex flex-col">
@@ -193,7 +192,7 @@ const ActionButton = () => {
           text="Back"
           type="button"
           color="#383d39"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/clinic/${clinicId}/patients/list/${branchId}`)}
         />
       </div>
     </>
@@ -202,7 +201,7 @@ const ActionButton = () => {
 
 const ViewPatient = () => {
   const description =
-    "Welcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently.";
+    "aaWelcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently.";
   return (
     <Layout
       pageTitle={"Administrator"}

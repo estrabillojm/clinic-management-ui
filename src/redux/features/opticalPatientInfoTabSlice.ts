@@ -40,6 +40,7 @@ export const opticalPatientInfoTabSlice = createSlice({
             state.dataTable = action.payload
         },
         clearDataTable: (state) => {
+            console.log("CALL MEEE")
             state.dataTable = null
         }
     }
