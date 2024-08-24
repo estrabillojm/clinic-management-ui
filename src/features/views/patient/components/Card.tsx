@@ -1,29 +1,30 @@
+import dayjs from "dayjs"
+import { useEffect } from "react"
+
 type Props = {
     isActive: boolean,
     handleCardClick: () => void
+    data: any,
 }
 
-const Card = ({ isActive, handleCardClick } : Props) => {
+const Card = ({ isActive, handleCardClick, data } : Props) => {
 
+    useEffect(() => {
+        console.log("sheesh", data)
+    }, [])
 
     return ( 
         <>
             <div onClick={handleCardClick} className={`border rounded-md p-4 mt-4  ${isActive ? "bg-green-200 cursor-default" : "bg-yellow-100 cursor-pointer hover:bg-yellow-50 transition-all"}`}>
                 <section className="border-b border-green-400">
-                    <h2 className="font-bold text-green-600">TR-04</h2>
-                </section>
-                <section className="border-b border-green-400">
-                    <p className="text-gray-500 py-2">
-                        <span className="font-bold text-gray-600">Remarks:</span>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci illum vitae quae exercitationem maiores deleniti.
-                    </p>
+                    <h2 className="font-bold text-green-600">TR-{ data.id.split("-")[0] }</h2>
                 </section>
                 <section>
-                    <p className="text-gray-500 pt-2">
-                        Physician: Karl Soriano
+                    <p className="text-gray-500 pt-2 text-sm">
+                        <span className="font-bold text-yellow-800">Physician: { data.physicianDetails.lastName }, {data.physicianDetails.firstName}</span>
                     </p>
-                    <p className="text-gray-500 pb-2">
-                        Date: January 15, 2024
+                    <p className="text-gray-500 pb-2 text-[12px]">
+                        Date: { dayjs(data.created_at).format("LLL") }
                     </p>
                 </section>
             </div>

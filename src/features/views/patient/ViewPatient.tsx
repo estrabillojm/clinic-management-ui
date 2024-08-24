@@ -162,6 +162,7 @@ const Content = () => {
                 historiesSuccess &&
                 histories.results.map((history: any) => (
                   <Card
+                    data={history}
                     key={history.id}
                     isActive={activeCard === history.id}
                     handleCardClick={() => handleCardClick(history)}
