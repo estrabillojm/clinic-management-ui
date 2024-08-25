@@ -113,7 +113,7 @@ const Content = () => {
       historiesFamily,
       historiesSocial,
       physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
-      recentBranchName: branchDetails.result.name ?? "awiiiit",
+      recentBranchName: branchDetails.result.name,
     };
 
     dispatch(validatePatientForm({ patient: formattedData }));
