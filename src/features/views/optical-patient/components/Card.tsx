@@ -25,6 +25,10 @@ const Card = ({ isActive, handleCardClick, data }: Props) => {
               Physician: {data.physicianDetails.lastName},{" "}
               {data.physicianDetails.firstName}
             </span>
+            <br />
+            <span className="text-green-700 pb-2 text-[12px] font-bold">
+              Clinic: {data.branchName}
+            </span>
           </p>
           <p className="text-gray-500 pb-2 text-[12px]">
             Date: {dayjs(data.created_at).format("LLL")}
