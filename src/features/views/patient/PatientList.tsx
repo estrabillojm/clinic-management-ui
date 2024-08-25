@@ -15,6 +15,7 @@ const Content = () => {
   const headers = [
     { label: "Patient Number", column: "trimmedId" },
     { label: "First Name", column: "firstName" },
+    { label: "Middle Name", column: "middleName" },
     { label: "Last Name", column: "lastName" },
   ];
   const navigate = useNavigate();
