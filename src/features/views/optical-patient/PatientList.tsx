@@ -17,6 +17,7 @@ const Content = () => {
     { label: "First Name", column: "firstName" },
     { label: "Middle Name", column: "middleName" },
     { label: "Last Name", column: "lastName" },
+    { label: "Clinic", column: "recentBranchName" },
   ];
   const navigate = useNavigate();
   const dispatch = useDispatch();

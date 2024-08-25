@@ -20,6 +20,7 @@ import EditPatientValidator from "./components/validator/EditPatientValidator";
 import { useCreatePatientMutation } from "../../../redux/api/patients";
 import { PATIENT_TYPE } from "../../../enums/patientType";
 import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
+import { useGetBranchByIdQuery } from "../../../redux/api/branchApi";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -52,10 +53,10 @@ const Content = () => {
     (state: { patientValidator: { patientDetails: any } }) =>
       state.patientValidator.patientDetails
   );
-  const patientHistory = useSelector(
-    (state: { patientHistories: { patientHistory: any } }) =>
-      state.patientHistories.patientHistory
-  );
+  // const patientHistory = useSelector(
+  //   (state: { patientHistories: { patientHistory: any } }) =>
+  //     state.patientHistories.patientHistory
+  // );
 
   const methods = useForm<PatientFormData>();
   const [
@@ -79,6 +80,8 @@ const Content = () => {
     useCreatePatientMutation();
 
   const { clinicId, branchId } = useParams();
+  const { data: branchDetails } = useGetBranchByIdQuery(branchId)
+
   useEffect(() => {
     if (isSubmitReady) {
       const {
@@ -119,6 +122,7 @@ const Content = () => {
           email,
           contact,
           patientType: PATIENT_TYPE.optical,
+          recentBranchName: branchDetails.result.name,
           clinicId,
           branchId,
         });

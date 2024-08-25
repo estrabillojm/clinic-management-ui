@@ -7,6 +7,12 @@ export const branchApi = apiService.injectEndpoints({
                 url: `/branches/clinics/${clinicId}`
             }),
             providesTags: ["Branches"],
+        }),
+        getBranchById: builder.query({
+            query: (branchId) => ({
+                url: `/branches/${branchId}`
+            }),
+            providesTags: ["Branch"],
         })
 
     })
@@ -14,4 +20,5 @@ export const branchApi = apiService.injectEndpoints({
 
 export const {
     useGetBranchListQuery,
+    useGetBranchByIdQuery,
 } = branchApi;

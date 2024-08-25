@@ -32,6 +32,7 @@ import { mapProvinces } from "../../../redux/features/addressSlice";
 import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
 import EditPatientValidator from "./components/validator/EditPatientValidator";
 import { ternaryChecker } from "../../../utils/ternaryChecker";
+import { useGetBranchByIdQuery } from "../../../redux/api/branchApi";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -96,6 +97,9 @@ const Content = () => {
   const [isSubmitReady, setIsSubmitReady] = useState(false);
   const [updatePatient, { isSuccess: isPatientSuccess }] =
     useUpdatePatientMutation();
+  const { branchId, clinicId } = useParams();
+  const { data: branchDetails } = useGetBranchByIdQuery(branchId);
+
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
 
@@ -109,12 +113,16 @@ const Content = () => {
       historiesFamily,
       historiesSocial,
       physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
+      recentBranchName: branchDetails.result.name ?? "awiiiit",
     };
 
     dispatch(validatePatientForm({ patient: formattedData }));
 
     (async () => {
-      await updatePatient({ data: formattedData, patientId });
+      await updatePatient({
+        data: formattedData,
+        patientId
+      });
     })();
 
     setIsSubmitReady(true);
@@ -135,7 +143,6 @@ const Content = () => {
     isPatientSuccess,
   ]);
 
-  const { branchId, clinicId } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
     if (patientHistorySuccess && !patientHistoryLoading) {
