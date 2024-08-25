@@ -154,6 +154,7 @@ const Content = () => {
         await createPatientHistory({
           patientId: patient.result.patientId,
           ...formData,
+          branchId,
         });
       })();
     }

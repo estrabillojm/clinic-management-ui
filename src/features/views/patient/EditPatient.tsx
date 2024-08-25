@@ -100,7 +100,7 @@ const Content = () => {
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
   const [updatePatient, { isSuccess: isPatientSuccess }] =
-  useUpdatePatientMutation();
+    useUpdatePatientMutation();
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
     const formattedDate = dayjs(data.dateOfBirth).format("L");
@@ -118,7 +118,7 @@ const Content = () => {
     dispatch(validatePatientForm({ patient: formattedData }));
 
     (async () => {
-      await updatePatient({ data: formattedData, patientId });
+      await updatePatient({ data: formattedData, patientId, branchId });
     })();
     setIsSubmitReady(true);
   };
@@ -130,7 +130,13 @@ const Content = () => {
       })();
       setIsSubmitReady(false);
     }
-  }, [isSubmitReady, createPatientHistory, formData, patientId, isPatientSuccess]);
+  }, [
+    isSubmitReady,
+    createPatientHistory,
+    formData,
+    patientId,
+    isPatientSuccess,
+  ]);
 
   const { branchId, clinicId } = useParams();
   const navigate = useNavigate();

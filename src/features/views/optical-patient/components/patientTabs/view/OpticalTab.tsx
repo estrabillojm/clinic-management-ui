@@ -1,5 +1,3 @@
-import { OPTIC_ENUM } from "../../../../../../enums/optic";
-import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
 // import { useDispatch, useSelector } from "react-redux";
 const OpticalTab = ({ selectedTab, data }: any) => {
@@ -15,7 +13,7 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OD Sphere"
+              label="Diopter Sphere"
               fieldName="opticOdSphere"
               defaultValue={data.opticOdSphere}
             />
@@ -23,7 +21,7 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OD Cyclinder"
+              label="Diopter Cyclinder"
               fieldName="opticOdCyclinder"
               defaultValue={data.opticOdCyclinder}
             />
@@ -31,7 +29,7 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OD Axis"
+              label="Axis"
               fieldName="opticOdAxis"
               defaultValue={data.opticOdAxis}
             />
@@ -39,7 +37,7 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OD Add"
+              label="Diopter Add"
               fieldName="opticOdAdd"
               defaultValue={data.opticOdAdd}
             />
@@ -53,7 +51,7 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OS Sphere"
+              label="Diopter Sphere"
               fieldName="opticOsSphere"
               defaultValue={data.opticOsSphere}
             />
@@ -61,7 +59,7 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OS Cyclinder"
+              label="Diopter Cyclinder"
               fieldName="opticOsCyclinder"
               defaultValue={data.opticOsCyclinder}
             />
@@ -69,7 +67,7 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OS Axis"
+              label="Diopter Axis"
               fieldName="opticOsAxis"
               defaultValue={data.opticOsAxis}
             />
@@ -77,40 +75,59 @@ const OpticalTab = ({ selectedTab, data }: any) => {
           <div className="col-span-3">
             <Input
               type="text"
-              label="OS Add"
+              label="Diopter Add"
               fieldName="opticOsAdd"
               defaultValue={data.opticOsAdd}
             />
           </div>
         </div>
 
+
+        <div className="grid-span-12 gap-4 pb-2">
+          <h3 className="text-primary font-semibold">Pupillary Distance</h3>
+        </div>
+        <div className="grid grid-cols-12 gap-4 mb-8">
+          <div className="col-span-3">
+            <Input
+              type="text"
+              label="OD"
+              fieldName="opticOdPupillary"
+              defaultValue={data.opticOdPupillary}
+            />
+          </div>
+          <div className="col-span-3">
+            <Input
+              type="text"
+              label="OS"
+              fieldName="opticOsPupillary"
+              defaultValue={data.opticOsPupillary}
+            />
+          </div>
+          <div className="col-span-3">
+            <Input
+              type="text"
+              label="OU"
+              fieldName="opticOuPupillary"
+              defaultValue={data.opticOuPupillary}
+            />
+          </div>
+        </div>
+
         <div className="grid grid-cols-12 gap-4 mb-8 pt-8 border-t">
           <div className="col-span-4">
-            <AutoComplete
+            <Input
+              type="opticType"
               label="Type"
               fieldName="opticType"
-              isRequired={false}
-              options={[{ value: "value1", label: "Value 1"}, { value: "value2", label: "Value 2"}]}
               defaultValue={data.opticType}
             />
           </div>
           <div className="col-span-4">
-            <AutoComplete
+            <Input
+              type="string"
               label="Coating Instrument"
               fieldName="opticCoatingInstrument"
-              isRequired={false}
-              options={[{ value: "value1", label: "Value 1"}, { value: "value2", label: "Value 2"}]}
               defaultValue={data.opticCoatingInstrument}
-            />
-          </div>
-
-          <div className="col-span-4">
-            <AutoComplete
-              label="Coating Instrument"
-              fieldName="opticLens"
-              isRequired={false}
-              options={OPTIC_ENUM.lens}
-              defaultValue={data.opticLens}
             />
           </div>
 
