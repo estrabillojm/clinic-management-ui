@@ -7,14 +7,13 @@ export const patientApi = apiService.injectEndpoints({
         let queryParams = "";
         if (
           props.params.searchFirstName ||
-          props.params.searchLastName ||
-          props.params.dateOfBirth
+          props.params.searchLastName
         ) {
-          queryParams += `&firstName=${props.params.searchFirstName}&lastName=${props.params.searchLastName}&dateOfBirth=${props.params.dateOfBirth}`;
+          queryParams += `&firstName=${props.params.searchFirstName}&lastName=${props.params.searchLastName}`;
         }
 
         return {
-          url: `/patients/${props.clinicId}?patientType=${props.patientType ?? ""}${queryParams}`,
+          url: `/patients/${props.clinicId}?patientType=${props.patientType ?? ""}&page=${props.page}&limit=${props.limit}${queryParams}`,
         };
       },
       providesTags: ["Patients"],
@@ -42,8 +41,7 @@ export const patientApi = apiService.injectEndpoints({
     }),
     updatePatient: builder.mutation({
       query: ({ data, patientId }) => {
-        console.log(data)
-        console.log(patientId)
+
         return {
           url: `/patients/${patientId}`,
           method: "PATCH",

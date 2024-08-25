@@ -22,12 +22,26 @@ const Content = () => {
   const dispatch = useDispatch();
   const dataTable = useSelector((state: any) => state.patients.dataTable);
   const [getPatientList, { data: patients, isLoading, isSuccess }] = useLazyGetPatientListQuery();
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const { branchId, clinicId } = useParams();
+
+
+  const fetchPatients = async (page: number) => {
+    await getPatientList({
+      clinicId,
+      patientType: PATIENT_TYPE.general,
+      page,
+      limit: itemsPerPage,
+      params: { searchFirstName, searchLastName },
+    });
+  };
+
   useEffect(() => {
-    getPatientList({clinicId, patientType: PATIENT_TYPE.general, params: { searchFirstName, searchLastName}})
-  }, [])
+    fetchPatients(currentPage);
+  }, [currentPage, itemsPerPage]);
+  
   useEffect(() => {
     if(dataTable){
       dispatch(clearDataTable())
@@ -37,9 +51,19 @@ const Content = () => {
 
   const [searchFirstName, setSearchFirstName] = useState("")
   const [searchLastName, setSearchLastName] = useState("")
+
   const onSearch = async () => {
-    await getPatientList({clinicId, patientType: PATIENT_TYPE.general, params: { searchFirstName, searchLastName }})
+    setCurrentPage(1);
+    await getPatientList({clinicId, patientType: PATIENT_TYPE.general, page: currentPage, limit: itemsPerPage, params: { searchFirstName, searchLastName }})
   }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleItemsPerPageChange = (itemsPerPage: number) => {
+    setItemsPerPage(itemsPerPage);
+  };
 
   return (
     <>
@@ -59,6 +83,10 @@ const Content = () => {
             btnText="View Patient Info"
             />
           }
+          totalItems={patients?.result?.totalCount || 0}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange} 
           // options={
           //   <SortingOptions title="Walk In Table Settings" columns={headers} />
           // }
