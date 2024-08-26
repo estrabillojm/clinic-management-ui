@@ -1,13 +1,71 @@
 import dayjs from "dayjs";
-import { useEffect } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { saveAs } from "file-saver";
+import { useLazyGetPatientHistoryQuery } from "../../../../redux/api/patientHistory";
+import { useEffect, useState } from "react";
+import { DOCUMENT } from "../../../../enums/documentType";
+import MedicalCertificate from "./MedicalCertificate";
+import Prescription from "./Prescription";
 
 type Props = {
   isActive: boolean;
   handleCardClick: () => void;
   data: any;
+  patient: any;
 };
 
-const Card = ({ isActive, handleCardClick, data }: Props) => {
+const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
+  const [
+    getPatientHistory,
+    {
+      data: patientHistory,
+      isLoading: patientHistoryLoading,
+      isSuccess: patientHistorySuccess,
+    },
+  ] = useLazyGetPatientHistoryQuery();
+
+  const [documentType, setDocumentType] = useState("");
+  const handleDocumentDownload = async (document: string) => {
+    await getPatientHistory(data.id);
+    setDocumentType(document);
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (!patientHistoryLoading && patientHistorySuccess) {
+        try {
+          const { firstName, lastName, id } = patient.result;
+          if (documentType === DOCUMENT.medicalCertificate) {
+            const blob = await pdf(
+              <MedicalCertificate
+                history={patientHistory}
+                patientDetails={patient}
+              />
+            ).toBlob();
+            saveAs(
+              blob,
+              `MC-OPTICAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`
+            );
+          }
+
+          if (documentType === DOCUMENT.prescription) {
+            const blob = await pdf(
+              <Prescription history={patientHistory} patientDetails={patient} />
+            ).toBlob();
+            saveAs(
+              blob,
+              `RX-OPTICAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`
+            );
+          }
+
+          setDocumentType("");
+        } catch (error) {
+          console.error("Error generating PDF:", error);
+        }
+      }
+    })();
+  }, [patientHistoryLoading, patientHistorySuccess, documentType]);
+
   return (
     <>
       <div
@@ -33,6 +91,21 @@ const Card = ({ isActive, handleCardClick, data }: Props) => {
           <p className="text-gray-500 pb-2 text-[12px]">
             Date: {dayjs(data.created_at).format("LLL")}
           </p>
+        </section>
+        <section>
+          <button
+            className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400"
+            onClick={() => handleDocumentDownload(DOCUMENT.medicalCertificate)}
+          >
+            Medical Certificate
+          </button>
+          <span className="mx-2">|</span>
+          <button
+            className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400"
+            onClick={() => handleDocumentDownload(DOCUMENT.prescription)}
+          >
+            Prescription Pad
+          </button>
         </section>
       </div>
     </>

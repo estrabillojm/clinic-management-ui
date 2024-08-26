@@ -51,12 +51,12 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
           const { firstName, lastName, id } = patient.result
           if(documentType === DOCUMENT.medicalCertificate){
             const blob = await pdf(<MedicalCertificate history={patientHistory} patientDetails={patient}/>).toBlob();
-            saveAs(blob, `MC-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
+            saveAs(blob, `MC-GENERAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
           }
           
           if(documentType === DOCUMENT.prescription){
             const blob = await pdf(<Prescription history={patientHistory} patientDetails={patient}/>).toBlob();
-            saveAs(blob, `RX-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
+            saveAs(blob, `RX-GENERAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
           }
 
           setDocumentType("")

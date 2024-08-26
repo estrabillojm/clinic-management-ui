@@ -163,10 +163,12 @@ const Content = () => {
                 historiesSuccess &&
                 histories.results.map((history: any) => (
                   <Card
+                    patient={patientDetails}
                     key={history.id}
                     data={history}
                     isActive={activeCard === history.id}
                     handleCardClick={() => handleCardClick(history)}
+
                   />
                 ))}
             </div>
