@@ -147,7 +147,7 @@ const Content = () => {
   useEffect(() => {
     if (patientHistorySuccess && !patientHistoryLoading) {
       dispatch(clearPatientHistory());
-      navigate(`/optic/${clinicId}/optical/list/${branchId}`);
+      navigate(`/optic/${clinicId}/branch/${branchId}/optical/${patientId}/info`);
     }
   }, [patientHistorySuccess, patientHistoryLoading, dispatch, navigate]);
 

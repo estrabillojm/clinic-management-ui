@@ -166,7 +166,7 @@ const Content = () => {
   useEffect(() => {
     if (patientHistorySuccess && !patientHistoryLoading) {
       dispatch(clearPatientHistory());
-      navigate(`/clinic/${clinicId}/patients/list/${branchId}`);
+      navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patient.result.patientId}/info`);
     }
   }, [patientHistorySuccess, patientHistoryLoading, dispatch, navigate]);
 
