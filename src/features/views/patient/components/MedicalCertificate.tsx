@@ -131,11 +131,12 @@ const MedicalCertificate = (props: any) => {
   const createdAt = history?.result?.createdAt; 
   const diagnosis = history?.result?.remarks; 
   const recommendation = history?.result?.recommendation; 
+  const branchName = history?.result?.branchName
 
   let province = address.results.find(
-    province => province.code === provinceId
+    (province: any) => province.code === provinceId
   );
-  let city = cities.results.find((city) => city.code === cityId);
+  let city = cities.results.find((city: any) => city.code === cityId);
 
   let finalAddress = street + " " + barangay + " " + city.name + " " + province.name;
 
@@ -151,7 +152,7 @@ const MedicalCertificate = (props: any) => {
               </Text>
               <Text>Optometrist/Occupational Medicine/Family Physician</Text>
               <Text>
-                Stall 3, 093 Henson Avenue, Fatima Village, Porac Pampanga
+                {branchName}
               </Text>
             </View>
           </View>

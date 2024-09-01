@@ -99,6 +99,7 @@ const Prescription = (props: any) => {
   const street = patientDetails?.result?.street;
   const cityId = patientDetails?.result?.cityId;
   const currentDateTime = dayjs().format("LLL");
+  const branchName = history?.result?.branchName
 
   let province = address.results.find(
     (province) => province.code === provinceId
@@ -122,7 +123,7 @@ const Prescription = (props: any) => {
                 Optometrist/Occupational Medicine/Family Physician
               </Text>
               <Text style={{ fontSize: 8 }}>
-                Stall 3, 093 Henson Avenue, Fatima Village, Porac Pampanga
+                { branchName }
               </Text>
             </View>
           </View>
