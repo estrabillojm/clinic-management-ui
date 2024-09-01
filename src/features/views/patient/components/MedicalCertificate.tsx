@@ -98,6 +98,11 @@ const styles = StyleSheet.create({
     top: 400,
     left: 90,
   },
+  contentRecommendation: {
+    position: "absolute",
+    top: 490,
+    left: 10,
+  },
 });
 
 const calculateAge = (birthDateString: string): number => {
@@ -125,6 +130,7 @@ const MedicalCertificate = (props: any) => {
   const cityId = patientDetails?.result?.cityId;
   const createdAt = history?.result?.createdAt; 
   const diagnosis = history?.result?.remarks; 
+  const recommendation = history?.result?.recommendation; 
 
   let province = address.results.find(
     province => province.code === provinceId
@@ -162,15 +168,17 @@ const MedicalCertificate = (props: any) => {
               from
               _______________________________________________________________________________
             </Text>
-            <Text>was seen and examined on ______________________________.</Text>
-            <View style={styles.textBold}>
-              <Text>DIAGNOSIS: ____________________________________________________________________</Text>
-            </View>
+            <Text>
+              was seen and examined on ______________________________.
+            </Text>
             <View style={styles.textBold}>
               <Text>
-                Recommendation:
-                _________________________________________________________________
+                DIAGNOSIS:
+                ____________________________________________________________________
               </Text>
+            </View>
+            <View style={styles.textBold}>
+              <Text>Recommendation:</Text>
               <Text>
                 ________________________________________________________________________________
               </Text>
@@ -224,6 +232,7 @@ const MedicalCertificate = (props: any) => {
             {dayjs(createdAt).format("LLL")}
           </Text>
           <Text style={styles.contentDiagnosis}>{diagnosis}</Text>
+          <Text style={styles.contentRecommendation}>{recommendation}</Text>
         </View>
       </Page>
     </Document>

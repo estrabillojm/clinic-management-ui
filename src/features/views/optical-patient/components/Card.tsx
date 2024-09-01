@@ -2,6 +2,10 @@ import dayjs from "dayjs";
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import { useLazyGetPatientHistoryQuery } from "../../../../redux/api/patientHistory";
+import {
+  useGetAllProvincesQuery,
+  useLazyGetCitiesByProvinceQuery,
+} from "../../../../redux/api/addressApi";
 import { useEffect, useState } from "react";
 import { DOCUMENT } from "../../../../enums/documentType";
 import MedicalCertificate from "./MedicalCertificate";
@@ -24,6 +28,24 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
     },
   ] = useLazyGetPatientHistoryQuery();
 
+  const {
+    data: provinces,
+    isLoading: isProvincesLoading,
+    isSuccess: isProvincesSuccess,
+  } = useGetAllProvincesQuery(null);
+
+  const [
+    getCitiesByProvince,
+    { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
+  ] = useLazyGetCitiesByProvinceQuery();
+
+  useEffect(() => {
+    if (patient?.result?.provinceId) {
+      getCitiesByProvince(patient?.result?.provinceId);
+    }
+  }, [patient?.result?.provinceId]);
+
+
   const [documentType, setDocumentType] = useState("");
   const handleDocumentDownload = async (document: string) => {
     await getPatientHistory(data.id);
@@ -35,22 +57,29 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
       if (!patientHistoryLoading && patientHistorySuccess) {
         try {
           const { firstName, lastName, id } = patient.result;
-          if (documentType === DOCUMENT.medicalCertificate) {
-            const blob = await pdf(
-              <MedicalCertificate
-                history={patientHistory}
-                patientDetails={patient}
-              />
-            ).toBlob();
-            saveAs(
-              blob,
-              `MC-OPTICAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`
-            );
-          }
+          // if (documentType === DOCUMENT.medicalCertificate) {
+          //   const blob = await pdf(
+          //     <MedicalCertificate
+          //       history={patientHistory}
+          //       patientDetails={patient}
+          //       address={provinces}
+          //       cities={cities}
+          //     />
+          //   ).toBlob();
+          //   saveAs(
+          //     blob,
+          //     `MC-OPTICAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`
+          //   );
+          // }
 
           if (documentType === DOCUMENT.prescription) {
             const blob = await pdf(
-              <Prescription history={patientHistory} patientDetails={patient} />
+              <Prescription
+                history={patientHistory}
+                patientDetails={patient}
+                address={provinces}
+                cities={cities}
+              />
             ).toBlob();
             saveAs(
               blob,
@@ -93,13 +122,13 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
           </p>
         </section>
         <section>
-          <button
+          {/* <button
             className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400"
             onClick={() => handleDocumentDownload(DOCUMENT.medicalCertificate)}
           >
             Medical Certificate
           </button>
-          <span className="mx-2">|</span>
+          <span className="mx-2">|</span> */}
           <button
             className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400"
             onClick={() => handleDocumentDownload(DOCUMENT.prescription)}

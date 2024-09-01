@@ -83,7 +83,14 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
           }
           
           if(documentType === DOCUMENT.prescription){
-            const blob = await pdf(<Prescription history={patientHistory} patientDetails={patient}/>).toBlob();
+            const blob = await pdf(
+              <Prescription
+                history={patientHistory}
+                patientDetails={patient}
+                address={provinces}
+                cities={cities}
+              />
+            ).toBlob();
             saveAs(blob, `RX-GENERAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
           }
 
