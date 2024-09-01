@@ -33,7 +33,7 @@ const AdminMasterlistPage = () => {
         pageTitle={'Administrator'} 
         activeLink={3} 
         Header={
-        <Header title="Admin Masterlist" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."/>
+        <Header title="Admin Masterlist" description=""/>
         } 
         Content={content}
         />

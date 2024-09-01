@@ -54,7 +54,7 @@ const UserAdministratorPage = () => {
         Header={
           <Header
             title="User Administrator"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+            description=""
           />
         }
         Content={content}

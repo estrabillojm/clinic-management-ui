@@ -40,7 +40,7 @@ const BranchList = () => {
         Header={
           <Header
             title="Branches"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+            description=""
           />
         }
         Content={<Content/>}
