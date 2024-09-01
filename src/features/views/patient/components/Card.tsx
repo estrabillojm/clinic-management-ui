@@ -3,6 +3,10 @@ import MedicalCertificate from './MedicalCertificate';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver'
 import { useLazyGetPatientHistoryQuery } from '../../../../redux/api/patientHistory';
+import {
+  useGetAllProvincesQuery,
+  useLazyGetCitiesByProvinceQuery,
+} from "../../../../redux/api/addressApi";
 import { useEffect, useState } from 'react';
 import { DOCUMENT } from '../../../../enums/documentType';
 import Prescription from './Prescription';
@@ -38,6 +42,23 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
     },
   ] = useLazyGetPatientHistoryQuery();
 
+  const {
+    data: provinces,
+    isLoading: isProvincesLoading,
+    isSuccess: isProvincesSuccess,
+  } = useGetAllProvincesQuery(null);
+
+  const [
+    getCitiesByProvince,
+    { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
+  ] = useLazyGetCitiesByProvinceQuery();
+
+  useEffect(() => {
+    if (patient?.result?.provinceId) {
+      getCitiesByProvince(patient?.result?.provinceId);
+    }
+  }, [patient?.result?.provinceId]);
+
   const [documentType, setDocumentType] = useState("") 
   const handleDocumentDownload = async (document: string) => {
     await getPatientHistory(data.id)
@@ -50,7 +71,14 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
         try {
           const { firstName, lastName, id } = patient.result
           if(documentType === DOCUMENT.medicalCertificate){
-            const blob = await pdf(<MedicalCertificate history={patientHistory} patientDetails={patient}/>).toBlob();
+            const blob = await pdf(
+              <MedicalCertificate
+                history={patientHistory}
+                patientDetails={patient}
+                address={provinces}
+                cities={cities}
+              />
+            ).toBlob();
             saveAs(blob, `MC-GENERAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
           }
           

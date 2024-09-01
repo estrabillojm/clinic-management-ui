@@ -203,7 +203,7 @@ const ActionButton = () => {
 
 const ViewPatient = () => {
   const description =
-    "aaWelcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently.";
+    "Welcome to the Patient list - Basic Information Viewing tool. This interface allows healthcare providers to access essential details of registered patients quickly and efficiently.";
   return (
     <Layout
       pageTitle={"Administrator"}
