@@ -43,14 +43,14 @@ export const Layout: React.FC<LayoutProps> = ({
     setAnchorEl(null);
   };
   const accessToken = localStorage.getItem("accesstoken");
-  const userInfo = getUserInfo(accessToken)
+  const userInfo = getUserInfo(accessToken);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
-    dispatch(logout())
-    navigate("/")
-  }
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -63,9 +63,9 @@ export const Layout: React.FC<LayoutProps> = ({
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6" noWrap component="div">
-            Clinic Management System
-          </Typography>
+          <div>
+            <p className="text-blue-900 font-bold text-[24px]">DOC PIE <span className="text-gray-100 font-extralight">|</span> <span className="text-[16px] text-gray-300 font-light">Medical, Pharmacy and Optical Clinic</span></p>
+          </div>
           <Typography
             variant="h6"
             noWrap
@@ -79,7 +79,9 @@ export const Layout: React.FC<LayoutProps> = ({
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             >
-              <span className="text-yellow-200">{ userInfo.lastName }, { userInfo.firstName }</span>
+              <span className="text-yellow-200">
+                {userInfo.lastName}, {userInfo.firstName}
+              </span>
             </Button>
             <Menu
               id="basic-menu"
@@ -115,14 +117,12 @@ export const Layout: React.FC<LayoutProps> = ({
           <Box sx={{ overflow: "auto" }}>
             <List>
               {menus.map((text, index) => (
-                <NavLink 
-                  to={text.link} 
+                <NavLink
+                  to={text.link}
                   className={`flex items-center`}
                   key={index}
                 >
-                  <ListItem
-                    sx={{ padding: "8px", borderRadius: "0.5em" }}
-                  >
+                  <ListItem sx={{ padding: "8px", borderRadius: "0.5em" }}>
                     <ListItemButton
                       sx={{
                         "&:hover": {
