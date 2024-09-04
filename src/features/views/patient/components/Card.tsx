@@ -43,14 +43,12 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
   ] = useLazyGetPatientHistoryQuery();
 
   const {
-    data: provinces,
-    isLoading: isProvincesLoading,
-    isSuccess: isProvincesSuccess,
+    data: provinces
   } = useGetAllProvincesQuery(null);
 
   const [
     getCitiesByProvince,
-    { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
+    { data: cities },
   ] = useLazyGetCitiesByProvinceQuery();
 
   useEffect(() => {

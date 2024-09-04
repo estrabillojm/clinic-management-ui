@@ -8,7 +8,6 @@ import {
 } from "../../../../redux/api/addressApi";
 import { useEffect, useState } from "react";
 import { DOCUMENT } from "../../../../enums/documentType";
-import MedicalCertificate from "./MedicalCertificate";
 import Prescription from "./Prescription";
 
 type Props = {
@@ -30,13 +29,11 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
 
   const {
     data: provinces,
-    isLoading: isProvincesLoading,
-    isSuccess: isProvincesSuccess,
   } = useGetAllProvincesQuery(null);
 
   const [
     getCitiesByProvince,
-    { data: cities, isSuccess: isCitiesSuccess, isLoading: isCitiesLoading },
+    { data: cities },
   ] = useLazyGetCitiesByProvinceQuery();
 
   useEffect(() => {

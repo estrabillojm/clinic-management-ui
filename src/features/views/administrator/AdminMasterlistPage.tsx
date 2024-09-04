@@ -1,19 +1,20 @@
 import {Layout,Header} from '../../components/shared/global/IndexComponents'
-import Table from '../../components/shared/table/Table';
-import SortingOptions from '../../components/shared/table/SortingOptions';
-import Filter from '../../components/shared/table/Filter';
-import TableParentLayout from '../../components/shared/table/TableParentLayout';
+// TODO: COMMENT THESE WHEN IMPLEMENTED
+// import Table from '../../components/shared/table/Table';
+// import SortingOptions from '../../components/shared/table/SortingOptions';
+// import Filter from '../../components/shared/table/Filter';
+// import TableParentLayout from '../../components/shared/table/TableParentLayout';
 
 
 const AdminMasterlistPage = () => {
 
-    const headers = [
-        { label: "Last Name", column: "lastName" },
-    ]
+    // const headers = [
+    //     { label: "Last Name", column: "lastName" },
+    // ]
 
     const content = (
         <>
-      <TableParentLayout
+      {/* <TableParentLayout
         filter={<Filter />}
         table={ <Table 
           rows={[]}
@@ -24,7 +25,7 @@ const AdminMasterlistPage = () => {
         options={
           <SortingOptions title="Walk In Table Settings" columns={headers} />
         }
-      />
+      /> */}
         </>
     )
   return (

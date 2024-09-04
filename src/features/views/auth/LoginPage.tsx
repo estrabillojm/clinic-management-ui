@@ -1,4 +1,4 @@
-import { Grid, Card, CardHeader, CardContent, Alert } from "@mui/material/";
+import { Grid, Card, CardContent, Alert } from "@mui/material/";
 import CustomButton from "../../components/shared/global/Button";
 import { AuthForm } from "../../../types/auths";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";

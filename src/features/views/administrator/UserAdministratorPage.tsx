@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Layout, Header } from "../../components/shared/global/IndexComponents";
 import { useGetSystenrolesQuery } from "../../../redux/api/systemroleApi";
-import { UserTypes } from "../../../types/users";
+// import { UserTypes } from "../../../types/users";
 import { FormProvider, useForm } from "react-hook-form";
 import AdminTabUtils from "./components/utils/adminTabUtils";
 
@@ -20,7 +20,8 @@ const UserAdministratorPage = () => {
     (state: tabSelectedProps) => state.adminTabs.tabSelected
   );
 
-  const onSubmit = (data: UserTypes): void => {
+  // const onSubmit = (data: UserTypes): void => {
+  const onSubmit = (): void => {
     // console.log(data);
   };
 

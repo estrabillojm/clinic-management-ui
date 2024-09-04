@@ -1,5 +1,5 @@
 import { FaClinicMedical, FaRegEye } from "react-icons/fa";
-import { FaUserShield, FaUserTag, FaTags, FaUsersGear, FaUserSecret } from "react-icons/fa6";
+import { FaUserShield } from "react-icons/fa6";
 import { MdHealthAndSafety } from "react-icons/md";
 import { useParams } from "react-router-dom";
 

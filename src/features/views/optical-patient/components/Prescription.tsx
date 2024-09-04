@@ -102,9 +102,9 @@ const Prescription = (props: any) => {
   const branchName = history?.result?.branchName
 
   let province = address.results.find(
-    (province) => province.code === provinceId
+    (province: any) => province.code === provinceId
   );
-  let city = cities.results.find((city) => city.code === cityId);
+  let city = cities.results.find((city: any) => city.code === cityId);
 
   let finalAddress =
     street + " " + barangay + " " + city.name + " " + province.name;
