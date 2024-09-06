@@ -13,8 +13,10 @@ import {
   Button,
   MenuItem,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { NavbarLinks, NavbarLink } from "../../utils/NavbarLinks";
+import { getUserInfo, logout } from "../../../../redux/features/userSlice";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 250;
 
@@ -34,11 +36,20 @@ export const Layout: React.FC<LayoutProps> = ({
   const menus: NavbarLink[] = NavbarLinks({ page: pageTitle });
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = () => {
-    // setAnchorEl(event.currentTarget);
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const accessToken = localStorage.getItem("accesstoken");
+  const userInfo = getUserInfo(accessToken);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
   };
 
   return (
@@ -52,9 +63,9 @@ export const Layout: React.FC<LayoutProps> = ({
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6" noWrap component="div">
-            Clinic Management System
-          </Typography>
+          <div>
+            <p className="text-blue-900 font-bold text-[24px]">DOC PIE <span className="text-gray-100 font-extralight">|</span> <span className="text-[16px] text-gray-300 font-light">Medical, Pharmacy and Optical Clinic</span></p>
+          </div>
           <Typography
             variant="h6"
             noWrap
@@ -68,7 +79,9 @@ export const Layout: React.FC<LayoutProps> = ({
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             >
-              test@gmail.com
+              <span className="text-yellow-200">
+                {userInfo.lastName}, {userInfo.firstName}
+              </span>
             </Button>
             <Menu
               id="basic-menu"
@@ -79,9 +92,9 @@ export const Layout: React.FC<LayoutProps> = ({
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem> */}
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Typography>
         </Toolbar>
@@ -104,14 +117,12 @@ export const Layout: React.FC<LayoutProps> = ({
           <Box sx={{ overflow: "auto" }}>
             <List>
               {menus.map((text, index) => (
-                <NavLink 
-                  to={text.link} 
+                <NavLink
+                  to={text.link}
                   className={`flex items-center`}
                   key={index}
                 >
-                  <ListItem
-                    sx={{ padding: "8px", borderRadius: "0.5em" }}
-                  >
+                  <ListItem sx={{ padding: "8px", borderRadius: "0.5em" }}>
                     <ListItemButton
                       sx={{
                         "&:hover": {

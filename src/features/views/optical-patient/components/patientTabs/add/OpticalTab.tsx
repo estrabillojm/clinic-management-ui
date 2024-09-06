@@ -1,5 +1,3 @@
-import { OPTIC_ENUM } from "../../../../../../enums/optic";
-import AutoComplete from "../../../../../components/shared/form/AutoComplete";
 import Input from "../../../../../components/shared/form/Input";
 // import { useDispatch, useSelector } from "react-redux";
 const OpticalTab = ({ selectedTab }: any) => {
@@ -17,7 +15,7 @@ const OpticalTab = ({ selectedTab }: any) => {
     opticType: "",
     opticCoatingInstrument: "",
     opticRemark: "",
-    opticLens: ""
+    opticLens: "",
   };
 
   return (
@@ -99,38 +97,33 @@ const OpticalTab = ({ selectedTab }: any) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-4 mb-8 pt-8 border-t">
-          <div className="col-span-4">
-            <AutoComplete
-              label="Type"
-              fieldName="opticType"
-              isRequired={false}
-              options={[{ value: "value1", label: "Value 1"}, { value: "value2", label: "Value 2"}]}
-              defaultValue={data.opticType}
-            />
+        <div className="grid-span-12 gap-4 pb-2">
+          <h3 className="text-primary font-semibold">Pupillary Distance</h3>
+        </div>
+        <div className="grid grid-cols-12 gap-4 mb-8">
+          <div className="col-span-3">
+            <Input type="text" label="OD" fieldName="opticOdPupillary" />
           </div>
-          <div className="col-span-4">
-            <AutoComplete
-              label="Coating Instrument"
-              fieldName="opticCoatingInstrument"
-              isRequired={false}
-              options={[{ value: "value1", label: "Value 1"}, { value: "value2", label: "Value 2"}]}
-              defaultValue={data.opticCoatingInstrument}
-            />
+          <div className="col-span-3">
+            <Input type="text" label="OS" fieldName="opticOsPupillary" />
           </div>
-
-          <div className="col-span-4">
-            <AutoComplete
-              label="Coating Instrument"
-              fieldName="opticLens"
-              isRequired={false}
-              options={OPTIC_ENUM.lens}
-              defaultValue={data.opticLens}
-            />
+          <div className="col-span-3">
+            <Input type="text" label="OU" fieldName="opticOuPupillary" />
           </div>
-
         </div>
 
+        <div className="grid grid-cols-12 gap-4 mb-8 pt-8 border-t">
+          <div className="col-span-4">
+            <Input type="opticType" label="Type" fieldName="opticType" />
+          </div>
+          <div className="col-span-4">
+            <Input
+              type="string"
+              label="Coating Instrument"
+              fieldName="opticCoatingInstrument"
+            />
+          </div>
+        </div>
 
         <div className="grid grid-cols-12 gap-4 mb-8">
           <div className="col-span-6">

@@ -15,6 +15,7 @@ import { setTabSelected } from "../../../redux/features/patientInfoTabSlice";
 import {
   useGetPatientDetailsQuery,
   useLazyGetPatientDetailsQuery,
+  useUpdatePatientMutation,
 } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import {
@@ -31,6 +32,7 @@ import { mapProvinces } from "../../../redux/features/addressSlice";
 import { validatePatientForm } from "../../../redux/features/patientValidatorSlice";
 import EditPatientValidator from "./components/validator/EditPatientValidator";
 import { ternaryChecker } from "../../../utils/ternaryChecker";
+import { useGetBranchByIdQuery } from "../../../redux/api/branchApi";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -98,9 +100,14 @@ const Content = () => {
   );
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
+  const [updatePatient, { isSuccess: isPatientSuccess }] =
+    useUpdatePatientMutation();
+
+  const { branchId, clinicId } = useParams();
+  const { data: branchDetails } = useGetBranchByIdQuery(branchId);
+
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
-
     const formattedDate = dayjs(data.dateOfBirth).format("L");
     const formattedData = {
       ...data,
@@ -111,27 +118,37 @@ const Content = () => {
       historiesFamily,
       historiesSocial,
       physicianId: ternaryChecker(data.physicianId, patientHistory.physicianId),
+      recentBranchName: branchDetails.result.name,
     };
 
     dispatch(validatePatientForm({ patient: formattedData }));
+
+    (async () => {
+      await updatePatient({ data: formattedData, patientId });
+    })();
     setIsSubmitReady(true);
   };
 
   useEffect(() => {
-    if (isSubmitReady) {
+    if (isSubmitReady && isPatientSuccess) {
       (async () => {
-        await createPatientHistory({ patientId, ...formData });
+        await createPatientHistory({ patientId, ...formData, branchId });
       })();
       setIsSubmitReady(false);
     }
-  }, [isSubmitReady, createPatientHistory, formData, patientId]);
+  }, [
+    isSubmitReady,
+    createPatientHistory,
+    formData,
+    patientId,
+    isPatientSuccess,
+  ]);
 
-  const { branchId, clinicId } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
     if (patientHistorySuccess && !patientHistoryLoading) {
       dispatch(clearPatientHistory());
-      navigate(`/clinic/${clinicId}/patients/list/${branchId}`);
+      navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patientId}/info`);
     }
   }, [patientHistorySuccess, patientHistoryLoading, dispatch, navigate]);
 

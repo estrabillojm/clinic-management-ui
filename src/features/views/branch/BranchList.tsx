@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useGetBranchListQuery } from "../../../redux/api/branchApi";
 import { getUserInfo } from "../../../redux/features/userSlice";
 import { Header } from "../../components/shared/global/Header";
@@ -41,7 +40,7 @@ const BranchList = () => {
         Header={
           <Header
             title="Branches"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis."
+            description=""
           />
         }
         Content={<Content/>}

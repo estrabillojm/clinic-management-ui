@@ -16,7 +16,7 @@ import {
 import { setActivePatientHistory } from "../../../redux/features/patientHistorySlice";
 import { setView } from "../../../redux/features/actionTypeSlice";
 import { Button } from "@mui/material";
-import { clearDataTable, setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
+import { setTabSelected } from "../../../redux/features/opticalPatientInfoTabSlice";
 import { useGetPatientDetailsQuery } from "../../../redux/api/patients";
 import { setActivePatient } from "../../../redux/features/patientSlice";
 import ViewPatientTabUtils from "./components/utils/viewPatientTabUtils";
@@ -163,9 +163,12 @@ const Content = () => {
                 historiesSuccess &&
                 histories.results.map((history: any) => (
                   <Card
+                    patient={patientDetails}
                     key={history.id}
+                    data={history}
                     isActive={activeCard === history.id}
                     handleCardClick={() => handleCardClick(history)}
+
                   />
                 ))}
             </div>

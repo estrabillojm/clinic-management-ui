@@ -21,6 +21,7 @@ import EditPatientValidator from "./components/validator/EditPatientValidator";
 import { ternaryChecker } from "../../../utils/ternaryChecker";
 import { useCreatePatientMutation } from "../../../redux/api/patients";
 import { PATIENT_TYPE } from "../../../enums/patientType";
+import { useGetBranchByIdQuery } from "../../../redux/api/branchApi";
 
 interface PatientFormData {
   dateOfBirth: Date | dayjs.Dayjs;
@@ -76,7 +77,8 @@ const Content = () => {
   );
 
   const [isSubmitReady, setIsSubmitReady] = useState(false);
-
+  const { clinicId, branchId } = useParams();
+  const { data: branchDetails } = useGetBranchByIdQuery(branchId)
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
 
@@ -99,10 +101,8 @@ const Content = () => {
   const [createPatient, { data: patient, isSuccess: isPatientSuccess }] =
     useCreatePatientMutation();
 
-  const { clinicId, branchId } = useParams();
   useEffect(() => {
     if (isSubmitReady) {
-      console.log(formData);
       const {
         lastName,
         firstName,
@@ -140,6 +140,7 @@ const Content = () => {
           street,
           email,
           contact,
+          recentBranchName: branchDetails.result.name,
           clinicId,
           branchId,
           patientType: PATIENT_TYPE.general,
@@ -155,6 +156,7 @@ const Content = () => {
         await createPatientHistory({
           patientId: patient.result.patientId,
           ...formData,
+          branchId,
         });
       })();
     }
@@ -164,7 +166,7 @@ const Content = () => {
   useEffect(() => {
     if (patientHistorySuccess && !patientHistoryLoading) {
       dispatch(clearPatientHistory());
-      navigate(`/clinic/${clinicId}/patients/list/${branchId}`);
+      navigate(`/clinic/${clinicId}/branch/${branchId}/patient/${patient.result.patientId}/info`);
     }
   }, [patientHistorySuccess, patientHistoryLoading, dispatch, navigate]);
 

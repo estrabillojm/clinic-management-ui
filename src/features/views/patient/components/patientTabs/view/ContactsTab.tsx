@@ -28,7 +28,6 @@ const ContactsTab = ({ patientDetails, selectedTab }: any) => {
   }, [selectedProvince]);
 
   useEffect(() => {
-    console.log("awiiiiiiiitttt", patientDetails.provinceId)
     if (patientDetails.provinceId) {
       dispatch(setContactProvinceId({provinceId: patientDetails.provinceId}));  
       getCitiesByProvince(patientDetails.provinceId);

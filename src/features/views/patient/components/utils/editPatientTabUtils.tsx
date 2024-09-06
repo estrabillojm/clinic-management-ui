@@ -22,7 +22,7 @@ const EditPatientTabUtils = ({ tabSelected }: { tabSelected: number }) => {
     setRequiredFields(formValidator.map((field: any) => field.column));
   }, [formValidator]);
 
-  const { clinicId, branchId } = useParams();
+  const { clinicId } = useParams();
 
   return (
     <>

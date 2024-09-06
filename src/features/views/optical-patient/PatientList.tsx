@@ -15,25 +15,34 @@ const Content = () => {
   const headers = [
     { label: "Patient Number", column: "trimmedId" },
     { label: "First Name", column: "firstName" },
+    { label: "Middle Name", column: "middleName" },
     { label: "Last Name", column: "lastName" },
+    { label: "Clinic", column: "recentBranchName" },
   ];
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const dataTable = useSelector((state: any) => state.optics.dataTable);
   const [getPatientList, { data: patients, isLoading, isSuccess }] =
     useLazyGetPatientListQuery();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const { branchId, clinicId } = useParams();
-  useEffect(() => {
+
+  const fetchPatients = async (page: number) => {
     getPatientList({
       clinicId,
       patientType: PATIENT_TYPE.optical,
+      page,
+      limit: itemsPerPage,
       params: { searchFirstName, searchLastName },
     });
-  }, []);
+  }
+  useEffect(() => {
+    fetchPatients(currentPage);
+  }, [currentPage, itemsPerPage]);
   
   useEffect(() => {
-    console.log(dataTable)
     if (dataTable) {
       dispatch(clearDataTable());
       navigate(
@@ -45,11 +54,22 @@ const Content = () => {
   const [searchFirstName, setSearchFirstName] = useState("");
   const [searchLastName, setSearchLastName] = useState("");
   const onSearch = async () => {
+    setCurrentPage(1);
     await getPatientList({
       clinicId,
       patientType: PATIENT_TYPE.optical,
+      page: currentPage,
+      limit: itemsPerPage,
       params: { searchFirstName, searchLastName },
     });
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleItemsPerPageChange = (itemsPerPage: number) => {
+    setItemsPerPage(itemsPerPage);
   };
 
   return (
@@ -90,6 +110,10 @@ const Content = () => {
                     btnText="View Patient Info"
                   />
                 }
+                totalItems={patients?.result?.totalCount || 0}
+                itemsPerPage={itemsPerPage}
+                onPageChange={handlePageChange}
+                onItemsPerPageChange={handleItemsPerPageChange} 
               />
             </>
           )}
