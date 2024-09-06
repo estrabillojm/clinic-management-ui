@@ -22,17 +22,7 @@ import {
   const baseQueryWithoutHeaders = fetchBaseQuery({
     baseUrl: APP_CONFIG.API_URL,
   });
-  
-//   const autoLogoutQuery = fetchBaseQuery({
-//     baseUrl: APP_CONFIG.API_URL,
-//     prepareHeaders: (headers) => {
-//       headers.set(
-//         "Authorization",
-//         `Bearer ${localStorage.getItem("refreshToken")}`,
-//       );
-//       return headers;
-//     },
-//   });
+
   
   const checkIfAuthorized: BaseQueryFn<
     string | FetchArgs,
@@ -42,8 +32,12 @@ import {
       if(api.endpoint.toLowerCase() === "login"){
         return await baseQueryWithoutHeaders(args, api, extraOptions);
       }
+      
       const result = await baseQueryWithHeaders(args, api, extraOptions);
-
+      if(result.error){
+          localStorage.clear()
+          window.location.href = "/login"
+      }
       return result;
     
   };
