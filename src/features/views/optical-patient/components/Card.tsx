@@ -27,21 +27,16 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
     },
   ] = useLazyGetPatientHistoryQuery();
 
-  const {
-    data: provinces,
-  } = useGetAllProvincesQuery(null);
+  const { data: provinces } = useGetAllProvincesQuery(null);
 
-  const [
-    getCitiesByProvince,
-    { data: cities },
-  ] = useLazyGetCitiesByProvinceQuery();
+  const [getCitiesByProvince, { data: cities }] =
+    useLazyGetCitiesByProvinceQuery();
 
   useEffect(() => {
     if (patient?.result?.provinceId) {
       getCitiesByProvince(patient?.result?.provinceId);
     }
   }, [patient?.result?.provinceId]);
-
 
   const [documentType, setDocumentType] = useState("");
   const handleDocumentDownload = async (document: string) => {
@@ -80,7 +75,7 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
             ).toBlob();
             saveAs(
               blob,
-              `RX-OPTICAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`
+              `RX-OPTICAL-${data.branchName.replace(".", "").toUpperCase()}-${lastName.replace(".", "").toUpperCase()}_${firstName.replace(".", "").toUpperCase()}-${id.replace(".", "").split("-")[0]}`
             );
           }
 

@@ -1,15 +1,15 @@
-import dayjs from 'dayjs';
-import MedicalCertificate from './MedicalCertificate';
-import { pdf } from '@react-pdf/renderer';
-import { saveAs } from 'file-saver'
-import { useLazyGetPatientHistoryQuery } from '../../../../redux/api/patientHistory';
+import dayjs from "dayjs";
+import MedicalCertificate from "./MedicalCertificate";
+import { pdf } from "@react-pdf/renderer";
+import { saveAs } from "file-saver";
+import { useLazyGetPatientHistoryQuery } from "../../../../redux/api/patientHistory";
 import {
   useGetAllProvincesQuery,
   useLazyGetCitiesByProvinceQuery,
 } from "../../../../redux/api/addressApi";
-import { useEffect, useState } from 'react';
-import { DOCUMENT } from '../../../../enums/documentType';
-import Prescription from './Prescription';
+import { useEffect, useState } from "react";
+import { DOCUMENT } from "../../../../enums/documentType";
+import Prescription from "./Prescription";
 
 // Define the type for the data prop
 interface PhysicianDetails {
@@ -32,7 +32,6 @@ type Props = {
 };
 
 const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
-
   const [
     getPatientHistory,
     {
@@ -42,14 +41,10 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
     },
   ] = useLazyGetPatientHistoryQuery();
 
-  const {
-    data: provinces
-  } = useGetAllProvincesQuery(null);
+  const { data: provinces } = useGetAllProvincesQuery(null);
 
-  const [
-    getCitiesByProvince,
-    { data: cities },
-  ] = useLazyGetCitiesByProvinceQuery();
+  const [getCitiesByProvince, { data: cities }] =
+    useLazyGetCitiesByProvinceQuery();
 
   useEffect(() => {
     if (patient?.result?.provinceId) {
@@ -57,18 +52,18 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
     }
   }, [patient?.result?.provinceId]);
 
-  const [documentType, setDocumentType] = useState("") 
+  const [documentType, setDocumentType] = useState("");
   const handleDocumentDownload = async (document: string) => {
-    await getPatientHistory(data.id)
-    setDocumentType(document)
+    await getPatientHistory(data.id);
+    setDocumentType(document);
   };
 
   useEffect(() => {
     (async () => {
-      if(!patientHistoryLoading && patientHistorySuccess){
+      if (!patientHistoryLoading && patientHistorySuccess) {
         try {
-          const { firstName, lastName, id } = patient.result
-          if(documentType === DOCUMENT.medicalCertificate){
+          const { firstName, lastName, id } = patient.result;
+          if (documentType === DOCUMENT.medicalCertificate) {
             const blob = await pdf(
               <MedicalCertificate
                 history={patientHistory}
@@ -77,10 +72,13 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
                 cities={cities}
               />
             ).toBlob();
-            saveAs(blob, `MC-GENERAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
+            saveAs(
+              blob,
+              `MC-GENERAL-${data.branchName.replace(".", "").toUpperCase()}-${lastName.replace(".", "").toUpperCase()}_${firstName.replace(".", "").toUpperCase()}-${id.replace(".", "").split("-")[0]}`
+            );
           }
-          
-          if(documentType === DOCUMENT.prescription){
+
+          if (documentType === DOCUMENT.prescription) {
             const blob = await pdf(
               <Prescription
                 history={patientHistory}
@@ -89,16 +87,19 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
                 cities={cities}
               />
             ).toBlob();
-            saveAs(blob, `RX-GENERAL-${data.branchName.toUpperCase()}-${lastName.toUpperCase()}_${firstName.toUpperCase()}-${id.split("-")[0]}`);
+            saveAs(
+              blob,
+              `RX-GENERAL-${data.branchName.replace(".", "").toUpperCase()}-${lastName.replace(".", "").toUpperCase()}_${firstName.replace(".", "").toUpperCase()}-${id.replace(".", "").split("-")[0]}`
+            );
           }
 
-          setDocumentType("")
+          setDocumentType("");
         } catch (error) {
-          console.error('Error generating PDF:', error);
+          console.error("Error generating PDF:", error);
         }
       }
-    })()
-  }, [patientHistoryLoading, patientHistorySuccess, documentType])
+    })();
+  }, [patientHistoryLoading, patientHistorySuccess, documentType]);
 
   return (
     <div
@@ -106,14 +107,13 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
       className={`border rounded-md p-4 mt-4 ${isActive ? "bg-green-200 cursor-default" : "bg-yellow-100 cursor-pointer hover:bg-yellow-50 transition-all"}`}
     >
       <section className="border-b border-green-400">
-        <h2 className="font-bold text-green-600">
-          TR-{data.id.split("-")[0]}
-        </h2>
+        <h2 className="font-bold text-green-600">TR-{data.id.split("-")[0]}</h2>
       </section>
       <section>
         <p className="text-gray-500 pt-2 text-sm">
           <span className="font-bold text-yellow-800">
-            Physician: {data.physicianDetails.lastName}, {data.physicianDetails.firstName}
+            Physician: {data.physicianDetails.lastName},{" "}
+            {data.physicianDetails.firstName}
           </span>
           <br />
           <span className="text-green-700 pb-2 text-[12px] font-bold">
@@ -125,11 +125,17 @@ const Card = ({ isActive, handleCardClick, data, patient }: Props) => {
         </p>
       </section>
       <section>
-        <button className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400" onClick={() => handleDocumentDownload(DOCUMENT.medicalCertificate)}>
+        <button
+          className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400"
+          onClick={() => handleDocumentDownload(DOCUMENT.medicalCertificate)}
+        >
           Medical Certificate
         </button>
         <span className="mx-2">|</span>
-        <button className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400" onClick={() => handleDocumentDownload(DOCUMENT.prescription)}>
+        <button
+          className="text-blue-800 underline pb-2 text-[12px] hover:text-blue-400"
+          onClick={() => handleDocumentDownload(DOCUMENT.prescription)}
+        >
           Prescription Pad
         </button>
       </section>
