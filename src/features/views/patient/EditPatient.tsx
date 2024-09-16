@@ -108,7 +108,7 @@ const Content = () => {
 
   const onSubmit: SubmitHandler<PatientFormData> = async (data) => {
     if (patientHistoryLoading) return;
-    const formattedDate = dayjs(data.dateOfBirth).format("L");
+    const formattedDate = data.dateOfBirth ? dayjs(data.dateOfBirth).format("L") : null;;
     const formattedData = {
       ...data,
       physicianRemarksHeightUnit: "cm",
