@@ -107,7 +107,6 @@ const PersonalTab = ({ selectedTab, requiredFields }: any) => {
               fieldName="dateOfBirth"
               defaultValue={patientDetails.dateOfBirth ? dayjs(patientDetails.dateOfBirth) : null}
               onHandleChange={handleDateOfBirthChange}
-              isRequired
             />
           </div>
           <div className="col-span-2">
